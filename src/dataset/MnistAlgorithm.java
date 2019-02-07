@@ -45,7 +45,7 @@ public class MnistAlgorithm {
 					
 					neuralNetwork.train(input, output, learningRate);
 					
-				} catch (IOException e) {
+				} catch (IOException e) { 
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
