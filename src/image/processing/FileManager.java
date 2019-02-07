@@ -8,11 +8,6 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class FileManager {
-
-	public static File getFolder(String path) {
-		
-		return null;
-	}
 	
 	public static ArrayList<BufferedImage> getImagesFromFolder(String path) {
 		
