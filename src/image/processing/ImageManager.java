@@ -15,7 +15,7 @@ public class ImageManager {
 	 * @param img : image (BufferedImage)
 	 * @return
 	 */
-	public static double[] convertRGB(BufferedImage img) throws IOException{
+	public static double[] convertRGB(BufferedImage img) throws IOException {
 		BufferedImage bi = img;
 
 		double values[][] = new double[bi.getWidth() * bi.getHeight()][3];
@@ -30,6 +30,24 @@ public class ImageManager {
 		}
 
 		return MathTools.getAsOneDimension(values);
+	}
+	
+	public static double[] convertGreyValues(BufferedImage img) throws IOException {
+		
+		BufferedImage bi = img;
+
+		double values[] = new double[bi.getWidth() * bi.getHeight()];
+
+		for(int i = 0; i < bi.getWidth(); i++) {
+			//System.out.println();
+			for(int j = 0; j < bi.getHeight(); j++) {
+
+				values[i * bi.getHeight() + j] = (getPixelData(img, i, j)[0] + getPixelData(img, i, j)[1] + getPixelData(img, i, j)[2]) / (3.0);
+
+			}	
+		}
+
+		return values;
 	}
 
 	public static void main(String[] args) {

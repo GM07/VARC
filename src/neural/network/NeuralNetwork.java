@@ -1,10 +1,23 @@
 package neural.network;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 import functions.ActivationFunctions;
 import math.MathTools;
 import math.Matrix;
 
-public class NeuralNetwork {
+public class NeuralNetwork implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 643116515073485682L;
 
 	private Layer[] layers;
 
@@ -139,6 +152,53 @@ public class NeuralNetwork {
 		}
 
 	}
+	
+
+	/**
+	 * Save the neural network
+	 * @param path
+	 */
+	public void saveNetwork(String path) {
+		try {
+			//File f = new File(path + ".dat");
+			FileOutputStream fos = new FileOutputStream(path + ".dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(this);
+			//oos.flush();
+			oos.close();
+			//fos.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+			System.out.println(path);
+			System.out.println("File hasn't been found");
+		}
+	}
+
+	/**
+	 * Load a neural network
+	 * @param path
+	 * @return neural network
+	 */
+	public static NeuralNetwork loadNetwork(String path){
+		try {
+			File f = new File(path);
+			FileInputStream fis = new FileInputStream(f);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			NeuralNetwork network = (NeuralNetwork) ois.readObject();
+			ois.close();
+			fis.close();
+			return network;
+		} catch(IOException e) {
+			System.out.println("File doesn't exist");
+			return null;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch(NullPointerException e) {
+			return null;
+		}
+	}
+
 	
 	/**
 	 * Returns the last layer of the neural network
