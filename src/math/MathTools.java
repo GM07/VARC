@@ -19,6 +19,20 @@ public class MathTools {
 		return index;
 	}
 	
+	public static double[] getAsOneDimension(double[][] arr) {
+		double[] array = new double[arr.length * arr[0].length];
+		for(int i = 0; i < arr.length; i ++) {
+			
+			for(int s = 0; s < arr[i].length; s ++) {
+				
+				array[(i * arr[0].length) + s] = arr[i][s];
+			}
+		}
+
+		return array;
+	}
+
+	
 	/**
 	 * @param inputs : input array
 	 * @return

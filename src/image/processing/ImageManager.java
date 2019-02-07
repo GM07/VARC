@@ -1,11 +1,12 @@
 package image.processing;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import math.MathTools;
 
 public class ImageManager {
 
@@ -28,20 +29,7 @@ public class ImageManager {
 			}	
 		}
 
-		return getAsOneDimension(values);
-	}
-
-	public static double[] getAsOneDimension(double[][] arr) {
-		double[] array = new double[arr.length * arr[0].length];
-		for(int i = 0; i < arr.length; i ++) {
-			
-			for(int s = 0; s < arr[i].length; s ++) {
-				
-				array[(i * arr[0].length) + s] = arr[i][s];
-			}
-		}
-
-		return array;
+		return MathTools.getAsOneDimension(values);
 	}
 
 	public static void main(String[] args) {
