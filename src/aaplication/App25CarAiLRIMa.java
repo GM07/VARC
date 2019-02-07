@@ -18,6 +18,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JPanel panImage;
 	private JPanel panInputNumerique;
 	private JPanel panOutput;
+	private ImageVisible imageVisible = new ImageVisible();
 
 	//Constantes
 
@@ -42,6 +43,8 @@ public class App25CarAiLRIMa extends JFrame {
 	//spinner
 	private JSpinner spnEpoc;
 	private JLabel lblOutputCamion;
+	
+	//menu item
 	private JMenuItem mnItHelp;
 	private JMenuItem mntmScientificExplanations;
 	private JMenuItem mntmOptions;
@@ -111,6 +114,7 @@ public class App25CarAiLRIMa extends JFrame {
 		panImage.setBackground(Color.gray);
 		panImage.setLayout(null);
 		contentPane.add(panImage);
+		panImage.add(imageVisible);
 
 		panInputNumerique = new JPanel();
 		panInputNumerique.setBounds(LARGEUR_PANEL_SECONDAIRE, 8*OFFSET, LARGEUR_PANEL_SECONDAIRE, HAUTEUR_PANEL_SECONDAIRE);
