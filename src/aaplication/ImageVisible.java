@@ -45,4 +45,8 @@ public class ImageVisible extends JPanel{
             }
         }
     }
+    
+    public void setImage(BufferedImage image) {
+    	this.img = image;
+    }
 }
