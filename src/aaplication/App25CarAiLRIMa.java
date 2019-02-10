@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
 
 public class App25CarAiLRIMa extends JFrame {
 	//panels
@@ -32,17 +32,24 @@ public class App25CarAiLRIMa extends JFrame {
 	private JButton btnChoixImage;
 	private JButton btnTest;
 	private JButton btnTrain;
+	private JButton btnMarque;
+	
 	//labels
 	private JLabel lblTitle;
 	private JLabel lblEpoc;
 	private JLabel lblOutputTitle;
 	private JLabel lblOutputVoiture;
 	private JLabel lblOutputMoto;
+	private JLabel lblOutputCamion;
+	private JLabel lblOutputMarque;
+	private JLabel lblColorVehicle;
+	private JLabel lblColorText;
+	
 
 
 	//spinner
 	private JSpinner spnEpoc;
-	private JLabel lblOutputCamion;
+	
 	
 	//menu item
 	private JMenuItem mnItHelp;
@@ -53,6 +60,12 @@ public class App25CarAiLRIMa extends JFrame {
 	JFrame helpWindow = new HelpWindow();
 	JFrame scientificExplanationWindow = new ScientificExplanationWindow();
 	JFrame fileWindow = new FileWindow();
+	JFrame windowMarque = new MarqueWindow();
+	
+	//others
+	Color color = Color.WHITE;
+	
+	
 
 
 
@@ -192,6 +205,33 @@ public class App25CarAiLRIMa extends JFrame {
 		lblOutputCamion.setBounds(0, 9*OFFSET, 8*OFFSET, 2*OFFSET);
 		lblOutputCamion.setText("Possibilite camion: "+"%");
 		panOutput.add(lblOutputCamion);
+		
+		lblOutputMarque = new JLabel();
+		lblOutputMarque.setBounds(0, 15*OFFSET , 8*OFFSET, 2*OFFSET);
+		lblOutputMarque.setText(" Marque identifiee : ");
+		panOutput.add(lblOutputMarque);
+		
+		btnMarque = new JButton();
+		btnMarque.setBounds(0,17*OFFSET, 8*OFFSET, 2*OFFSET);
+		btnMarque.setText(" Informations sur la marque");
+		btnMarque.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				windowMarque.setVisible(true)	;	
+			}
+		});
+		panOutput.add(btnMarque);
+		
+		lblColorVehicle = new JLabel();
+		lblColorVehicle.setBounds(5*OFFSET, 21*OFFSET, 8*OFFSET, 2*OFFSET);
+		lblColorVehicle.setBackground(color);
+		lblColorVehicle.setOpaque(true);
+		panOutput.add(lblColorVehicle);
+		
+		lblColorText = new JLabel();
+		lblColorText.setText("Couleur du vehicule : ");
+		lblColorText.setBounds(0, 21*OFFSET, 8*OFFSET, 2*OFFSET);
+		panOutput.add(lblColorText);
+		
 
 
 
