@@ -54,7 +54,7 @@ public class App25CarAiLRIMa extends JFrame {
 
 
 	//spinner
-	private JSpinner spnEpoc;
+	private JSpinner spnEpoc ;
 
 
 	//menu item
