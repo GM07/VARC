@@ -1,5 +1,8 @@
 package neural.network;
 
+import java.beans.ExceptionListener;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -224,4 +227,27 @@ public class NeuralNetwork implements Serializable {
 		return s;
 	}
 	
+	
+	//methode pour sauvegarder un reseau sour forme xml
+	private static void saveNetworkToXML (NeuralNetwork nn, String path) throws IOException
+	{
+	    FileOutputStream fos = new FileOutputStream(path + ".xml");
+	    XMLEncoder encoder = new XMLEncoder(fos);
+	    encoder.setExceptionListener(new ExceptionListener() {
+	            public void exceptionThrown(Exception e) {
+	                System.out.println("Exception! :"+e.toString());
+	            }
+	    });
+	    encoder.writeObject(nn);
+	    encoder.close();
+	    fos.close();
+	}
+	private static NeuralNetwork loadNetworkFromXML(String path) throws IOException {
+	    FileInputStream fis = new FileInputStream(path + ".xml");
+	    XMLDecoder decoder = new XMLDecoder(fis);
+	   NeuralNetwork decodedSettings = (NeuralNetwork) decoder.readObject();
+	    decoder.close();
+	    fis.close();
+	    return decodedSettings;
+	}
 }
