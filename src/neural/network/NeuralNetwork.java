@@ -24,11 +24,17 @@ public class NeuralNetwork implements Serializable {
 
 	private Layer[] layers;
 
-	private final int NUMBER_OF_LAYERS;
-	private final int INPUT_LAYER_SIZE, OUTPUT_LAYER_SIZE;
+	private final int NUMBER_OF_LAYERS, INPUT_LAYER_SIZE, OUTPUT_LAYER_SIZE;
 
 	private ActivationFunctions activationFunction;
+	
+	public NeuralNetwork() {
 
+		NUMBER_OF_LAYERS = 0;
+		INPUT_LAYER_SIZE = 0;
+		OUTPUT_LAYER_SIZE = 0;
+	}
+	
 	public NeuralNetwork(ActivationFunctions function, int... configuration) {
 
 		// Activation function
@@ -229,7 +235,7 @@ public class NeuralNetwork implements Serializable {
 	
 	
 	//methode pour sauvegarder un reseau sour forme xml
-	private static void saveNetworkToXML (NeuralNetwork nn, String path) throws IOException
+	public static void saveNetworkToXML (NeuralNetwork nn, String path) throws IOException
 	{
 	    FileOutputStream fos = new FileOutputStream(path + ".xml");
 	    XMLEncoder encoder = new XMLEncoder(fos);
@@ -242,7 +248,7 @@ public class NeuralNetwork implements Serializable {
 	    encoder.close();
 	    fos.close();
 	}
-	private static NeuralNetwork loadNetworkFromXML(String path) throws IOException {
+	public static NeuralNetwork loadNetworkFromXML(String path) throws IOException {
 	    FileInputStream fis = new FileInputStream(path + ".xml");
 	    XMLDecoder decoder = new XMLDecoder(fis);
 	   NeuralNetwork decodedSettings = (NeuralNetwork) decoder.readObject();
@@ -250,4 +256,6 @@ public class NeuralNetwork implements Serializable {
 	    fis.close();
 	    return decodedSettings;
 	}
+	
+	
 }
