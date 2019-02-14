@@ -7,6 +7,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Fenetre qui permet de chercher un fichier a lire
+ * @author Gaya Mehenni
+ *
+ */
 public class FileWindow extends JFrame {
 
 	private JPanel contentPane;

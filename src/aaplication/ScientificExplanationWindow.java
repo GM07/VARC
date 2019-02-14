@@ -6,6 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Fenetre secondaire des explications scientifiques
+ * @author Simon Daze
+ *
+ */
 public class ScientificExplanationWindow extends JFrame{
 	
 	//panels

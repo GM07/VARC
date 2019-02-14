@@ -1,11 +1,13 @@
 package functions;
 
+import java.io.Serializable;
+
 /*
  * @author Gaya Mehenni
  * @author Simon Daze
  */
 
-public enum ActivationFunctions implements ActivationFunctionsInterface{
+public enum ActivationFunctions implements ActivationFunctionsInterface,  Serializable {
 	
 	Linear {
 		

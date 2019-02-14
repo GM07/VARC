@@ -5,7 +5,11 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+/**
+ * Fenetre d'aide et d'explocation du fonctionnement de l'application
+ * @author Simon Daze
+ *
+ */
 public class HelpWindow extends JFrame {
 	
 

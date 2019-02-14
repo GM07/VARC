@@ -12,7 +12,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import image.processing.ImageManager;
-
+/**
+ * Classe qui permet de lire et d'afficher l'image de la marque de la voiture dans une scene
+ * @author Simon Daze
+ *
+ */
 public class MarqueImage extends JPanel {
 
 
@@ -32,7 +36,10 @@ public class MarqueImage extends JPanel {
 	        BufferedImage imageCarre = ImageManager.getSquaredImage(img, 150);
 	        g2d.drawImage(imageCarre,0, 0, imageCarre.getWidth(null) , imageCarre.getHeight(null), null);
 	    }
-	 
+	 /**
+	  * Methode qui permet de lire une image
+	  * @param nomFichier Le nom du fichier d'image
+	  */
 	    private void readImg(String nomFichier) {
 	        URL res = getClass().getClassLoader().getResource(nomFichier);
 	        if (res == null) {
@@ -45,7 +52,10 @@ public class MarqueImage extends JPanel {
 	            }
 	        }
 	    }
-	    
+	    /**
+	     * Methode qui permet de modifie l'image en memoire dans la classe
+	     * @param image a mettre en propriete dans la classe
+	     */
 	    public void setImage(BufferedImage image) {
 	    	this.img = image;
 	    }

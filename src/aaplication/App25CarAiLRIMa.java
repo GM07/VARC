@@ -15,7 +15,12 @@ import javax.swing.JSpinner;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.JComboBox;
-
+import dessin.NnDraw;
+/**
+ * Classe de la fenetre principale et de demarrage de l'application
+ * @author Simon Daze
+ *
+ */
 public class App25CarAiLRIMa extends JFrame {
 
 
@@ -24,7 +29,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JPanel panImage;
 	private JPanel panInputNumerique;
 	private JPanel panOutput;
-	private ImageVisible imageVisible = new ImageVisible();
+	private VoitureImage imageVisible = new VoitureImage();
 
 	//Constantes
 
@@ -40,7 +45,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JButton btnTrain;
 	private JButton btnMarque;
 
-	//labels
+	//Etiquettes
 	private JLabel lblTitle;
 	private JLabel lblEpoc;
 	private JLabel lblOutputTitle;
@@ -57,18 +62,18 @@ public class App25CarAiLRIMa extends JFrame {
 	private JSpinner spnEpoc ;
 
 
-	//menu item
+	//item de menu
 	private JMenuItem mnItHelp;
 	private JMenuItem mntmScientificExplanations;
 	private JMenuItem mntmOptions;
 
-	//Secondary windows
+	//fenetre secondaire
 	JFrame helpWindow = new HelpWindow();
 	JFrame scientificExplanationWindow = new ScientificExplanationWindow();
 	JFrame fileWindow = new FileWindow();
 	JFrame windowMarque = new WindowMarque();
 
-	//others
+	//Autres variables de classes
 	Color color = Color.WHITE;
 
 
@@ -88,6 +93,9 @@ public class App25CarAiLRIMa extends JFrame {
 		});
 	}
 
+	/**
+	 * Constructeur de l'application
+	 */
 	public App25CarAiLRIMa() {
 		
 		//permet de changer la taille des caracteres
@@ -104,7 +112,7 @@ public class App25CarAiLRIMa extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		mnItHelp = new JMenuItem("Help");
+		mnItHelp = new JMenuItem("Aide");
 		menuBar.add(mnItHelp);
 		mnItHelp.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -113,7 +121,7 @@ public class App25CarAiLRIMa extends JFrame {
 			}
 		});
 
-		mntmScientificExplanations = new JMenuItem("Scientific Explanations");
+		mntmScientificExplanations = new JMenuItem("Fenetre Scientifique");
 		menuBar.add(mntmScientificExplanations);
 		mntmScientificExplanations.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -157,7 +165,7 @@ public class App25CarAiLRIMa extends JFrame {
 
 		btnChoixImage = new JButton();
 		btnChoixImage.setBounds(LARGEUR_PANEL_SECONDAIRE/2-4*OFFSET,0,8*OFFSET,2*OFFSET);
-		btnChoixImage.setText(" image a tester");
+		btnChoixImage.setText(" Image a tester");
 		panImage.add(btnChoixImage);
 		btnChoixImage.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -172,7 +180,7 @@ public class App25CarAiLRIMa extends JFrame {
 
 		btnTrain = new JButton();
 		btnTrain.setBounds(LARGEUR_PANEL_SECONDAIRE/2-4*OFFSET, 12*OFFSET, 7*OFFSET, 2*OFFSET);
-		btnTrain.setText("TRAIN");
+		btnTrain.setText("Entrainer");
 		btnTrain.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				//nn.train();			
@@ -199,6 +207,10 @@ public class App25CarAiLRIMa extends JFrame {
 			}
 		});
 		panInputNumerique.add(btnTest);
+		
+		NnDraw nnDraw = new NnDraw();
+		nnDraw.setBounds(63, 44, 366, 233);
+		panInputNumerique.add(nnDraw);
 
 		lblOutputTitle = new JLabel();
 		lblOutputTitle.setBounds(LARGEUR_PANEL_SECONDAIRE/2-2*OFFSET, 0, 8*OFFSET, 2*OFFSET);

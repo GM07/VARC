@@ -1,12 +1,14 @@
 package functions;
 
+import java.io.Serializable;
+
 /*
  * @author Gaya Mehenni
  * @author Simon Daze
  */
 
 
-public enum DerivativeFunctions implements DerivativeFunctionsInterface {
+public enum DerivativeFunctions implements DerivativeFunctionsInterface, Serializable {
 
 	Linear {
 		

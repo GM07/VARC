@@ -14,11 +14,16 @@ import javax.swing.JPanel;
 
 import image.processing.ImageManager;
 
-public class ImageVisible extends JPanel{
+/**
+ * Classe qui permet d'afficher l'image d'un vehicule
+ * @author Simon Daze
+ *
+ */
+public class VoitureImage extends JPanel{
 
 	private BufferedImage img = null;
 	 
-    public ImageVisible() {
+    public VoitureImage() {
     	setBounds(100, 100, 300, 300);
         setBackground(Color.BLACK);
         readImg("voiture1.jpg");
@@ -32,7 +37,10 @@ public class ImageVisible extends JPanel{
         BufferedImage imageCarre = ImageManager.getSquaredImage(img, 300);
         g2d.drawImage(imageCarre,0, 0, imageCarre.getWidth(null) , imageCarre.getHeight(null), null);
     }
- 
+ /**
+  * Methode de lecture de l'image 
+  * @param nomFichier le fichier d'image a lire
+  */
     private void readImg(String nomFichier) {
         URL res = getClass().getClassLoader().getResource(nomFichier);
         if (res == null) {
@@ -45,7 +53,10 @@ public class ImageVisible extends JPanel{
             }
         }
     }
-    
+    /**
+     * Methode qui permet de modifier l'image en propriete dans la classe
+     * @param image l'image que l'on veut afficher
+     */
     public void setImage(BufferedImage image) {
     	this.img = image;
     }

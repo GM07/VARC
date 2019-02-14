@@ -6,6 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Fenetre secondaire des informations sur la marque
+ * @author Simon Daze
+ *
+ */
 public class MarqueWindow extends JFrame{
 	//panels
 	JPanel contentPane;
