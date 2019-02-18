@@ -1,6 +1,8 @@
 package neural.network;
 
-public enum LayerType {
+import java.io.Serializable;
+
+public enum LayerType implements Serializable {
 
 	InputLayer(),
 	HiddenLayer(),

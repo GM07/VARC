@@ -1,14 +1,21 @@
 package neural.network;
 
+import java.io.Serializable;
+
 import functions.ActivationFunctions;
 import math.Matrix;
 
-public class Layer {
+public class Layer implements Serializable {
 
-	private final int NB_NEURONS, NB_INPUT_NEURONS;
+	private  int NB_NEURONS, NB_INPUT_NEURONS;
 	private Matrix weights, outputs, inputs, biases, errors;
 	private ActivationFunctions function;
 	private LayerType type;
+	
+	public Layer() {
+		NB_NEURONS = 0;
+		NB_INPUT_NEURONS = 0;
+	}
 
 	public Layer(int nbNeurons, int inputNeurons, LayerType type, ActivationFunctions function) {
 
@@ -182,6 +189,7 @@ public class Layer {
 	public void setInputs(Matrix input) {
 		this.inputs = input;
 	}
+	
 
 	/**
 	 * Returns the type of the layer
@@ -215,7 +223,25 @@ public class Layer {
 		this.function = function;
 	}
 
+
+	public int getNB_NEURONS() {
+		return NB_NEURONS;
+	}
+
+	public int getNB_INPUT_NEURONS() {
+		return NB_INPUT_NEURONS;
+	}
+
+	public void setNB_NEURONS(int nB_NEURONS) {
+		NB_NEURONS = nB_NEURONS;
+	}
+
+	public void setNB_INPUT_NEURONS(int nB_INPUT_NEURONS) {
+		NB_INPUT_NEURONS = nB_INPUT_NEURONS;
+	}
 	
+	
+
 
 
 }

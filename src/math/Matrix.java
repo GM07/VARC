@@ -15,6 +15,11 @@ public class Matrix implements Serializable {
 	private static final long serialVersionUID = -404749125068503936L;
 	private double[][] mat;
 	private final int ROWS, COLS;
+	
+	public Matrix() {
+		ROWS = 0;
+		COLS = 0;
+	}
 
 
 	public Matrix(int rows, int cols) {
@@ -378,6 +383,11 @@ public class Matrix implements Serializable {
 	 */
 	public int getCOLS() {
 		return COLS;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 

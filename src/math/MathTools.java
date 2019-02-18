@@ -1,6 +1,8 @@
 package math;
 
-public class MathTools {
+import java.io.Serializable;
+
+public class MathTools implements Serializable {
 	
 	/**
 	 * Returns the index of the highest number in an array
