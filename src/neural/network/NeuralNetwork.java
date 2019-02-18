@@ -30,7 +30,7 @@ public class NeuralNetwork implements Serializable {
 
 	private ActivationFunctions activationFunction;
 
-	public NeuralNetwork() {
+	public NeuralNetwork()  {
 	}
 
 	public NeuralNetwork(ActivationFunctions function, int... configuration) {
