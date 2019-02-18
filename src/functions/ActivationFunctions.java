@@ -25,6 +25,8 @@ public enum ActivationFunctions implements ActivationFunctionsInterface,  Serial
 		public DerivativeFunctions getDerivative() {
 			return DerivativeFunctions.Linear;
 		}
+
+		public double getValueOfInverse (double x) { return 1.0 / x; }
 	},
 	
 	Sigmoid {
@@ -36,6 +38,8 @@ public enum ActivationFunctions implements ActivationFunctionsInterface,  Serial
 		public double getValue(double x) {
 			return (1.0 / (1.0 + Math.pow(Math.E, -x)));
 		}
+
+		public double getValueOfInverse (double x) { return Math.log(x / (1.0 - x)); }
 		
 		/**
 		 * @return		derivative of the function
@@ -61,6 +65,8 @@ public enum ActivationFunctions implements ActivationFunctionsInterface,  Serial
 		public DerivativeFunctions getDerivative() {
 			return DerivativeFunctions.Tanh;
 		}
+
+		public double getValueOfInverse (double x) { return x;}
 	},
 	
 	ReLU {
@@ -78,6 +84,11 @@ public enum ActivationFunctions implements ActivationFunctionsInterface,  Serial
 		 */
 		public DerivativeFunctions getDerivative() {
 			return DerivativeFunctions.ReLU;
+		}
+
+		public double getValueOfInverse (double x) {
+			if (x >= 0) return 1/x;
+			else return 0;
 		}
 	}
 

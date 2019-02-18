@@ -1,21 +1,17 @@
 package neural.network;
 
-import java.io.Serializable;
-
 import functions.ActivationFunctions;
 import math.Matrix;
 
-public class Layer implements Serializable {
+import java.io.Serializable;
 
-	private  int NB_NEURONS, NB_INPUT_NEURONS;
+public class Layer implements Serializable{
+
+	private static final long serialVersionUID = -6865142233942855068L;
+	private final int NB_NEURONS, NB_INPUT_NEURONS;
 	private Matrix weights, outputs, inputs, biases, errors;
 	private ActivationFunctions function;
 	private LayerType type;
-	
-	public Layer() {
-		NB_NEURONS = 0;
-		NB_INPUT_NEURONS = 0;
-	}
 
 	public Layer(int nbNeurons, int inputNeurons, LayerType type, ActivationFunctions function) {
 
@@ -48,7 +44,6 @@ public class Layer implements Serializable {
 
 	/**
 	 * Calculates the output of the layer
-	 * @param input
 	 */
 	public void feedForward() {
 
@@ -67,16 +62,22 @@ public class Layer implements Serializable {
 	public void backpropagation(double learningRate) {
 		
 		if (type != LayerType.InputLayer) {
-			
+
+			Matrix variation = errors.multiply(inputs.transpose());
+			weights.add(variation.scalarProduct(-learningRate));
+			biases.add(errors.scalarProduct(-learningRate));
+
+			/*
 			for(int neuron = 0; neuron < NB_NEURONS; neuron++) {
 				
 				for(int prevNeuron = 0; prevNeuron < NB_INPUT_NEURONS; prevNeuron++) {
 					
-					weights.setElement(neuron, prevNeuron, weights.getElement(neuron, prevNeuron) + learningRate * errors.getElement(neuron, 0) * inputs.getElement(prevNeuron, 0));
-					biases.setElement(neuron, 0, biases.getElement(neuron, 0) + learningRate * errors.getElement(neuron, 0));
+					weights.setElement(neuron, prevNeuron, weights.getElement(neuron, prevNeuron) - learningRate * errors.getElement(neuron, 0) * inputs.getElement(prevNeuron, 0));
+					biases.setElement(neuron, 0, biases.getElement(neuron, 0) - learningRate * errors.getElement(neuron, 0));
 				}
 				
 			}
+			*/
 		}
 	}
 
@@ -93,7 +94,7 @@ public class Layer implements Serializable {
 				for(int j = 0; j < NB_INPUT_NEURONS; j++) {
 
 					s += "\n";
-					s += " -- PREV NEURON " + j + " : " + inputs.getElement(j, 0) + " -----> W = " + weights.getElement(i, j);
+					s += "\t\tPREV NEURON " + j + " : " + inputs.getElement(j, 0) + " -----> W = " + weights.getElement(i, j);
 				}
 				
 				s += "\n -- B = " + biases.getElement(i, 0) + "\n";
@@ -103,7 +104,7 @@ public class Layer implements Serializable {
 
 			for(int i = 0; i < NB_NEURONS; i++) {
 
-				s += "NEURON (" + i + ") : " + outputs.getElement(i, 0) + " ";
+				s += "\tNEURON (" + i + ") : " + outputs.getElement(i, 0) + " ";
 			}
 		}
 
@@ -140,6 +141,21 @@ public class Layer implements Serializable {
 	 */
 	public void setOutputs(Matrix outputs) {
 		this.outputs = outputs;
+	}
+
+	/**
+	 * Returns a matrix of the outputs before they have been put in the activation function
+	 * @return
+	 */
+	public Matrix getOuputsZ() {
+		Matrix z = new Matrix(outputs.getROWS(), outputs.getCOLS());
+		for(int i = 0; i < z.getROWS(); i++) {
+			for(int j = 0; j < z.getCOLS(); j++) {
+				z.setElement(i, j, function.getValueOfInverse(outputs.getElement(i, j)));
+			}
+		}
+
+		return z;
 	}
 
 	/**
@@ -189,7 +205,6 @@ public class Layer implements Serializable {
 	public void setInputs(Matrix input) {
 		this.inputs = input;
 	}
-	
 
 	/**
 	 * Returns the type of the layer
@@ -223,25 +238,19 @@ public class Layer implements Serializable {
 		this.function = function;
 	}
 
-
+	/**
+	 * Returns the number of neurons in the layer
+	 * @return
+	 */
 	public int getNB_NEURONS() {
 		return NB_NEURONS;
 	}
 
+	/**
+	 * Returns the number of neurons in the previous layer
+	 * @return
+	 */
 	public int getNB_INPUT_NEURONS() {
 		return NB_INPUT_NEURONS;
 	}
-
-	public void setNB_NEURONS(int nB_NEURONS) {
-		NB_NEURONS = nB_NEURONS;
-	}
-
-	public void setNB_INPUT_NEURONS(int nB_INPUT_NEURONS) {
-		NB_INPUT_NEURONS = nB_INPUT_NEURONS;
-	}
-	
-	
-
-
-
 }

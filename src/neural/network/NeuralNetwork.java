@@ -26,11 +26,12 @@ public class NeuralNetwork implements Serializable {
 
 	private Layer[] layers;
 
-	private int NUMBER_OF_LAYERS, INPUT_LAYER_SIZE, OUTPUT_LAYER_SIZE;
+	private int NUMBER_OF_LAYERS;
+	private int INPUT_LAYER_SIZE, OUTPUT_LAYER_SIZE;
 
 	private ActivationFunctions activationFunction;
 
-	public NeuralNetwork()   {
+	public NeuralNetwork() {
 	}
 
 	public NeuralNetwork(ActivationFunctions function, int... configuration) {
@@ -104,54 +105,66 @@ public class NeuralNetwork implements Serializable {
 	/**
 	 * Applies the backpropagation algorithm to train the network
 	 * @param expected
-	 * @param learningRate
 	 */
-	public void backpropagation(double[] expected, double learningRate) {
+	public void backpropagation(double[] expected) {
 
-
-		// Error in the output layer
 		Matrix expectedMatrix = new Matrix(MathTools.getAsTwoDimensionalArray(expected));
 
-		layers[NUMBER_OF_LAYERS - 1].setErrors(Matrix.subtract(expectedMatrix, layers[NUMBER_OF_LAYERS - 1].getOutputs()).product(layers[NUMBER_OF_LAYERS - 1].getOutputs().applyFunctionDerivative(activationFunction)));
+		// Error in the output layer
+		layers[NUMBER_OF_LAYERS - 1].setErrors(Matrix.subtract(expectedMatrix, layers[NUMBER_OF_LAYERS - 1].getOutputs()).product(layers[NUMBER_OF_LAYERS - 1].getOuputsZ().applyFunctionDerivative(layers[NUMBER_OF_LAYERS - 1].getFunction())));
 
 		// Error in the hidden layers
 		for(int layer = NUMBER_OF_LAYERS - 2; layer > 0; layer--) {
-
-			Matrix errorLayer = layers[layer + 1].getWeights().transpose().multiply(layers[layer + 1].getErrors()).product(layers[layer].getOutputs().applyFunctionDerivative(layers[layer].getFunction()));
+			Matrix errorLayer = layers[layer + 1].getWeights().transpose().multiply(layers[layer + 1].getErrors()).product(layers[layer].getOuputsZ().applyFunctionDerivative(layers[layer].getFunction()));
 			layers[layer].setErrors(errorLayer);
 		}
 
-		for(int layer = 0; layer < NUMBER_OF_LAYERS; layer++) {
+	}
+	/**
+	 * Updating each weights and biases with the error associated to each node
+	 * @param learningRate constant at which the neural network learns
+	 */
+	public void updateWeightsAndBiases(double learningRate) {
 
-			layers[layer].backpropagation(learningRate);
-		}
-
+		for(int layer = NUMBER_OF_LAYERS - 1; layer > 1; layer--) {
+            layers[layer].backpropagation(learningRate);
+//			Layer currentLayer = layers[layer];
+//			Matrix weights = currentLayer.getWeights();
+//			Matrix errors = currentLayer.getErrors();
+//
+//			Layer previousLayer = layers[layer - 1];
+//			Matrix outputs = previousLayer.getOutputs();
+//
+//			for(int neuron = 0; neuron < currentLayer.get; neuron++) {
+//
+//				for (int prevNeuron = 0; prevNeuron < NB_INPUT_NEURONS; prevNeuron++) {
+//
+//
+//				}
+//			}
+        }
 	}
 
 	/**
 	 * Trains the neural network
-	 * @param inputs
-	 * @param target
-	 * @param learningRate
+	 * @param inputs neural network's inputs (going in the input layer)
+	 * @param target outputs expected from the neural network
 	 */
-	public void train(double[] inputs, double[] target, double learningRate) {
+	public void train(double[] inputs, double[] target) {
 
 		feedForward(inputs);
-		backpropagation(target, learningRate);
+		backpropagation(target);
 	}
-
 
 	/**
 	 * Sets the inputs of the neural network
-	 * @param inputs
+	 * @param inputs neural network's inputs (going in the input layer)
 	 */
 	public void setInputs(double[] inputs) {
 
 		if (inputs.length == INPUT_LAYER_SIZE) {
-
 			Matrix matrixInputs = new Matrix(MathTools.getAsTwoDimensionalArray(inputs));
 			layers[0].setInputs(matrixInputs);
-
 		} else {
 			System.out.println("INPUT SIZE IS NOT THE SAME AS THE NETWORK'S");
 			System.out.println("INPUT SIZE : " + inputs.length);
@@ -163,7 +176,7 @@ public class NeuralNetwork implements Serializable {
 
 	/**
 	 * Save the neural network
-	 * @param path
+	 * @param path a path where the neural network will be saved
 	 */
 	public void saveNetwork(String path) {
 		try {
@@ -171,9 +184,9 @@ public class NeuralNetwork implements Serializable {
 			FileOutputStream fos = new FileOutputStream(path + ".dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(this);
-			//oos.flush();
+			oos.flush();
 			oos.close();
-			//fos.close();
+			fos.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 			System.out.println(path);
@@ -183,7 +196,7 @@ public class NeuralNetwork implements Serializable {
 
 	/**
 	 * Load a neural network
-	 * @param path
+	 * @param path a path which tells where to load the neural network
 	 * @return neural network
 	 */
 	public static NeuralNetwork loadNetwork(String path){
@@ -213,10 +226,29 @@ public class NeuralNetwork implements Serializable {
 	 */
 	public Matrix getResults() {
 
-		System.out.println("RESULTS : " + layers[NUMBER_OF_LAYERS - 1]);
+		//System.out.println("RESULTS : " + layers[NUMBER_OF_LAYERS - 1]);
 		return layers[NUMBER_OF_LAYERS - 1].getOutputs();
 	}
 
+	/**
+	 * Gets a certain layer
+	 * @param index
+	 * @return layer
+	 */
+	public Layer getLayer(int index) {
+
+		if (index > 0 && index < NUMBER_OF_LAYERS ) return layers[index];
+		else {
+			System.out.println("Index out of bounds");
+			return null;
+		}
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	@Override
 	public String toString() {
 
 		String s = "NEURAL NETWORK \n";
@@ -225,7 +257,7 @@ public class NeuralNetwork implements Serializable {
 
 			//s += layers[layer].getType();
 			s += "LAYER " + layer + " : " + layers[layer].getType() + " ------------------------- \n";
-			s += layers[layer].toString() + "\n";
+			s += "\t" + layers[layer].toString() + "\n";
 		}
 
 		return s;
@@ -324,23 +356,23 @@ public class NeuralNetwork implements Serializable {
 	 * @throws IOException
 	 */
 	//auteur : Simon Daze
-	public static void main(String[] args) throws IOException {
-		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 3,2,1,2);
-		double[] inputs = new double[]{1,2,3};
-		double[] outputs = new double[] {2,1};
-		nn.train(inputs, outputs, 0.1);
-		System.out.println(nn);
-		String path = "res/network_saves/neural.xml";
-		/*NeuralNetwork nn3 = new NeuralNetwork();
-		nn3.setActivationFunction(ActivationFunctions.Sigmoid);
-		NeuralNetwork.saveNetworkToXML(nn3, "res/network_saves/neural");*/
-		NeuralNetwork.saveNetworkToXML(nn, path);
-		NeuralNetwork nn2 = NeuralNetwork.loadNetworkFromXML(path);
-		//System.out.println(NeuralNetwork.loadNetwork(path));
-
-		System.out.println(nn2);
-
-	}
+//	public static void main(String[] args) throws IOException {
+//		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 3,2,1,2);
+//		double[] inputs = new double[]{1,2,3};
+//		double[] outputs = new double[] {2,1};
+//		nn.train(inputs, outputs, 0.1);
+//		System.out.println(nn);
+//		String path = "res/network_saves/neural.xml";
+//		/*NeuralNetwork nn3 = new NeuralNetwork();
+//		nn3.setActivationFunction(ActivationFunctions.Sigmoid);
+//		NeuralNetwork.saveNetworkToXML(nn3, "res/network_saves/neural");*/
+//		NeuralNetwork.saveNetworkToXML(nn, path);
+//		NeuralNetwork nn2 = NeuralNetwork.loadNetworkFromXML(path);
+//		//System.out.println(NeuralNetwork.loadNetwork(path));
+//
+//		System.out.println(nn2);
+//
+//	}
 
 
 

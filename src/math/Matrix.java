@@ -15,11 +15,6 @@ public class Matrix implements Serializable {
 	private static final long serialVersionUID = -404749125068503936L;
 	private double[][] mat;
 	private final int ROWS, COLS;
-	
-	public Matrix() {
-		ROWS = 0;
-		COLS = 0;
-	}
 
 
 	public Matrix(int rows, int cols) {
@@ -240,8 +235,24 @@ public class Matrix implements Serializable {
 			return null;
 		}
 	}
-	
-	
+
+	/**
+	 * Multiplies every element by a scalar
+	 */
+	public Matrix scalarProduct(double k) {
+		Matrix m = new Matrix(ROWS, COLS);
+		for(int i = 0; i < ROWS; i++) {
+			for(int j = 0; j < COLS; j++) {
+				m.setElement(i, j, mat[i][j] * k);
+			}
+		}
+		return m;
+	}
+
+	/**
+	 * Calculates the sum of every element in the matrix
+	 * @return
+	 */
 	public double sumOfElements() {
 		
 		double sum = 0;
@@ -315,8 +326,24 @@ public class Matrix implements Serializable {
 	}
 
 	/**
+	 * Transposes the matrix
+	 * @return
+	 */
+	public Matrix transpose() {
+		Matrix matTranspose = new Matrix(getCOLS(), getROWS());
+
+		for(int i = 0; i < getCOLS(); i++) {
+			for (int j = 0; j < getROWS(); j++) {
+				matTranspose.setElement(i, j, this.getElement(j, i));
+			}
+		}
+		return matTranspose;
+	}
+
+	/**
 	 * Print the matrix
 	 */
+	@Override
 	public String toString() {
 
 		String chain="MATRIX ----- \n";
@@ -330,19 +357,18 @@ public class Matrix implements Serializable {
 		return chain;
 	}
 
-	/**
-	 * Transposes the matrix
-	 * @return
-	 */
-	public Matrix transpose() {
-		Matrix matTranspose = new Matrix(getCOLS(), getROWS());
-		
-		for(int i = 0; i < getCOLS(); i++) {
-			for (int j = 0; j < getROWS(); j++) {
-				matTranspose.setElement(i, j, this.getElement(j, i));
+	public boolean equals(Matrix m) {
+		boolean same = true;
+
+		if (m.getROWS() != ROWS || m.getCOLS() != COLS) return false;
+
+		for(int i = 0; i < m.getROWS(); i++) {
+			for(int j = 0; j < m.getCOLS(); j++) {
+				if (m.getMat()[i][j] != mat[i][j]) same = false;
 			}
 		}
-		return matTranspose; 
+
+		return same;
 	}
 	
 	/**
@@ -355,7 +381,7 @@ public class Matrix implements Serializable {
 
 	/**
 	 * Changes the matrix
-	 * @param		A two dimensional array
+	 * @param mat two dimensional array
 	 */
 	public void setMat(double[][] mat) {
 		this.mat = mat;
@@ -384,12 +410,5 @@ public class Matrix implements Serializable {
 	public int getCOLS() {
 		return COLS;
 	}
-
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-
 
 }
