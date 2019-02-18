@@ -94,6 +94,7 @@ public class MnistAlgorithm {
 		}
 
 
+		System.out.println(result + " " + total);
 		return result/total;
 	}
 
@@ -122,6 +123,12 @@ public class MnistAlgorithm {
 
 			System.out.println("Epoch : " + epoch);
 
+			try {
+				NeuralNetwork.saveNetworkToXML(nn, "res/network_saves/neural_network_save_1.xml");
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+
 			// Shuffling the dataset to get better results
 			batch.shuffleDataset();
 
@@ -149,6 +156,9 @@ public class MnistAlgorithm {
 			double delta = result - lastResult;
 			System.out.println(result + " - " + delta);
 			lastResult = result;
+			if (delta <= 0) {
+				nn.loadNetwork("res/network_saves/neural_network_save_1");
+			}
 
 
 			//System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1));

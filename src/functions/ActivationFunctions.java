@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author Simon Daze
  */
 
-public enum ActivationFunctions implements ActivationFunctionsInterface,  Serializable {
+public enum ActivationFunctions implements ActivationFunctionsInterface, Serializable {
 	
 	Linear {
 		

@@ -14,8 +14,9 @@ public class Matrix implements Serializable {
 
 	private static final long serialVersionUID = -404749125068503936L;
 	private double[][] mat;
-	private final int ROWS, COLS;
+	private int ROWS, COLS;
 
+	public Matrix() {}
 
 	public Matrix(int rows, int cols) {
 		mat = new double[rows][cols];
@@ -191,6 +192,11 @@ public class Matrix implements Serializable {
 
 		double[][] matr = new double[this.getROWS()][m.getCOLS()];
 
+		if (COLS != m.getROWS()){
+			System.out.println("CAN'T BE MULTIPLIED");
+			return null;
+		}
+
 		for (int i = 0; i < this.getROWS();i++) {
 
 			for(int j = 0; j < m.getCOLS();j++) {
@@ -234,6 +240,10 @@ public class Matrix implements Serializable {
 			System.out.println("Matrices does not have the same size");
 			return null;
 		}
+	}
+
+	public Matrix getSquaredMatrix(){
+		return this.product(this);
 	}
 
 	/**
@@ -409,6 +419,24 @@ public class Matrix implements Serializable {
 	 */
 	public int getCOLS() {
 		return COLS;
+	}
+
+	public static void main(String[] args) {
+		Matrix m1 = new Matrix(new double[][]{
+				{1, 2, 1},
+				{0, 0, 0},
+				{1, 2, 1}
+		});
+
+		Matrix m2 = new Matrix(new double[][]{
+				{1, 0, 1},
+				{2, 0, 2},
+				{1, 0, 1}
+		});
+
+		System.out.println(m1.scalarProduct(3));
+		System.out.println(m1.transpose());
+
 	}
 
 }

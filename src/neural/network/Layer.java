@@ -8,10 +8,12 @@ import java.io.Serializable;
 public class Layer implements Serializable{
 
 	private static final long serialVersionUID = -6865142233942855068L;
-	private final int NB_NEURONS, NB_INPUT_NEURONS;
+	private int NB_NEURONS, NB_INPUT_NEURONS;
 	private Matrix weights, outputs, inputs, biases, errors;
 	private ActivationFunctions function;
 	private LayerType type;
+
+	public Layer() {}
 
 	public Layer(int nbNeurons, int inputNeurons, LayerType type, ActivationFunctions function) {
 
@@ -48,6 +50,7 @@ public class Layer implements Serializable{
 	public void feedForward() {
 
 		if (type != LayerType.InputLayer) {
+			//System.out.println(weights.getROWS() + " - " + weights.getCOLS() + "\t" + inputs.getROWS() + " - " + inputs.getCOLS());
 			outputs = Matrix.sum(weights.multiply(inputs), biases);
 			outputs = outputs.applyFunction(function);
 		} else {
@@ -104,7 +107,7 @@ public class Layer implements Serializable{
 
 			for(int i = 0; i < NB_NEURONS; i++) {
 
-				s += "\tNEURON (" + i + ") : " + outputs.getElement(i, 0) + " ";
+				s += "\nNEURON (" + i + ") : " + outputs.getElement(i, 0) + " ";
 			}
 		}
 
@@ -246,11 +249,23 @@ public class Layer implements Serializable{
 		return NB_NEURONS;
 	}
 
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
+
 	/**
 	 * Returns the number of neurons in the previous layer
 	 * @return
 	 */
 	public int getNB_INPUT_NEURONS() {
 		return NB_INPUT_NEURONS;
+	}
+
+	public void setNB_NEURONS(int NB_NEURONS) {
+		this.NB_NEURONS = NB_NEURONS;
+	}
+
+	public void setNB_INPUT_NEURONS(int NB_INPUT_NEURONS) {
+		this.NB_INPUT_NEURONS = NB_INPUT_NEURONS;
 	}
 }
