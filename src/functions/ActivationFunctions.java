@@ -35,9 +35,7 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 		 * @param	x	value
 		 * @return		output of the function
 		 */
-		public double getValue(double x) {
-			return (1.0 / (1.0 + Math.pow(Math.E, -x)));
-		}
+		public double getValue(double x) { return (1.0 / (1.0 + Math.pow(Math.E, -x))); }
 
 		public double getValueOfInverse (double x) { return Math.log(x / (1.0 - x)); }
 		

@@ -3,6 +3,7 @@ package dataset;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import functions.ActivationFunctions;
 import image.processing.FileManager;
@@ -20,19 +21,13 @@ import javax.xml.crypto.Data;
  */
 public class MnistAlgorithm {
 
-	/*
-		TO DO :
-			- SHUFFLE THE DATASET
-			- CREATE A BATCH CLASS (LABEL -> INPUTS)
-	 */
-
 	private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\training";
 	private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\testing";
-	private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\save_2";
-	private static double learningRate = 0.4;
-	private static int numberOfEpochs = 500;
-	private static int numberOfImagesPerEpoch = 100;
-	private static int batch_size = 5;
+	private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\neural_save";
+	private static double learningRate = 2;
+	private static int numberOfEpochs = 200;
+	private static int numberOfImagesPerEpoch = 500;
+	private static int batch_size = 20;
 	private static int resultCounter = 0;
 	private static double lastResult = 0;
 
@@ -41,6 +36,11 @@ public class MnistAlgorithm {
 		//NeuralNetwork nn = NeuralNetwork.loadNetwork("D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST.dat");
 
 		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 784, 16, 16, 10);
+		/*try{
+			nn = NeuralNetwork.loadNetworkFromXML(savingPath + "_1" + ".xml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
 		//NeuralNetwork nn2 = new NeuralNetwork(ActivationFunctions.Sigmoid, 784, 800, 400, 200, 100, 50, 10);
 
 		System.out.println("\nNON TRAINED NETWORK \n" + testNetwork(nn));
@@ -74,12 +74,12 @@ public class MnistAlgorithm {
 				//System.out.println("\t TESTING IMAGE : " + j);
 
 				try {
-					double[] input = ImageManager.convertGreyValues(ImageManager.getSquaredImage(image, 28));
+					double[] input = MathTools.mapArray(ImageManager.convertGreyValues(ImageManager.getSquaredImage(image, 28)), 0, 255, 0, 1);
 					double[] expected = new double[10];
 					expected[number] = 1;
 
 					nn.feedForward(input);
-					//System.out.println("RESULTS : \n" + nn.getResults());
+					//System.out.println("RESULTS : " + number + "\n" + nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1).getOutputsZ());
 					double[] output = MathTools.getAsOneDimension(nn.getResults().getMat());
 					//System.out.print(MathTools.getHighestIndex(output) + ", " + number + " --\t ");
 
@@ -94,7 +94,7 @@ public class MnistAlgorithm {
 		}
 
 
-		System.out.println(result + " " + total);
+//		System.out.println(result + " " + total);
 		return result/total;
 	}
 
@@ -108,29 +108,28 @@ public class MnistAlgorithm {
 			// On parcoure chaque dossier
 
 			ArrayList<BufferedImage> images = FileManager.getImagesFromFolder(trainingPath + "\\" + folders.get(folder));
+			int number = Integer.parseInt(folders.get(folder));
+			System.out.print(" " + number);
 
-			for(int file = 0; file < images.size(); file++) {
+			for (BufferedImage image : images) {
 
-				BufferedImage image = images.get(file);
-				batch.addElementToDataset(new DataElement<>(Integer.parseInt(folders.get(folder)), image));
+				DataElement<Integer, BufferedImage> dE = new DataElement<Integer, BufferedImage>(number, image);
+				batch.addElementToDataset(dE);
 			}
+
 		}
 
+		System.out.println();
+
 		System.out.println("Data loaded (Size : " + batch.getDataset().size() + ")");
+
+		batch.shuffleDataset();
+
 		System.out.println("Training neural network...");
 
 		for(int epoch = 0; epoch < numberOfEpochs; epoch++) {
 
 			System.out.println("Epoch : " + epoch);
-
-			try {
-				NeuralNetwork.saveNetworkToXML(nn, "res/network_saves/neural_network_save_1.xml");
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
-
-			// Shuffling the dataset to get better results
-			batch.shuffleDataset();
 
 			ArrayList<DataElement> epochData = batch.getPartOfDataset(numberOfImagesPerEpoch);
 
@@ -139,78 +138,35 @@ public class MnistAlgorithm {
 				DataElement dataElement = batch.getDataset().get(data);
 
 				try {
-					double[] input = ImageManager.convertGreyValues(ImageManager.getSquaredImage((BufferedImage) dataElement.getData(), 28));
+					double[] input = MathTools.mapArray(ImageManager.convertGreyValues(ImageManager.getSquaredImage((BufferedImage) dataElement.getData(), 28)), 0, 255, 0, 1);
 					double[] output = new double[10];
-					output[(int) dataElement.getLabel()] = 1;
+					int number = (Integer) dataElement.getLabel();
+					output[number] = 1;
+
+					//System.out.println(Arrays.toString(output) + " - " + number);
 
 					nn.train(input, output);
 
-					if (data % batch_size == 0) nn.updateWeightsAndBiases(learningRate);
+					if (data % batch_size == 0) nn.updateWeightsAndBiases(learningRate/batch_size);
 
 				} catch(IOException e) {
 					e.printStackTrace();
 				}
 			}
 
-			double result = testNetwork(nn);
-			double delta = result - lastResult;
-			System.out.println(result + " - " + delta);
-			lastResult = result;
-			if (delta <= 0) {
-				nn.loadNetwork("res/network_saves/neural_network_save_1");
-			}
+
+			System.out.println(testNetwork(nn));
+
 
 
 			//System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1));
 		}
 
-	}
-
-	/*
-	public static void trainNetwork(NeuralNetwork neuralNetwork) {
-
-		ArrayList<String> folders = FileManager.getFoldersFromFolder(trainingPath);
-
-		for(int epoch = 0; epoch < numberOfEpochs; epoch++) {
-
-			System.out.println("EPOCHS : " + epoch);
-
-			for (int i = 0; i < folders.size(); i++) {
-
-				System.out.println("\tDOSSIER : " + i);
-
-				// On parcoure le dossier de chaque nombre
-				int number = Integer.parseInt(folders.get(i));
-
-				ArrayList<BufferedImage> images = FileManager.getImagesFromFolder(trainingPath + "\\" + folders.get(i));
-
-				System.out.println("\tNOMBRE D'IMAGES A TESTER : " + images.size()/5);
-
-				for (int j = 0; j < images.size()/100; j++) {
-
-					//System.out.println("\t\t IMAGE : " + j);
-
-					// On parcoure chaque image du dossier
-					BufferedImage image = images.get(j);
-					try {
-
-						double[] input = ImageManager.convertGreyValues(ImageManager.getSquaredImage(image, 28));
-						double[] output = new double[10];
-
-						output[number] = 1;
-
-						neuralNetwork.train(input, output, learningRate);
-
-					} catch (IOException e) {
-
-						e.printStackTrace();
-					}
-
-				}
-			}
+		try {
+			NeuralNetwork.saveNetworkToXML(nn, savingPath + "_3_" + ((int) (100 * testNetwork(nn))) + "%.xml");
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
-
-		neuralNetwork.saveNetwork(savingPath);
 	}
-	*/
+
 }

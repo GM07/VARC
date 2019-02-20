@@ -9,7 +9,7 @@ public class Layer implements Serializable{
 
 	private static final long serialVersionUID = -6865142233942855068L;
 	private int NB_NEURONS, NB_INPUT_NEURONS;
-	private Matrix weights, outputs, inputs, biases, errors;
+	private Matrix weights, outputs, outputsZ, inputs, biases, errors;
 	private ActivationFunctions function;
 	private LayerType type;
 
@@ -31,6 +31,9 @@ public class Layer implements Serializable{
 		// Outputs
 		outputs = new Matrix(NB_NEURONS, 1);
 
+		// Outputs
+		outputsZ = new Matrix(NB_NEURONS, 1);
+
 		// Inputs
 		inputs = new Matrix(NB_INPUT_NEURONS, 1);
 
@@ -38,10 +41,18 @@ public class Layer implements Serializable{
 		errors = new Matrix(NB_NEURONS, 1);
 
 		// Init both matrices with random values between -1 and 1
-		weights.initWithRandomValues(-1, 1);
-		biases.initWithRandomValues(-1, 1);
+		if (type != LayerType.InputLayer) {
+			weights.initWithRandomValues(-1, 1);
+			biases.initWithRandomValues(-1, 1);
+		} else {
+			weights = new Matrix(NB_NEURONS, NB_INPUT_NEURONS, 1);
+			weights = new Matrix(NB_NEURONS, NB_INPUT_NEURONS, 0);
+		}
 		
-		if (type == LayerType.InputLayer) outputs = inputs;
+		if (type == LayerType.InputLayer) {
+			outputs = inputs;
+			outputsZ = outputs;
+		}
 	}
 
 	/**
@@ -50,12 +61,13 @@ public class Layer implements Serializable{
 	public void feedForward() {
 
 		if (type != LayerType.InputLayer) {
-			//System.out.println(weights.getROWS() + " - " + weights.getCOLS() + "\t" + inputs.getROWS() + " - " + inputs.getCOLS());
-			outputs = Matrix.sum(weights.multiply(inputs), biases);
-			outputs = outputs.applyFunction(function);
+			outputsZ = Matrix.sum(weights.multiply(inputs), biases);
+			outputs = outputsZ.applyFunction(function);
 		} else {
-			outputs = inputs;
+			outputsZ = inputs;
+			outputs = outputsZ;
 		}
+		//outputs = outputsZ.applyFunction(function);
 	}
 	
 	/**
@@ -66,7 +78,8 @@ public class Layer implements Serializable{
 		
 		if (type != LayerType.InputLayer) {
 
-			Matrix variation = errors.multiply(inputs.transpose());
+			// Remove outputs.applyFunctionDerivative
+			Matrix variation = errors.multiply(inputs.transpose());//errors.product(outputs.applyFunctionDerivative(function)).scalarProduct(-learningRate);
 			weights.add(variation.scalarProduct(-learningRate));
 			biases.add(errors.scalarProduct(-learningRate));
 
@@ -100,18 +113,18 @@ public class Layer implements Serializable{
 					s += "\t\tPREV NEURON " + j + " : " + inputs.getElement(j, 0) + " -----> W = " + weights.getElement(i, j);
 				}
 				
-				s += "\n -- B = " + biases.getElement(i, 0) + "\n";
+				s += "\n\tB = " + biases.getElement(i, 0) + "\n";
 
 			}
 		} else {
 
 			for(int i = 0; i < NB_NEURONS; i++) {
 
-				s += "\nNEURON (" + i + ") : " + outputs.getElement(i, 0) + " ";
+				s += "\n\tNEURON (" + i + ") : " + outputs.getElement(i, 0);
 			}
 		}
 
-		return s;
+		return s + "\n";
 	}
 
 	/**
@@ -150,15 +163,8 @@ public class Layer implements Serializable{
 	 * Returns a matrix of the outputs before they have been put in the activation function
 	 * @return
 	 */
-	public Matrix getOuputsZ() {
-		Matrix z = new Matrix(outputs.getROWS(), outputs.getCOLS());
-		for(int i = 0; i < z.getROWS(); i++) {
-			for(int j = 0; j < z.getCOLS(); j++) {
-				z.setElement(i, j, function.getValueOfInverse(outputs.getElement(i, j)));
-			}
-		}
-
-		return z;
+	public Matrix getOutputsZ() {
+		return outputsZ;
 	}
 
 	/**

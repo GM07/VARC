@@ -193,7 +193,7 @@ public class Matrix implements Serializable {
 		double[][] matr = new double[this.getROWS()][m.getCOLS()];
 
 		if (COLS != m.getROWS()){
-			System.out.println("CAN'T BE MULTIPLIED");
+			System.out.println("CAN'T BE MULTIPLIED : " + getMatrixSize() + ", " + m.getMatrixSize());
 			return null;
 		}
 
@@ -237,7 +237,7 @@ public class Matrix implements Serializable {
 			return finalMatrix;
 			
 		} else {
-			System.out.println("Matrices does not have the same size");
+			System.out.println("Matrices does not have the same size (" + ROWS + "x" + COLS + ") vs (" + m.getROWS() + "x" + m.getCOLS() + ")");
 			return null;
 		}
 	}
@@ -367,18 +367,8 @@ public class Matrix implements Serializable {
 		return chain;
 	}
 
-	public boolean equals(Matrix m) {
-		boolean same = true;
-
-		if (m.getROWS() != ROWS || m.getCOLS() != COLS) return false;
-
-		for(int i = 0; i < m.getROWS(); i++) {
-			for(int j = 0; j < m.getCOLS(); j++) {
-				if (m.getMat()[i][j] != mat[i][j]) same = false;
-			}
-		}
-
-		return same;
+	public String getMatrixSize() {
+		return "" + ROWS + "x" + COLS;
 	}
 	
 	/**

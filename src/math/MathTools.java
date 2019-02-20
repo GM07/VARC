@@ -1,6 +1,7 @@
 package math;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class MathTools implements Serializable {
 	
@@ -20,7 +21,12 @@ public class MathTools implements Serializable {
 		
 		return index;
 	}
-	
+
+	/**
+	 * Transforme un 2D array en 1D array
+	 * @param arr
+	 * @return
+	 */
 	public static double[] getAsOneDimension(double[][] arr) {
 		double[] array = new double[arr.length * arr[0].length];
 		for(int i = 0; i < arr.length; i ++) {
@@ -51,5 +57,15 @@ public class MathTools implements Serializable {
 		}
 
 		return in;
+	}
+
+	public static double[] mapArray(double[] in, double current1, double current2, double target1, double target2) {
+
+		double[] out = new double[in.length];
+		for(int i = 0 ;i < in.length; i++) {
+			out[i] = target1 + (target2 - target1) * ((in[i] - current1) / (current2 - current1));
+		}
+
+		return out;
 	}
 }
