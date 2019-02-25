@@ -366,7 +366,31 @@ public class Matrix implements Serializable {
 		}
 		return chain;
 	}
-
+	
+	/**
+	 *  ajout d'un padding a une matrice (contours de 0)
+	 * @param paddingSize le nombre de rangee + colonne de 0 qui entoure la matrice
+	 * @return une nouvelle matrice entouree de couches de 0 
+	 */
+	public Matrix padding(int paddingSize) {
+		double[][] m = new double[ROWS + paddingSize * 2][COLS + paddingSize * 2];
+		
+		
+		for(int i = 0; i < m.length; i++) {
+			
+			for(int j = 0; j < m[i].length; j++) {
+				
+				if ((i >= paddingSize && i < m.length - paddingSize)
+					&& ((j >= paddingSize && j < m[i].length - paddingSize))) {
+					m[i][j] = mat[i - paddingSize][j - paddingSize];
+				} else m[i][j] = 0;
+				
+			}
+		}
+		
+		return new Matrix(m);
+	}
+	
 	public String getMatrixSize() {
 		return "" + ROWS + "x" + COLS;
 	}
@@ -428,5 +452,16 @@ public class Matrix implements Serializable {
 		System.out.println(m1.transpose());
 
 	}
+
+	/**
+	 * retourne la plus grande valeur dans une sous matrice de taile nxn
+	 * @param stride : le decalage effectue dans la matrice de base pout creer les sous-matrices
+	 * @return la matrice contenant toutes les valeurs maximales des sous-matrices nxn
+	 */
+	/*public Matrix maxPool( int n, double stride) {
+		double[][] pooledMat = new double[ROWS][COLS];
+		
+		return pooledMat;
+	}*/
 
 }

@@ -6,10 +6,12 @@ public class Filter extends Matrix {
 
 	public Filter(int rows, int cols) {
 		super(rows, cols);
+		this.initWithRandomValues(-1, 1);
+		
 	}
 
 
-	public Matrix convolution(Matrix m) {
+	public  Matrix convolution(Matrix m) {
 
 		int FINALROWS = m.getROWS() - this.getROWS() + 1;
 		int FINALCOLS = m.getCOLS() - this.getCOLS() + 1;
