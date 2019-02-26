@@ -452,17 +452,20 @@ public class Matrix implements Serializable {
 		System.out.println(m1.transpose());
 
 	}
-
-	/**
-	 * retourne la plus grande valeur dans une sous matrice de taile nxn
-	 * @param stride : le decalage effectue dans la matrice de base pout creer les sous-matrices
-	 * @return la matrice contenant toutes les valeurs maximales des sous-matrices nxn
-	 */
-	public Matrix maxPool( int n) {
-		double[][] pooledMat = new double[ROWS][COLS];
-		
-
-		return pooledMat;
+	
+	public double getMaxValue() {
+		double maxValue = 0 , currentValue;
+		for(int i = 0 ; i < ROWS ; i++) {
+			for (int j = 0 ; j < COLS ; j++) {
+				currentValue = mat[i][j];
+				if(currentValue > maxValue) {
+					maxValue = currentValue;
+				}
+			}
+		}
+		return maxValue;
 	}
+
+
 
 }

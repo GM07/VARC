@@ -1,16 +1,25 @@
 package convolutional.neural.network;
 
 import math.Matrix;
-
+/**
+ * Les differents filtres qui seront apposes sur les images lors de leur passage dans le reseau
+ * @author Simon Daze
+ * @author Gaya Mehenni
+ */
 public class Filter extends Matrix {
 
 	public Filter(int rows, int cols) {
 		super(rows, cols);
 		this.initWithRandomValues(-1, 1);
-		
+
 	}
 
-
+	/**
+	 * Applique un filtre de convolution sur l'ensemble de la matrice
+	 * @param m la matrice sur laquelle appliquer la convolution
+	 * @return une matrice contenant le resultat de la convolution entre le filtre et la matrice passee en parametre
+	 */
+	//Auteur : Gaya Mehenni
 	public  Matrix convolution(Matrix m) {
 
 		int FINALROWS = m.getROWS() - this.getROWS() + 1;
@@ -35,6 +44,52 @@ public class Filter extends Matrix {
 
 		return finalMatrix;
 	}
+
+	/**
+	 * Retourne la plus grande valeur dans une sous matrice de la taille du filter
+	 * @return la matrice contenant toutes les valeurs maximales des sous-matrices nxn
+	 * @param m = La matrice sur laquelle on applique le maxPooling
+	 * @param n = La taille du pooling qu'on applique
+	 */
+	//auteur : Simon Daze
+	public Matrix maxPool( Matrix m   ) {
+		Matrix pooledMat = new Matrix(m.getROWS() - this.getROWS() + 1, m.getCOLS() - this.getROWS() + 1);
+		for (int ofX = 0 ; ofX < m.getROWS() - this.getROWS() + 1; ofX++) {
+			for(int ofY = 0; ofY < m.getCOLS() - this.getCOLS() + 1; ofY++) {
+				double[][] matInput = new double[this.getROWS()][this.getCOLS()];
+				for(int i = 0; i < this.getROWS() ; i++) {
+					for(int j = 0 ; j < this.getCOLS() ; j++) {
+						matInput[i][j] = m.getElement(ofX + i, ofY + j);
+					}
+				}
+				Matrix inputMatrix = new Matrix(matInput);
+				pooledMat.setElement(ofX, ofY, inputMatrix.getMaxValue());
+			}
+
+		}
+		return pooledMat;
+
+	}
+
+	/**
+	 * Test du pooling sur une layer
+	 * @param args
+	 */
+	//Auteur : Simon Daze
+	public static void main(String[] args) {
+		Filter f = new Filter(2,2);
+		Matrix m = new Matrix(new double[][] 
+				{{1,2,3,4},
+			{2,3,4,5},
+			{3,4,5,6},
+			{6,7,8,9}
+				});
+		System.out.println(m);
+		System.out.println("");
+		System.out.println("Matrice avec le max Pooling");
+		System.out.println(f.maxPool(m));
+	}
+
 
 
 
