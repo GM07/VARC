@@ -19,21 +19,9 @@ public class MarqueWindow extends JFrame{
 	private final int LARGEUR_PRINCIPALE = 900;
 	private final int HAUTEUR_PRINCIPALE = 600;
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					HelpWindow frame = new HelpWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
 	public MarqueWindow() {
 		setTitle("Informations sur la marque");
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(300,300,LARGEUR_PRINCIPALE,HAUTEUR_PRINCIPALE);
 		

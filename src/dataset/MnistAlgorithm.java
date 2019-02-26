@@ -23,11 +23,11 @@ public class MnistAlgorithm {
 
 	private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\training";
 	private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\testing";
-	private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\neural_save";
-	private static double learningRate = 2;
+	private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\neural_save_2_63%";
+	private static double learningRate = 0.03;
 	private static int numberOfEpochs = 200;
-	private static int numberOfImagesPerEpoch = 500;
-	private static int batch_size = 20;
+	private static int numberOfImagesPerEpoch = 10000;
+	private static int batch_size = 15;
 	private static int resultCounter = 0;
 	private static double lastResult = 0;
 
@@ -36,11 +36,12 @@ public class MnistAlgorithm {
 		//NeuralNetwork nn = NeuralNetwork.loadNetwork("D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST.dat");
 
 		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 784, 16, 16, 10);
-		/*try{
-			nn = NeuralNetwork.loadNetworkFromXML(savingPath + "_1" + ".xml");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+//		try{
+//			System.out.println(savingPath + ".xml");
+//			nn = NeuralNetwork.loadNetworkFromXML(savingPath + ".xml");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		//NeuralNetwork nn2 = new NeuralNetwork(ActivationFunctions.Sigmoid, 784, 800, 400, 200, 100, 50, 10);
 
 		System.out.println("\nNON TRAINED NETWORK \n" + testNetwork(nn));
@@ -163,7 +164,7 @@ public class MnistAlgorithm {
 		}
 
 		try {
-			NeuralNetwork.saveNetworkToXML(nn, savingPath + "_3_" + ((int) (100 * testNetwork(nn))) + "%.xml");
+			if (testNetwork(nn) * 100 > 63) NeuralNetwork.saveNetworkToXML(nn, savingPath + ((int) (100 * testNetwork(nn))) + "%.xml");
 		} catch(IOException e) {
 			e.printStackTrace();
 		}

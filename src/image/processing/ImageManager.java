@@ -3,6 +3,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -50,25 +52,6 @@ public class ImageManager {
 		return values;
 	}
 
-	public static void main(String[] args) {
-
-		try {
-			BufferedImage b = ImageIO.read(new File("C:\\Users\\mehga\\Desktop\\green.jpg"));
-
-			BufferedImage imageSquared = ImageManager.getSquaredImage(b, 64);
-			double[] imageRGB = ImageManager.convertRGB(imageSquared);
-
-			System.out.println("AAHH");
-			for(int i = 0; i < 64 * 64; i++) {
-				System.out.println(i + " : " + imageRGB[i * 3] + ", " + imageRGB[i * 3 + 1] + ", " + imageRGB[i * 3 + 2]);
-
-			}
-
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Squares up an image
 	 * @param img
@@ -105,6 +88,59 @@ public class ImageManager {
 
 		//System.out.println("rgb: " + rgb[0] + " " + rgb[1] + " " + rgb[2]);
 		return rgb;
+	}
+
+	/**
+	 * Methode qui retourne la couleur moyenne d'une image
+	 * Utilisee entre autre pour detecter la couleur d'une voiture
+	 * @param img image a analyser
+	 * @return tableau rgb de la couleur moyenne
+	 */
+	public static int[] getColorOfImage(BufferedImage img) {
+
+		int[] rgbValues = new int[3];
+
+		System.out.println(img.getWidth() + ", " + img.getHeight());
+		for(int i = 0; i < img.getWidth(); i++) {
+			for(int j = 0; j < img.getHeight(); j++) {
+
+				int rgb = img.getRGB(i, j);
+				int r = (rgb >> 16) & 0xff;
+				int g = (rgb >> 8) & 0xff;
+				int b = (rgb) & 0xff;
+
+				//System.out.println(r + ", " + g + ", " + b);
+				rgbValues[0] += r;
+				rgbValues[1] += g;
+				rgbValues[2] += b;
+
+			}
+		}
+
+		for(int i = 0; i < rgbValues.length; i++) {
+			rgbValues[i] = (int) (rgbValues[i] / (double) (img.getWidth() * img.getHeight()));
+		}
+
+		System.out.println(Arrays.toString(rgbValues));
+		return rgbValues;
+
+	}
+
+	/**
+	 * Methode qui retourne l'image du chemin entre en parametre
+	 * @param path chemin de l'image
+	 * @return l'image du chemin
+	 */
+	public static BufferedImage getImageFromPath(String path) {
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new URL("file:///" + path));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Erreur de lecture du fichier d'image");
+		}
+
+		return img;
 	}
 }
 

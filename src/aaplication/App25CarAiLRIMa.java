@@ -1,21 +1,14 @@
 package aaplication;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.JComboBox;
-import dessin.NnDraw;
+import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+
+import dessin.DessinNeuralNetwork;
+import image.processing.ImageManager;
+
 /**
  * Classe de la fenetre principale et de demarrage de l'application
  * @author Simon Daze
@@ -24,30 +17,33 @@ import dessin.NnDraw;
 public class App25CarAiLRIMa extends JFrame {
 
 
-	//panels
+	// Panels
 	private JPanel contentPane;
 	private JPanel panImage;
 	private JPanel panInputNumerique;
 	private JPanel panOutput;
-	private VoitureImage imageVisible = new VoitureImage();
+	private ImageVoiturePanel imageVoiture;
 
-	//Constantes
+	// Constantes
+	public static final int OFFSET = 25;
+	public static final int LARGEUR_PRINCIPALE = 1200;
+	public static final int HAUTEUR_PRINCIPALE = 1000;
+	public static final int LARGEUR_PANEL_SECONDAIRE = (LARGEUR_PRINCIPALE - 15)/3;
+	public static final int HAUTEUR_PANEL_SECONDAIRE = HAUTEUR_PRINCIPALE - 8*OFFSET;
 
-	private final int OFFSET = 25 ;
-	private final int LARGEUR_PRINCIPALE = 1500;
-	private final int HAUTEUR_PRINCIPALE = 1000;
-	private final int LARGEUR_PANEL_SECONDAIRE = LARGEUR_PRINCIPALE/3;
-	private final int HAUTEUR_PANEL_SECONDAIRE = HAUTEUR_PRINCIPALE-8*OFFSET;
-
-	//boutons
+	// Boutons
 	private JButton btnChoixImage;
 	private JButton btnTest;
 	private JButton btnTrain;
 	private JButton btnMarque;
 
-	//Etiquettes
+	// Progress bar
+	private JProgressBar progressBarTraining;
+
+	// Etiquettes
 	private JLabel lblTitle;
-	private JLabel lblEpoc;
+	private JLabel lblEpoch;
+	private JLabel lblBatch;
 	private JLabel lblOutputTitle;
 	private JLabel lblOutputVoiture;
 	private JLabel lblOutputMoto;
@@ -55,30 +51,32 @@ public class App25CarAiLRIMa extends JFrame {
 	private JLabel lblOutputMarque;
 	private JLabel lblColorVehicle;
 	private JLabel lblColorText;
+	private JLabel lblBarProgression;
 
+	// Spinner
+	private JSpinner spnEpoch;
+	private JSpinner spnBatch;
 
+	// Item de menu
+	private JMenuBar menuBar;
 
-	//spinner
-	private JSpinner spnEpoc ;
+	private JMenu menuAide;
+	private JMenuItem menuItemHelp;
+	private JMenuItem menuItemScientificExplanations;
 
+	private JMenu menuOptions;
+	private JMenuItem menuItemSave;
+	private JMenuItem menuItemLoad;
+	private JMenuItem menuItemQuit;
 
-	//item de menu
-	private JMenuItem mnItHelp;
-	private JMenuItem mntmScientificExplanations;
-	private JMenuItem mntmOptions;
-
-	//fenetre secondaire
-	JFrame helpWindow = new HelpWindow();
-	JFrame scientificExplanationWindow = new ScientificExplanationWindow();
-	JFrame fileWindow = new FileWindow();
-	JFrame windowMarque = new WindowMarque();
+	// Fenetre secondaire
+	private HelpWindow helpWindow;
+	private ScientificExplanationWindow scientificExplanationWindow;
+	private FileWindow fileWindow;
+	private MarqueWindow marqueWindow;
 
 	//Autres variables de classes
-	Color color = Color.WHITE;
-
-
-
-
+	Color color = Color.GRAY;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -99,176 +97,254 @@ public class App25CarAiLRIMa extends JFrame {
 	public App25CarAiLRIMa() {
 		
 		//permet de changer la taille des caracteres
-		UIManager.put("Label.font",new Font("Dialog", Font.PLAIN, 20));
-		UIManager.put("Button.font", new Font("Dialog", Font.BOLD, 15));
-		UIManager.put("MenuItem.font ",new Font("Dialog", Font.PLAIN,20));
-		
-		
-		//creation de l'interface
+		UIManager.put("Label.font",new Font("Dialog", Font.BOLD, 20));
+		UIManager.put("Button.font", new Font("Dialog", Font.BOLD, 20));
+		UIManager.put("MenuItem.font ",new Font("Dialog", Font.BOLD,20));
+
+		// Creation de la fenetre
 		setTitle("CarAI-LRIMA");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 200,LARGEUR_PRINCIPALE, HAUTEUR_PRINCIPALE);
+		setSize(LARGEUR_PRINCIPALE, HAUTEUR_PRINCIPALE);
+		setLocationRelativeTo(null);
 
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+		// Creation des fenetres intermediaires
+		helpWindow = new HelpWindow();
+		scientificExplanationWindow = new ScientificExplanationWindow();
+		marqueWindow = new MarqueWindow();
+		fileWindow = new FileWindow();
 
-		mnItHelp = new JMenuItem("Aide");
-		menuBar.add(mnItHelp);
-		mnItHelp.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				helpWindow.setVisible(true);  
-
-			}
-		});
-
-		mntmScientificExplanations = new JMenuItem("Fenetre Scientifique");
-		menuBar.add(mntmScientificExplanations);
-		mntmScientificExplanations.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				scientificExplanationWindow.setVisible(true);
-
-			}
-		});
-
-		mntmOptions = new JMenuItem("Options");
-		menuBar.add(mntmOptions);
-		mntmOptions.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				//fenetreOption.setVisible();
-
-			}
-		});
-
+		// Creation du panel de depart
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
+		//contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		lblTitle = new JLabel();
+		lblTitle.setBounds(LARGEUR_PRINCIPALE/2 - OFFSET/2, OFFSET,4 * OFFSET, 2 * OFFSET);
+		lblTitle.setText("CarAI");
+		contentPane.add(lblTitle);
+
+		setUpMenu();
+
+		setUpPanelGauche();
+
+		setUpPanelMilieu();
+
+		setUpPanelDroite();
+	}
+
+	private void setUpMenu() {
+
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		// Menu des options
+		menuOptions = new JMenu("Options");
+		menuBar.add(menuOptions);
+
+		// Bouton qui sauvegarde le reseau dans le menu des options
+		menuItemSave = new JMenuItem("Sauvegarder mon reseau");
+		menuOptions.add(menuItemSave);
+
+		// Bouton qui charge un reseau dans le menu des options
+		menuItemLoad = new JMenuItem("Charger un reseau");
+		menuOptions.add(menuItemLoad);
+
+		menuItemQuit = new JMenuItem("Quitter");
+		menuOptions.add(menuItemQuit);
+
+		// Menu d'aide
+		menuAide = new JMenu("Aide");
+		menuBar.add(menuAide);
+
+		// Bouton d'aide sur l'application dans le menu d'aide
+		menuItemHelp = new JMenuItem("Aide sur l'application");
+		menuItemHelp.addActionListener(actionPerformed -> {
+			helpWindow.setVisible(true);
+		});
+		menuAide.add(menuItemHelp);
+
+		// Bouton d'explications scientifiques dans le menu d'aide
+		menuItemScientificExplanations = new JMenuItem("Explications scientifiques");
+		menuItemScientificExplanations.addActionListener(actionPerformed -> {
+			scientificExplanationWindow.setVisible(true);
+		});
+		menuAide.add(menuItemScientificExplanations);
+
+		// On ajoute
+
+	}
+
+	private void setUpPanelGauche() {
+
+		// Panel de gauche avec image a tester
 		panImage = new JPanel();
-		panImage.setBounds(0,8*OFFSET,LARGEUR_PANEL_SECONDAIRE,HAUTEUR_PANEL_SECONDAIRE);
-		panImage.setBackground(Color.gray);
+		panImage.setBounds(0,4 * OFFSET, LARGEUR_PANEL_SECONDAIRE, HAUTEUR_PANEL_SECONDAIRE);
+		panImage.setBackground(Color.WHITE);
+		panImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		panImage.setLayout(null);
 		contentPane.add(panImage);
-		panImage.add(imageVisible);
 
-		panInputNumerique = new JPanel();
-		panInputNumerique.setBounds(LARGEUR_PANEL_SECONDAIRE, 8*OFFSET, LARGEUR_PANEL_SECONDAIRE, HAUTEUR_PANEL_SECONDAIRE);
-		panInputNumerique.setBackground(Color.white);
-		panInputNumerique.setLayout(null);
-		contentPane.add(panInputNumerique);
+		// Panel qui affiche l'image de la voiture
+		imageVoiture = new ImageVoiturePanel();
+		imageVoiture.setBackground(panImage.getBackground());
+		imageVoiture.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		imageVoiture.setBounds(5, 5, LARGEUR_PANEL_SECONDAIRE - 10, LARGEUR_PANEL_SECONDAIRE - 10);
+		panImage.add(imageVoiture);
 
-		panOutput = new JPanel();
-		panOutput.setBounds(2*LARGEUR_PANEL_SECONDAIRE, 8*OFFSET, LARGEUR_PANEL_SECONDAIRE, HAUTEUR_PANEL_SECONDAIRE);
-		panOutput.setBackground(Color.gray);
-		panOutput.setLayout(null);
-		contentPane.add(panOutput);
-
+		// Bouton pour selectionner l'image a tester
 		btnChoixImage = new JButton();
-		btnChoixImage.setBounds(LARGEUR_PANEL_SECONDAIRE/2-4*OFFSET,0,8*OFFSET,2*OFFSET);
+		btnChoixImage.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 4 * OFFSET,HAUTEUR_PANEL_SECONDAIRE/2,8 * OFFSET,2 * OFFSET);
 		btnChoixImage.setText(" Image a tester");
 		panImage.add(btnChoixImage);
 		btnChoixImage.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+
 				fileWindow.setVisible(true);
 			}
 		});
 
-		lblTitle =  new JLabel();
-		lblTitle.setBounds(LARGEUR_PRINCIPALE/2-OFFSET/2, 2*OFFSET,4*OFFSET, 2*OFFSET);
-		lblTitle.setText("CarAI");
-		contentPane.add(lblTitle);
+		fileWindow.addWindowListener(new WindowAdapter() {
 
+			public void windowDeactivated(WindowEvent e){
+				imageVoiture.setImage(fileWindow.getPath());
+
+				int[] rgb = ImageManager.getColorOfImage(imageVoiture.getImageCarre());
+				Color c = new Color(rgb[0], rgb[1], rgb[2]);
+				lblColorVehicle.setBackground(c);
+
+				repaint();
+			}
+		});
+
+	}
+
+	private void setUpPanelMilieu() {
+
+		// Panel du milieu avec les donnees d'entree
+		panInputNumerique = new JPanel();
+		panInputNumerique.setBounds(LARGEUR_PANEL_SECONDAIRE, 4 * OFFSET, LARGEUR_PANEL_SECONDAIRE, HAUTEUR_PANEL_SECONDAIRE);
+		panInputNumerique.setBackground(Color.WHITE);
+		panInputNumerique.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panInputNumerique.setLayout(null);
+		contentPane.add(panInputNumerique);
+
+		// Panel qui dessine une animation d'un reseau de neurone
+		DessinNeuralNetwork nnDraw = new DessinNeuralNetwork();
+		nnDraw.setBounds(5, 5, LARGEUR_PANEL_SECONDAIRE - 10, OFFSET * 14 - 10);
+		nnDraw.setBackground(panInputNumerique.getBackground());
+		panInputNumerique.add(nnDraw);
+
+		// Bouton pour entrainer
 		btnTrain = new JButton();
-		btnTrain.setBounds(LARGEUR_PANEL_SECONDAIRE/2-4*OFFSET, 12*OFFSET, 7*OFFSET, 2*OFFSET);
+		btnTrain.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8*OFFSET/2, 14*OFFSET, 8*OFFSET, 2 * OFFSET);
 		btnTrain.setText("Entrainer");
 		btnTrain.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				//nn.train();			
+				nnDraw.demarrer();
 			}
 		});
 		panInputNumerique.add(btnTrain);
 
-		lblEpoc = new JLabel();
-		lblEpoc.setBounds(LARGEUR_PANEL_SECONDAIRE/2-4*OFFSET, 15*OFFSET, 7*OFFSET, 2*OFFSET);
-		lblEpoc.setText("Nombre d'EPOC:");
-		panInputNumerique.add(lblEpoc);
+		// Label qui affiche le texte sur le nombre d'Epoch
+		lblEpoch = new JLabel("Nombre d'epoch : ", SwingConstants.CENTER);
+		lblEpoch.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8*OFFSET/2, 16*OFFSET, 8*OFFSET, 2*OFFSET);
+		panInputNumerique.add(lblEpoch);
 
-		spnEpoc = new JSpinner();
-		spnEpoc.setBounds(LARGEUR_PANEL_SECONDAIRE/2+3*OFFSET,15*OFFSET, 2*OFFSET,2*OFFSET);
-		spnEpoc.setValue(10);
-		panInputNumerique.add(spnEpoc);
+		// Spinner qui change le nombre d'Epoch
+		spnEpoch = new JSpinner();
+		spnEpoch.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 2*OFFSET/2,18*OFFSET, 2*OFFSET,2*OFFSET);
+		spnEpoch.setValue(500);
+		panInputNumerique.add(spnEpoch);
 
+		// Label qui affiche le texte sur la taille d'un seul batch lors de l'entrainement
+		lblBatch = new JLabel("Taille d'un batch : ", SwingConstants.CENTER);
+		lblBatch.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8*OFFSET/2, 20*OFFSET, 8*OFFSET, 2*OFFSET);
+		panInputNumerique.add(lblBatch);
+
+		// Spinner qui change la taille d'un seul batch
+		spnBatch = new JSpinner();
+		spnBatch.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 2*OFFSET/2,22*OFFSET, 2*OFFSET,2*OFFSET);
+		spnBatch.setValue(10);
+		panInputNumerique.add(spnBatch);
+
+		// Bouton pour tester le reseau de neurone
 		btnTest = new JButton();
-		btnTest.setBounds(LARGEUR_PANEL_SECONDAIRE/2-4*OFFSET, 18*OFFSET, 7*OFFSET, 2*OFFSET);
+		btnTest.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8*OFFSET/2, 25*OFFSET, 8*OFFSET, 2*OFFSET);
 		btnTest.setText(" Tester le reseau");
-		btnTest.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				//nn.getOutput();			
-			}
+		btnTest.addActionListener(actionPerformed -> {
+
 		});
 		panInputNumerique.add(btnTest);
-		
-		NnDraw nnDraw = new NnDraw();
-		nnDraw.setBounds(63, 44, 366, 233);
-		panInputNumerique.add(nnDraw);
 
-		lblOutputTitle = new JLabel();
-		lblOutputTitle.setBounds(LARGEUR_PANEL_SECONDAIRE/2-2*OFFSET, 0, 8*OFFSET, 2*OFFSET);
-		lblOutputTitle.setText("Valeurs de sortie");
+		// Label de la barre de progression
+		lblBarProgression = new JLabel("État de l'entrainement", SwingConstants.CENTER);
+		lblBarProgression.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET/2, 28 * OFFSET, 12 * OFFSET, 2 * OFFSET);
+		panInputNumerique.add(lblBarProgression);
+
+		// Barre de progression
+		progressBarTraining = new JProgressBar(0, (int) spnEpoch.getValue());
+		progressBarTraining.setStringPainted(true);
+		progressBarTraining.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8 * OFFSET / 2, 30 * OFFSET, 8 * OFFSET, 1 * OFFSET);
+		panInputNumerique.add(progressBarTraining);
+
+
+	}
+
+	private void setUpPanelDroite() {
+
+		// Panel de droite avec les donnees de sortie
+		panOutput = new JPanel();
+		panOutput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panOutput.setBounds(2 * LARGEUR_PANEL_SECONDAIRE, 4 * OFFSET, LARGEUR_PANEL_SECONDAIRE - 1, HAUTEUR_PANEL_SECONDAIRE);
+		panOutput.setBackground(Color.WHITE);
+		panOutput.setLayout(null);
+		contentPane.add(panOutput);
+
+		// Label qui affiche le texte du panel
+		lblOutputTitle = new JLabel("Valeurs de sortie", SwingConstants.CENTER);
+		lblOutputTitle.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8 * OFFSET / 2, 0, 8 * OFFSET, 2 * OFFSET);
 		panOutput.add(lblOutputTitle);
 
-		lblOutputVoiture = new JLabel();
-		lblOutputVoiture.setBounds(0 , 3*OFFSET, 8*OFFSET, 2*OFFSET );
-		lblOutputVoiture.setText("Possibilite voiture :  "+ " %");
+		// Label qui affiche la probabilite que ce soit une voiture
+		lblOutputVoiture = new JLabel("Possibilite voiture :  " + " %", SwingConstants.CENTER);
+		lblOutputVoiture.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 3 * OFFSET, 12 * OFFSET, 2 * OFFSET );
 		panOutput.add(lblOutputVoiture);
 
-		lblOutputMoto = new JLabel();
-		lblOutputMoto.setBounds(0, 6*OFFSET, 8*OFFSET, 2*OFFSET);
-		lblOutputMoto.setText("Possibilite moto : "+" %");
+		// Label qui affiche la probabilite que ce soit une moto
+		lblOutputMoto = new JLabel("Possibilite moto : " + " %", SwingConstants.CENTER);
+		lblOutputMoto.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 6 * OFFSET, 12 * OFFSET, 2 * OFFSET);
 		panOutput.add(lblOutputMoto);
 
-		lblOutputCamion = new JLabel();
-		lblOutputCamion.setBounds(0, 9*OFFSET, 8*OFFSET, 2*OFFSET);
-		lblOutputCamion.setText("Possibilite camion: "+"%");
+		// Label qui affiche la probabilite que ce soit un camion
+		lblOutputCamion = new JLabel("Possibilite camion: " + "%", SwingConstants.CENTER);
+		lblOutputCamion.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 9 * OFFSET, 12 * OFFSET, 2 * OFFSET);
 		panOutput.add(lblOutputCamion);
 
-		lblOutputMarque = new JLabel();
-		lblOutputMarque.setBounds(0, 15*OFFSET , 9*OFFSET, 2*OFFSET);
-		lblOutputMarque.setText(" Marque identifiee : ");
+		// Label qui affiche la marque identifiee
+		lblOutputMarque = new JLabel(" Marque identifiee : ", SwingConstants.CENTER);
+		lblOutputMarque.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 15 * OFFSET , 12 * OFFSET, 2 * OFFSET);
 		panOutput.add(lblOutputMarque);
 
-		btnMarque = new JButton();
-		btnMarque.setBounds(0,17*OFFSET, 12*OFFSET, 2*OFFSET);
-		btnMarque.setText(" Informations sur la marque");
-		btnMarque.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				windowMarque.setVisible(true)	;	
-			}
+		// Bouton qui affiche la fenetre sur les informations sur la marque
+		btnMarque = new JButton("Information sur la marque");
+		btnMarque.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2,17 * OFFSET, 12 * OFFSET, 2 * OFFSET);
+		btnMarque.addActionListener(actionPerformed -> {
+			marqueWindow.setVisible(true);
 		});
+
 		panOutput.add(btnMarque);
 
+		// Label qui affiche la couleur du vehicule
 		lblColorVehicle = new JLabel();
-		lblColorVehicle.setBounds(7*OFFSET, 21*OFFSET, 8*OFFSET, 2*OFFSET);
+		lblColorVehicle.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 23 * OFFSET, 12 * OFFSET, 2 * OFFSET);
 		lblColorVehicle.setBackground(color);
 		lblColorVehicle.setOpaque(true);
 		panOutput.add(lblColorVehicle);
 
-		lblColorText = new JLabel();
-		lblColorText.setText("Couleur du vehicule : ");
-		lblColorText.setBounds(0, 21*OFFSET, 8*OFFSET, 2*OFFSET);
+		// Label qui affiche le texte sur la couleur du vehicule
+		lblColorText = new JLabel("Couleur du vehicule : ", SwingConstants.CENTER);
+		lblColorText.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 21*OFFSET, 12 * OFFSET, 2 * OFFSET);
 		panOutput.add(lblColorText);
-
-
-
-
-
-
-
-
-
-
-
-
-
 	}
 }

@@ -34,7 +34,8 @@ public class HelpWindow extends JFrame {
 	}
 	
 	public HelpWindow() {
-		setTitle("Help Window");
+		setTitle("Aide sur l'application");
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(300,300,LARGEUR_PRINCIPALE,HAUTEUR_PRINCIPALE);
 		

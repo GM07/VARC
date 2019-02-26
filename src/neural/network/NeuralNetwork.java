@@ -433,63 +433,66 @@ public class NeuralNetwork implements Serializable {
 	 * @throws IOException
 	 */
 	//auteur : Simon Daze
-//	public static void main(String[] args) throws IOException {
-//		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 3,2,1,2);
-//		double[] inputs = new double[]{1,2,3};
-//		double[] outputs = new double[] {2,1};
-//		nn.train(inputs, outputs);
-//		nn.updateWeightsAndBiases(0.1);
-//		System.out.println(nn);
-//		String path = "resources/neural2.xml";
-//		/*NeuralNetwork nn3 = new NeuralNetwork();
-//		nn3.setActivationFunction(ActivationFunctions.Sigmoid);
-//		NeuralNetwork.saveNetworkToXML(nn3, "res/network_saves/neural");*/
-//		NeuralNetwork.saveNetworkToXML(nn, path);
-//		NeuralNetwork nn2 = NeuralNetwork.loadNetworkFromXML(path);
-//		//System.out.println(NeuralNetwork.loadNetwork(path));
-//
-//		System.out.println(nn2);
-//
-//	}
+	public static void main(String[] args) throws IOException {
 
-	public static void main(String[] args) {
-		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 2, 4, 1);
-		double[][] in = {
-				{0, 1},
-				{1, 0},
-				{0, 0},
-				{1, 1}
-		};
+		System.out.println(NeuralNetwork.class.getClassLoader().getResource(""));
 
-		double[][] out = {
-				{1},
-				{1},
-				{0},
-				{0}
-		};
-
-
-		nn.feedForward(in[0]);
+		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 3,2,1,2);
+		double[] inputs = new double[]{1,2,3};
+		double[] outputs = new double[] {2,1};
+		nn.train(inputs, outputs);
+		nn.updateWeightsAndBiases(0.1);
 		System.out.println(nn);
-		System.out.println(nn.getResults());
-		for(int i = 0; i < 1000; i++) {
-			nn.train(in[i % 4], out[i % 4]);
-			nn.updateWeightsAndBiases(0.3/4.0);
-			System.out.println("Result " + nn.getResults() + " expected : " + out[i % 4][0]);
-			System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1).getErrors());
-		}
+		String path = "neural3.xml";
+		/*NeuralNetwork nn3 = new NeuralNetwork();
+		nn3.setActivationFunction(ActivationFunctions.Sigmoid);
+		NeuralNetwork.saveNetworkToXML(nn3, "res/network_saves/neural");*/
+		NeuralNetwork.saveNetworkToXML(nn, path);
+		NeuralNetwork nn2 = NeuralNetwork.loadNetworkFromXML(path);
+		//System.out.println(NeuralNetwork.loadNetwork(path));
 
-		System.out.println("NEW NEURAL \n\n");
-		nn.feedForward(in[0]);
-		System.out.println(nn.getResults());
-		nn.feedForward(in[1]);
-		System.out.println(nn.getResults());
-		nn.feedForward(in[2]);
-		System.out.println(nn.getResults());
-		nn.feedForward(in[3]);
-		System.out.println(nn.getResults());
+		System.out.println(nn2);
 
 	}
+
+//	public static void main(String[] args) {
+//		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 2, 4, 1);
+//		double[][] in = {
+//				{0, 1},
+//				{1, 0},
+//				{0, 0},
+//				{1, 1}
+//		};
+//
+//		double[][] out = {
+//				{1},
+//				{1},
+//				{0},
+//				{0}
+//		};
+//
+//
+//		nn.feedForward(in[0]);
+//		System.out.println(nn);
+//		System.out.println(nn.getResults());
+//		for(int i = 0; i < 1000; i++) {
+//			nn.train(in[i % 4], out[i % 4]);
+//			nn.updateWeightsAndBiases(0.3/4.0);
+//			System.out.println("Result " + nn.getResults() + " expected : " + out[i % 4][0]);
+//			System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1).getErrors());
+//		}
+//
+//		System.out.println("NEW NEURAL \n\n");
+//		nn.feedForward(in[0]);
+//		System.out.println(nn.getResults());
+//		nn.feedForward(in[1]);
+//		System.out.println(nn.getResults());
+//		nn.feedForward(in[2]);
+//		System.out.println(nn.getResults());
+//		nn.feedForward(in[3]);
+//		System.out.println(nn.getResults());
+//
+//	}
 
 
 
