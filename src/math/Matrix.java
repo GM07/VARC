@@ -224,18 +224,18 @@ public class Matrix implements Serializable {
 
 		if (m.ROWS == ROWS && m.COLS == COLS) {
 			Matrix finalMatrix = new Matrix(this.ROWS, this.COLS);
-			
+
 			for(int i = 0; i < ROWS; i++) {
-				
+
 				for(int j = 0; j < COLS; j++) {
-					
+
 					finalMatrix.setElement(i, j, mat[i][j] * m.getElement(i, j));
-					
+
 				}
 			}
-			
+
 			return finalMatrix;
-			
+
 		} else {
 			System.out.println("Matrices does not have the same size (" + ROWS + "x" + COLS + ") vs (" + m.getROWS() + "x" + m.getCOLS() + ")");
 			return null;
@@ -264,14 +264,14 @@ public class Matrix implements Serializable {
 	 * @return
 	 */
 	public double sumOfElements() {
-		
+
 		double sum = 0;
 		for(int i = 0; i < ROWS; i++) {
 			for(int j = 0; j < COLS; j++) {
 				sum += mat[i][j];
 			}
 		}
-		
+
 		return sum;
 	}
 
@@ -284,7 +284,7 @@ public class Matrix implements Serializable {
 	public void setElement(int i, int j, double value) {
 		mat[i][j] = value;
 	}
-	
+
 	/**
 	 * Returns the element at the position i, j
 	 * @param i
@@ -303,7 +303,7 @@ public class Matrix implements Serializable {
 	public Matrix applyFunction(ActivationFunctions function) {
 
 		double[][] a = new double[ROWS][COLS];
-		
+
 		for(int i = 0; i < ROWS; i++) {
 
 			for(int j = 0; j < COLS; j++) {
@@ -311,19 +311,19 @@ public class Matrix implements Serializable {
 				a[i][j] = function.getValue(mat[i][j]);
 			}
 		}
-		
+
 		return new Matrix(a);
 	}
-	
+
 	/**
 	 * Apply the derivative of a certain function to every element of the matrix
 	 * @param function
 	 * @return
 	 */
 	public Matrix applyFunctionDerivative(ActivationFunctions function) {
-		
+
 		double[][] a = new double[ROWS][COLS];
-		
+
 		for(int i = 0; i < ROWS; i++) {
 
 			for(int j = 0; j < COLS; j++) {
@@ -331,7 +331,7 @@ public class Matrix implements Serializable {
 				a[i][j] = function.getDerivative().getValue(mat[i][j]);
 			}
 		}
-		
+
 		return new Matrix(a);
 	}
 
@@ -366,7 +366,7 @@ public class Matrix implements Serializable {
 		}
 		return chain;
 	}
-	
+
 	/**
 	 *  ajout d'un padding a une matrice (contours de 0)
 	 * @param paddingSize le nombre de rangee + colonne de 0 qui entoure la matrice
@@ -374,27 +374,27 @@ public class Matrix implements Serializable {
 	 */
 	public Matrix padding(int paddingSize) {
 		double[][] m = new double[ROWS + paddingSize * 2][COLS + paddingSize * 2];
-		
-		
+
+
 		for(int i = 0; i < m.length; i++) {
-			
+
 			for(int j = 0; j < m[i].length; j++) {
-				
+
 				if ((i >= paddingSize && i < m.length - paddingSize)
-					&& ((j >= paddingSize && j < m[i].length - paddingSize))) {
+						&& ((j >= paddingSize && j < m[i].length - paddingSize))) {
 					m[i][j] = mat[i - paddingSize][j - paddingSize];
 				} else m[i][j] = 0;
-				
+
 			}
 		}
-		
+
 		return new Matrix(m);
 	}
-	
+
 	public String getMatrixSize() {
 		return "" + ROWS + "x" + COLS;
 	}
-	
+
 	/**
 	 * Returns the Matrix
 	 * @return		The matrix in a two dimensional array
@@ -437,31 +437,35 @@ public class Matrix implements Serializable {
 
 	public static void main(String[] args) {
 		Matrix m1 = new Matrix(new double[][]{
-				{1, 2, 1},
-				{0, 0, 0},
-				{1, 2, 1}
+			{1, 2, 1},
+			{0, 0, 0},
+			{1, 2, 1}
 		});
 
 		Matrix m2 = new Matrix(new double[][]{
-				{1, 0, 1},
-				{2, 0, 2},
-				{1, 0, 1}
+			{1, 0, 1},
+			{2, 0, 2},
+			{1, 0, 1}
 		});
 
 		System.out.println(m1.scalarProduct(3));
 		System.out.println(m1.transpose());
 
 	}
+	
+	public double getMaxValue() {
+		double maxValue = 0 , currentValue;
+		for(int i = 0 ; i < ROWS ; i++) {
+			for (int j = 0 ; j < COLS ; j++) {
+				currentValue = mat[i][j];
+				if(currentValue > maxValue) {
+					maxValue = currentValue;
+				}
+			}
+		}
+		return maxValue;
+	}
 
-	/**
-	 * retourne la plus grande valeur dans une sous matrice de taile nxn
-	 * @param stride : le decalage effectue dans la matrice de base pout creer les sous-matrices
-	 * @return la matrice contenant toutes les valeurs maximales des sous-matrices nxn
-	 */
-	/*public Matrix maxPool( int n, double stride) {
-		double[][] pooledMat = new double[ROWS][COLS];
-		
-		return pooledMat;
-	}*/
+
 
 }
