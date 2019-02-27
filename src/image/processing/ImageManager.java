@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
@@ -28,7 +29,7 @@ public class ImageManager {
 
 				values[i * bi.getHeight() + j] = getPixelData(img, i, j);
 
-			}	
+			}
 		}
 
 		return MathTools.getAsOneDimension(values);
@@ -60,7 +61,7 @@ public class ImageManager {
 	 */
 	public static BufferedImage getSquaredImage(BufferedImage img, int imageSize) {
 
-		BufferedImage bimage = new BufferedImage(imageSize, imageSize, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage bimage = new BufferedImage(imageSize, imageSize, BufferedImage.TYPE_INT_ARGB_PRE);
 
 		Graphics2D bGr = bimage.createGraphics();
 		bGr.drawImage(img, 0, 0, imageSize, imageSize, null);
@@ -82,8 +83,8 @@ public class ImageManager {
 
 		double rgb[] = new double[] {
 				(double) ((argb >> 16) & 0xff), //red
-				(double) ((argb >>  8) & 0xff), //green
-				(double) ((argb      ) & 0xff)  //blue
+				(double) ((argb >> 8) & 0xff), //green
+				(double) ((argb) & 0xff)  //blue
 		};
 
 		//System.out.println("rgb: " + rgb[0] + " " + rgb[1] + " " + rgb[2]);
@@ -96,34 +97,67 @@ public class ImageManager {
 	 * @param img image a analyser
 	 * @return tableau rgb de la couleur moyenne
 	 */
-	public static int[] getColorOfImage(BufferedImage img) {
+	public static double[] getAverageColor(BufferedImage img) {
 
-		int[] rgbValues = new int[3];
+		double[] rgbValues = new double[3];
+
+		//System.out.println(img.getWidth() + ", " + img.getHeight());
+		for(int i = 0; i < img.getWidth(); i++) {
+			for(int j = 0; j < img.getHeight(); j++) {
+
+				double[] rgb = getPixelData(img, i, j);
+
+				rgbValues[0] += rgb[0];
+				rgbValues[1] += rgb[1];
+				rgbValues[2] += rgb[2];
+
+			}
+		}
+
+		//System.out.println(Arrays.toString(rgbValues) + " --> " + img.getWidth() + ", " + img.getHeight());
+		for(int i = 0; i < rgbValues.length; i++) {
+			rgbValues[i] = (int) (rgbValues[i] / ((double) (img.getWidth() * img.getHeight())));
+		}
+
+		//System.out.println(Arrays.toString(rgbValues));
+		return rgbValues;
+
+	}
+
+	public static double[] getAverageColorFromMiddle(BufferedImage img) {
+
+		double[] rgbValues = new double[3];
+		double middleX = img.getWidth()/2d;
+		double middleY = img.getHeight()/2d;
+		double maxValue = Math.sqrt(middleX * middleX + middleY * middleY);
 
 		System.out.println(img.getWidth() + ", " + img.getHeight());
 		for(int i = 0; i < img.getWidth(); i++) {
 			for(int j = 0; j < img.getHeight(); j++) {
 
-				int rgb = img.getRGB(i, j);
-				int r = (rgb >> 16) & 0xff;
-				int g = (rgb >> 8) & 0xff;
-				int b = (rgb) & 0xff;
+				double[] rgb = getPixelData(img, i, j);
 
-				//System.out.println(r + ", " + g + ", " + b);
-				rgbValues[0] += r;
-				rgbValues[1] += g;
-				rgbValues[2] += b;
+				double dx = i - middleX;
+				double dy = j - middleY;
+				double dp = MathTools.mapValue(Math.sqrt(dx * dx + dy * dy), 0, maxValue, 0, 1);
+				System.out.println(i + ", " + j + ", " + dp);
+
+				rgbValues[0] += rgb[0] * 1d/dp;
+				rgbValues[2] += rgb[2] * 1d/dp;// (1 - Math.pow(Math.E, -dp));
+				rgbValues[1] += rgb[1] * 1d/dp;/// (1 - Math.pow(Math.E, -dp));
 
 			}
 		}
 
 		for(int i = 0; i < rgbValues.length; i++) {
-			rgbValues[i] = (int) (rgbValues[i] / (double) (img.getWidth() * img.getHeight()));
+			rgbValues[i] = (int) (rgbValues[i] / ((double) (img.getWidth() * img.getHeight())));
+
+			if (rgbValues[i] > 255) rgbValues[i] = 255;
+			else if (rgbValues[i] < 0) rgbValues[i] = 0;
 		}
 
 		System.out.println(Arrays.toString(rgbValues));
 		return rgbValues;
-
 	}
 
 	/**

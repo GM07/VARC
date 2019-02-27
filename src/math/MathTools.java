@@ -68,4 +68,20 @@ public class MathTools implements Serializable {
 
 		return out;
 	}
+
+	public static double mapValue(double value, double c1, double c2, double t1, double t2) {
+		return t1 + (t2 - t1) * ((value - c1) / (c2 - c1));
+	}
+
+	public static double getValueOfGaussianDistribution(double x, double mu, double sigmoid){
+
+		double a = 1d / (sigmoid * Math.sqrt(2 * Math.PI));
+		double b = -0.5 * Math.pow((x - mu)/sigmoid, 2);
+		return a * Math.pow(Math.E, b);
+	}
+
+	public static void main(String[] args) {
+
+		System.out.println(mapValue(5, 0, 10, 20, 30));
+	}
 }

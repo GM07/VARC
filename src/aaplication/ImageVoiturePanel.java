@@ -41,10 +41,10 @@ public class ImageVoiturePanel extends JPanel{
         g2d.drawRect(0, 0, getWidth(), getHeight());
         if (img != null) {
             imageCarre = ImageManager.getSquaredImage(img, getWidth());
-            g2d.drawImage(imageCarre, 0, 0, getWidth(), getHeight(), null);
+            g2d.drawImage(imageCarre, 0, 0, null);
         } else {
             imageCarre = ImageManager.getSquaredImage(defaultImage, getWidth());
-            g2d.drawImage(imageCarre, 0, 0, getWidth(), getHeight(), null);
+            g2d.drawImage(imageCarre, 0, 0, null);
         }
     }
 

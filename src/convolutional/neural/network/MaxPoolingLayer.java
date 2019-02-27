@@ -21,7 +21,7 @@ public class MaxPoolingLayer extends CNNLayer {
 	public Matrix[] operation(Matrix[] inputs){
 		Matrix[] out = new Matrix[filters.length];
 		for(int i = 0; i < inputs.length; i++) {
-			out[i] = inputs[i].maxPool(poolingSize, stride);
+			//out[i] = inputs[i].maxPool(poolingSize, stride);
 		}
 		return out;
 	}
