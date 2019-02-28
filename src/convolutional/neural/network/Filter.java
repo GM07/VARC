@@ -78,16 +78,21 @@ public class Filter extends Matrix {
 	//Auteur : Simon Daze
 	public static void main(String[] args) {
 		Filter f = new Filter(2,2);
+		HorizontalFilter f2 = new HorizontalFilter();
 		Matrix m = new Matrix(new double[][] 
 				{{1,2,3,4},
 			{2,3,4,5},
 			{3,4,5,6},
 			{6,7,8,9}
 				});
-		System.out.println(m);
+		Matrix out = new Matrix();
+		out = f2.convolution(m); 
+		System.out.println(out);
 		System.out.println("");
 		System.out.println("Matrice avec le max Pooling");
-		System.out.println(f.maxPool(m));
+		System.out.println(f.maxPool(out));
+		
+		
 	}
 
 

@@ -8,7 +8,6 @@ import neural.network.LayerType;
 public abstract class CNNLayer implements Serializable {
 	protected Matrix[] inputs ; 
 	protected Matrix[] outputs;
-	protected LayerType type;
 	protected Filter[] filters;
 	
 	public CNNLayer() {}
@@ -18,12 +17,19 @@ public abstract class CNNLayer implements Serializable {
 	 * @param inputs les inputs de l'operation
 	 * @return une matrice des outputs
 	 */
-	public abstract Matrix[] operation(Matrix[] inputs);
+	public abstract Matrix[] operation();
 
-	public void feedforward(Matrix[] inputs) {
-		operation(inputs);
+	public void feedforward() {
+		operation();
 	}
 
+	/**
+	 * Methode qui va me donner envie d'exploser mon ordi durant la semaine de relache...
+	 * Sur une note plus serieuse : methode pour calibrer les weights du reseau
+	 */
+	public void backPropagation() {
+		
+	}
 	/**
 	 * permet d'acceder a la matrice des inputs
 	 * @return le tableau de matrices des inputs
@@ -60,24 +66,6 @@ public abstract class CNNLayer implements Serializable {
 	}
 
 	/**
-	 * Retourne le type d'une layer
-	 * @return le type de la layer
-	 */
-	public LayerType getType() {
-		return type;
-	}
-
-
-	/**
-	 * Methode pour definir le type d'une layer
-	 * @param type le tyoe de layer a definir
-	 */
-	public void setType(LayerType type) {
-		this.type = type;
-	}
-
-
-	/**
 	 * Methode qui retourne le tableau des filtres d'une layer
 	 * @return le tableau des filtres
 	 */
@@ -93,6 +81,8 @@ public abstract class CNNLayer implements Serializable {
 	public void setFilters(Filter[] filters) {
 		this.filters = filters;
 	}
+
+	
 	
 	
 	
