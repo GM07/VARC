@@ -46,14 +46,15 @@ public class CNN {
 		for(int i = 0 ; i < layers.size() ; i++) {
 			if (i == 0) {
 				layers.get(i).setInputs(inputs);
+				layers.get(i).setOutputs(layers.get(i).operation(layers.get(i).getInputs()));
 			}
 			if( i == layers.size()-1) {
-				layers.get(i).setOutputs(layers.get(i).getInputs());
+				layers.get(i).setOutputs(layers.get(i).operation(layers.get(i).getInputs()));
 			}else {
-				in = layers.get(i).getInputs();
+				in = layers.get(i-1).getOutputs();
+				layers.get(i).setInputs(in);
 				out = layers.get(i).operation(in);
-				layers.get(i+1).setInputs(out);
-
+				layers.get(i).setOutputs(out);
 			}
 		}
 	}
