@@ -1,3 +1,4 @@
+
 package convolutional.neural.network;
 
 import math.Matrix;
@@ -54,3 +55,4 @@ public class MaxPoolingLayer extends CNNLayer {
 	}
 
 }
+

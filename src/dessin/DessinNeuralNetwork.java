@@ -53,7 +53,7 @@ public class DessinNeuralNetwork extends JPanel implements Runnable{
 			repaint();
 
 			try {
-				Thread.sleep(75);
+				Thread.sleep(150);
 			} catch(InterruptedException e) {
 				e.printStackTrace();
 			}

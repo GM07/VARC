@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_201" class="java.beans.XMLDecoder">
+ <object class="neural.network.NeuralNetwork">
+  <void property="INPUT_LAYER_SIZE">
+   <int>3</int>
+  </void>
+  <void property="NUMBER_OF_LAYERS">
+   <int>4</int>
+  </void>
+  <void property="OUTPUT_LAYER_SIZE">
+   <int>2</int>
+  </void>
+  <void property="activationFunction">
+   <object class="java.lang.Enum" id="ActivationFunctions$20" method="valueOf">
+    <class>functions.ActivationFunctions</class>
+    <string>Sigmoid</string>
+   </object>
+  </void>
+  <void property="layers">
+   <array class="neural.network.Layer" length="4">
+    <void index="0">
+     <object class="neural.network.Layer">
+      <void property="NB_INPUT_NEURONS">
+       <int>3</int>
+      </void>
+      <void property="NB_NEURONS">
+       <int>3</int>
+      </void>
+      <void property="biases">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="3">
+          <void index="0">
+           <array class="double" length="1"/>
+          </void>
+          <void index="1">
+           <array class="double" length="1"/>
+          </void>
+          <void index="2">
+           <array class="double" length="1"/>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="errors">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="3">
+          <void index="0">
+           <array class="double" length="1"/>
+          </void>
+          <void index="1">
+           <array class="double" length="1"/>
+          </void>
+          <void index="2">
+           <array class="double" length="1"/>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="function">
+       <object idref="ActivationFunctions$20"/>
+      </void>
+      <void property="inputs">
+       <object class="math.Matrix" id="Matrix0">
+        <void property="mat">
+         <array class="[D" length="3">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>1.0</double>
+            </void>
+           </array>
+          </void>
+          <void index="1">
+           <array class="double" length="1">
+            <void index="0">
+             <double>2.0</double>
+            </void>
+           </array>
+          </void>
+          <void index="2">
+           <array class="double" length="1">
+            <void index="0">
+             <double>3.0</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="outputs">
+       <object idref="Matrix0"/>
+      </void>
+      <void property="type">
+       <object class="java.lang.Enum" method="valueOf">
+        <class>neural.network.LayerType</class>
+        <string>InputLayer</string>
+       </object>
+      </void>
+      <void property="weights">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="3">
+          <void index="0">
+           <array class="double" length="3"/>
+          </void>
+          <void index="1">
+           <array class="double" length="3"/>
+          </void>
+          <void index="2">
+           <array class="double" length="3"/>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void index="1">
+     <object class="neural.network.Layer">
+      <void property="NB_INPUT_NEURONS">
+       <int>3</int>
+      </void>
+      <void property="NB_NEURONS">
+       <int>2</int>
+      </void>
+      <void property="biases">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="2">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>-0.4274585898224965</double>
+            </void>
+           </array>
+          </void>
+          <void index="1">
+           <array class="double" length="1">
+            <void index="0">
+             <double>-0.35105185506407194</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="errors">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="2">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>0.0032330098059494615</double>
+            </void>
+           </array>
+          </void>
+          <void index="1">
+           <array class="double" length="1">
+            <void index="0">
+             <double>-0.0017870810118219057</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="function">
+       <object idref="ActivationFunctions$20"/>
+      </void>
+      <void property="inputs">
+       <object idref="Matrix0"/>
+      </void>
+      <void property="outputs">
+       <object class="math.Matrix" id="Matrix1">
+        <void property="mat">
+         <array class="[D" length="2">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>0.7839897099402593</double>
+            </void>
+           </array>
+          </void>
+          <void index="1">
+           <array class="double" length="1">
+            <void index="0">
+             <double>0.10003599212337427</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="type">
+       <object class="java.lang.Enum" id="LayerType0" method="valueOf">
+        <class>neural.network.LayerType</class>
+        <string>HiddenLayer</string>
+       </object>
+      </void>
+      <void property="weights">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="2">
+          <void index="0">
+           <array class="double" length="3">
+            <void index="0">
+             <double>0.7051173004906481</double>
+            </void>
+            <void index="1">
+             <double>-0.002514355559256572</double>
+            </void>
+            <void index="2">
+             <double>0.3371967784048629</double>
+            </void>
+           </array>
+          </void>
+          <void index="1">
+           <array class="double" length="3">
+            <void index="0">
+             <double>0.0430241782639154</double>
+            </void>
+            <void index="1">
+             <double>-0.20318795125122616</double>
+            </void>
+            <void index="2">
+             <double>-0.49324684266345986</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void index="2">
+     <object class="neural.network.Layer">
+      <void property="NB_INPUT_NEURONS">
+       <int>2</int>
+      </void>
+      <void property="NB_NEURONS">
+       <int>1</int>
+      </void>
+      <void property="biases">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="1">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>-0.34636564552469123</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="errors">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="1">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>0.029521620606750967</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="function">
+       <object idref="ActivationFunctions$20"/>
+      </void>
+      <void property="inputs">
+       <object idref="Matrix1"/>
+      </void>
+      <void property="outputs">
+       <object class="math.Matrix" id="Matrix2">
+        <void property="mat">
+         <array class="[D" length="1">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>0.5078150414502663</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="type">
+       <object idref="LayerType0"/>
+      </void>
+      <void property="weights">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="1">
+          <void index="0">
+           <array class="double" length="2">
+            <void index="0">
+             <double>0.5065690275708844</double>
+            </void>
+            <void index="1">
+             <double>-0.24304021570744855</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+    <void index="3">
+     <object class="neural.network.Layer">
+      <void property="NB_INPUT_NEURONS">
+       <int>1</int>
+      </void>
+      <void property="NB_NEURONS">
+       <int>2</int>
+      </void>
+      <void property="biases">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="2">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>0.41128396099415004</double>
+            </void>
+           </array>
+          </void>
+          <void index="1">
+           <array class="double" length="1">
+            <void index="0">
+             <double>-0.6940509006723101</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="errors">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="2">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>-0.3431578332939162</double>
+            </void>
+           </array>
+          </void>
+          <void index="1">
+           <array class="double" length="1">
+            <void index="0">
+             <double>-0.15287146380650798</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="function">
+       <object idref="ActivationFunctions$20"/>
+      </void>
+      <void property="inputs">
+       <object idref="Matrix2"/>
+      </void>
+      <void property="outputs">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="2">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>0.5290569623023789</double>
+            </void>
+           </array>
+          </void>
+          <void index="1">
+           <array class="double" length="1">
+            <void index="0">
+             <double>0.3676206200313252</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+      <void property="type">
+       <object class="java.lang.Enum" method="valueOf">
+        <class>neural.network.LayerType</class>
+        <string>OutputLayer</string>
+       </object>
+      </void>
+      <void property="weights">
+       <object class="math.Matrix">
+        <void property="mat">
+         <array class="[D" length="2">
+          <void index="0">
+           <array class="double" length="1">
+            <void index="0">
+             <double>-0.49577105548540606</double>
+            </void>
+           </array>
+          </void>
+          <void index="1">
+           <array class="double" length="1">
+            <void index="0">
+             <double>0.3364260740845755</double>
+            </void>
+           </array>
+          </void>
+         </array>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
+   </array>
+  </void>
+ </object>
+</java>

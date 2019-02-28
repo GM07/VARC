@@ -115,7 +115,7 @@ public class CNN {
 		cnnTest.setInputs(inputs);
 		cnnTest.addLayer(new ConvolutionLayer(3, 3));
 		cnnTest.addLayer( new MaxPoolingLayer (2));
-		cnnTest.addLayer(new ConvolutionLayer(3,3));
+		cnnTest.addLayer(new ConvolutionLayer(2,2));
 		cnnTest.addLayer(new MaxPoolingLayer(1));
 		
 		

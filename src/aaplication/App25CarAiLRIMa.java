@@ -1,21 +1,27 @@
 package aaplication;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import algorithm.CarAI;
 import dessin.DessinNeuralNetwork;
 import image.processing.ImageManager;
 
 /**
  * Classe de la fenetre principale et de demarrage de l'application
+ * Elle contient toutes les instances de composants Java ainsi que de plusieurs composants crees specialement pour l'application
  * @author Simon Daze
+ * @author Gaya Mehenni
  *
  */
 public class App25CarAiLRIMa extends JFrame {
-
 
 	// Panels
 	private JPanel contentPane;
@@ -52,10 +58,12 @@ public class App25CarAiLRIMa extends JFrame {
 	private JLabel lblColorVehicle;
 	private JLabel lblColorText;
 	private JLabel lblBarProgression;
+	private JLabel lblLearningRate;
 
 	// Spinner
 	private JSpinner spnEpoch;
 	private JSpinner spnBatch;
+	private JSpinner spnLearningRate;
 
 	// Item de menu
 	private JMenuBar menuBar;
@@ -75,9 +83,21 @@ public class App25CarAiLRIMa extends JFrame {
 	private FileWindow fileWindow;
 	private MarqueWindow marqueWindow;
 
-	//Autres variables de classes
+	// Arraylist qui contient tous les JComponent
+	private ArrayList<JComponent> elements = new ArrayList<>();
+
+	// Autres variables de classes
 	Color color = Color.GRAY;
 
+	/*
+	 * Instance de la classe qui contient tous les algorithmes pour detecter les vehicules
+	 */
+	private CarAI carAI;
+
+	/**
+	 * Methode principale qui lance l'application
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -95,11 +115,11 @@ public class App25CarAiLRIMa extends JFrame {
 	 * Constructeur de l'application
 	 */
 	public App25CarAiLRIMa() {
-		
-		//permet de changer la taille des caracteres
-		UIManager.put("Label.font",new Font("Dialog", Font.BOLD, 20));
-		UIManager.put("Button.font", new Font("Dialog", Font.BOLD, 20));
-		UIManager.put("MenuItem.font ",new Font("Dialog", Font.BOLD,20));
+
+		// Permet de changer la taille des caracteres
+		UIManager.put("Label.font",new Font("Courier", Font.BOLD, 20));
+		UIManager.put("MenuItem.font ",new Font("Courier", Font.BOLD,20));
+		UIManager.put("Button.font", new Font("Courier", Font.BOLD, 20));
 
 		// Creation de la fenetre
 		setTitle("CarAI-LRIMA");
@@ -131,8 +151,19 @@ public class App25CarAiLRIMa extends JFrame {
 		setUpPanelMilieu();
 
 		setUpPanelDroite();
+
+		setFontOfElements();
+
+		carAI = new CarAI((double) spnLearningRate.getValue(), (int) spnEpoch.getValue(), (int) spnBatch.getValue());
+		carAI.setBar(progressBarTraining);
+		carAI.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		carAI.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 10 * OFFSET/2, HAUTEUR_PANEL_SECONDAIRE/2 + 4 * OFFSET, 10 * OFFSET, 10 * OFFSET);
+		panImage.add(carAI);
 	}
 
+	/**
+	 * Methode qui initialise tous les composants lies au menu
+	 */
 	private void setUpMenu() {
 
 		menuBar = new JMenuBar();
@@ -171,10 +202,11 @@ public class App25CarAiLRIMa extends JFrame {
 		});
 		menuAide.add(menuItemScientificExplanations);
 
-		// On ajoute
-
 	}
 
+	/**
+	 * Methode qui initialise tous les composants du panel de gauche
+	 */
 	private void setUpPanelGauche() {
 
 		// Panel de gauche avec image a tester
@@ -207,18 +239,26 @@ public class App25CarAiLRIMa extends JFrame {
 		fileWindow.addWindowListener(new WindowAdapter() {
 
 			public void windowDeactivated(WindowEvent e){
-				imageVoiture.setImage(fileWindow.getPath());
 
-				int[] rgb = ImageManager.getColorOfImage(imageVoiture.getImageCarre());
-				Color c = new Color(rgb[0], rgb[1], rgb[2]);
-				lblColorVehicle.setBackground(c);
+				try {
+					imageVoiture.setImage(fileWindow.getPath());
 
-				repaint();
+					double[] rgb = ImageManager.getAverageColor(imageVoiture.getImage());
+					Color c = new Color((int) rgb[0], (int) rgb[1], (int) rgb[2]);
+					lblColorVehicle.setBackground(c);
+
+					repaint();
+				} catch (NullPointerException n) {
+					System.out.println("Veuillez selectionner une image");
+				}
 			}
 		});
 
 	}
 
+	/**
+	 * Methode qui initialise tous les composants du panel du milieu
+	 */
 	private void setUpPanelMilieu() {
 
 		// Panel du milieu avec les donnees d'entree
@@ -242,6 +282,7 @@ public class App25CarAiLRIMa extends JFrame {
 		btnTrain.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				nnDraw.demarrer();
+				carAI.demarrer();
 			}
 		});
 		panInputNumerique.add(btnTrain);
@@ -252,28 +293,49 @@ public class App25CarAiLRIMa extends JFrame {
 		panInputNumerique.add(lblEpoch);
 
 		// Spinner qui change le nombre d'Epoch
-		spnEpoch = new JSpinner();
-		spnEpoch.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 2*OFFSET/2,18*OFFSET, 2*OFFSET,2*OFFSET);
-		spnEpoch.setValue(500);
+		spnEpoch = new JSpinner(new SpinnerNumberModel(500, 1, 10000, 1));
+		spnEpoch.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 2*OFFSET/2,18*OFFSET, 2*OFFSET, OFFSET);
+		spnEpoch.addChangeListener(stateChanged -> {
+			carAI.setNumberOfEpochs((int) spnEpoch.getValue());
+		});
 		panInputNumerique.add(spnEpoch);
 
 		// Label qui affiche le texte sur la taille d'un seul batch lors de l'entrainement
 		lblBatch = new JLabel("Taille d'un batch : ", SwingConstants.CENTER);
-		lblBatch.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8*OFFSET/2, 20*OFFSET, 8*OFFSET, 2*OFFSET);
+		lblBatch.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8 * OFFSET/2, 19 * OFFSET, 8 * OFFSET, 2 * OFFSET);
 		panInputNumerique.add(lblBatch);
 
 		// Spinner qui change la taille d'un seul batch
-		spnBatch = new JSpinner();
-		spnBatch.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 2*OFFSET/2,22*OFFSET, 2*OFFSET,2*OFFSET);
-		spnBatch.setValue(10);
+		spnBatch = new JSpinner(new SpinnerNumberModel(10, 1, 1000, 1));
+		spnBatch.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 2 * OFFSET/2,21 * OFFSET, 2 * OFFSET,1 * OFFSET);
+		spnBatch.addChangeListener(statedChanged -> {
+			carAI.setBatchSize((int) spnBatch.getValue());
+		});
 		panInputNumerique.add(spnBatch);
+
+		// Label qui affiche le texte sur le taux d'apprentissage
+		lblLearningRate = new JLabel("Taux d'apprentissage : ");
+		lblLearningRate.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8 * OFFSET/2, 22 * OFFSET, 12 * OFFSET, 2 * OFFSET);
+		panInputNumerique.add(lblLearningRate);
+
+		spnLearningRate = new JSpinner(new SpinnerNumberModel(0.3, 0.01, 10, 0.01));
+		spnLearningRate.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 2 * OFFSET/2,24 * OFFSET, 2 * OFFSET,1 * OFFSET);
+		spnLearningRate.addChangeListener(stateChanged -> {
+			//carAI.setLearningRate();
+		});
+		panInputNumerique.add(spnLearningRate);
 
 		// Bouton pour tester le reseau de neurone
 		btnTest = new JButton();
-		btnTest.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8*OFFSET/2, 25*OFFSET, 8*OFFSET, 2*OFFSET);
-		btnTest.setText(" Tester le reseau");
+		btnTest.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8*OFFSET/2, 26*OFFSET, 8*OFFSET, 2*OFFSET);
+		btnTest.setText("Tester le reseau");
 		btnTest.addActionListener(actionPerformed -> {
 
+			DecimalFormat df = new DecimalFormat("#.###");
+			double[] out = carAI.testNetwork(imageVoiture.getImage());
+			lblOutputVoiture.setText("Possibilite voiture : " + df.format(out[0]) + "%");
+			lblOutputMoto.setText("Possibilite moto : " + df.format(out[1]) + "%");
+			lblOutputCamion.setText("Possibilite camion : " + df.format(out[2]) + "%");
 		});
 		panInputNumerique.add(btnTest);
 
@@ -285,12 +347,14 @@ public class App25CarAiLRIMa extends JFrame {
 		// Barre de progression
 		progressBarTraining = new JProgressBar(0, (int) spnEpoch.getValue());
 		progressBarTraining.setStringPainted(true);
-		progressBarTraining.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8 * OFFSET / 2, 30 * OFFSET, 8 * OFFSET, 1 * OFFSET);
+		progressBarTraining.setBounds(1,  HAUTEUR_PANEL_SECONDAIRE - (int) (OFFSET * 1.5), LARGEUR_PANEL_SECONDAIRE - 2, 1 * OFFSET);
 		panInputNumerique.add(progressBarTraining);
-
 
 	}
 
+	/**
+	 * Methode qui initialise tous les composants du panel de droite
+	 */
 	private void setUpPanelDroite() {
 
 		// Panel de droite avec les donnees de sortie
@@ -346,5 +410,17 @@ public class App25CarAiLRIMa extends JFrame {
 		lblColorText = new JLabel("Couleur du vehicule : ", SwingConstants.CENTER);
 		lblColorText.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 21*OFFSET, 12 * OFFSET, 2 * OFFSET);
 		panOutput.add(lblColorText);
+	}
+
+
+	/**
+	 * Methode qui change le font de tous les composants presents dans le array list de la classe
+	 */
+	private void setFontOfElements() {
+
+		for(JComponent j : elements) {
+			j.setFont(new Font("Dialog", Font.BOLD, 20));
+
+		}
 	}
 }
