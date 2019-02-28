@@ -1,9 +1,7 @@
-package neural.network;
+package dataset;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
-import dataset.DataElement;
 
 
 /**
@@ -42,6 +40,10 @@ public class Batch<E> {
         return dataset;
 	}
 
+	/**
+	 * @param number
+	 * @return
+	 */
 	public ArrayList<E> getPartOfDataset(int number) {
 
         ArrayList<E> shuffled = shuffleDataset();

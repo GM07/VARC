@@ -45,14 +45,5 @@ public class FileManager {
 		
 		return folders;
 	}
-	
-	
-	public static void main(String[] args) {
-		
-		String path = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\training";
-		
-		ArrayList<String> f = getFoldersFromFolder(path);
-		for(String s : f) System.out.println(s);
-		
-	}
+
 }

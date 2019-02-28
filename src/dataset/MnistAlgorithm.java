@@ -3,16 +3,12 @@ package dataset;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import functions.ActivationFunctions;
 import image.processing.FileManager;
 import image.processing.ImageManager;
 import math.MathTools;
-import neural.network.Batch;
 import neural.network.NeuralNetwork;
-
-import javax.xml.crypto.Data;
 
 
 /**
@@ -23,7 +19,7 @@ public class MnistAlgorithm {
 
 	private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\training";
 	private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\testing";
-	private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\neural_save_2_63%";
+	private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\neural_";
 	private static double learningRate = 0.03;
 	private static int numberOfEpochs = 200;
 	private static int numberOfImagesPerEpoch = 10000;
@@ -164,7 +160,7 @@ public class MnistAlgorithm {
 		}
 
 		try {
-			if (testNetwork(nn) * 100 > 63) NeuralNetwork.saveNetworkToXML(nn, savingPath + ((int) (100 * testNetwork(nn))) + "%.xml");
+			NeuralNetwork.saveNetworkToXML(nn, savingPath + ((int) (100 * testNetwork(nn))) + "%.xml");
 		} catch(IOException e) {
 			e.printStackTrace();
 		}

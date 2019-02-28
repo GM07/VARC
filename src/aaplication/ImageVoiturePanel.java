@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,6 +35,7 @@ public class ImageVoiturePanel extends JPanel{
  
     @Override
     public void paintComponent(Graphics g) {
+
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
