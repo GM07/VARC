@@ -9,12 +9,16 @@ import math.Matrix;
  */
 public class MaxPoolingLayer extends CNNLayer {
 
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3259937901909895649L;
 	protected int poolingSize;
 	int nbFilters = 1 ; 
 
 	public MaxPoolingLayer( int poolSize) {
-		
+
 		filters = new Filter[nbFilters];
 
 		poolingSize = poolSize;
@@ -28,7 +32,7 @@ public class MaxPoolingLayer extends CNNLayer {
 	 * @param inputs : le tableau des matrices sur lesquels on va appliquer le maxPooling
 	 * @return out : le tableau de matrices contenant les valeurs maximales de chaque matrices
 	 */
-	
+
 	public Matrix[] operation(Matrix[] inputs){
 		Matrix[] out = new Matrix[filters.length];
 		for(int i = 0; i < inputs.length; i++) {
@@ -37,13 +41,14 @@ public class MaxPoolingLayer extends CNNLayer {
 		return out;
 	}
 	/**
-	 * Methode qui va me donner envie d'exploser mon ordi durant la semaine de relache...
-	 * Sur une note plus serieuse : methode pour calibrer les weights du reseau
+	 * methode d'entrainement du reseau
 	 */
 	public void backPropagation() {
-		
-	}
 
+	}
+	/**
+	 * operation de cette layer : le max pooling 
+	 */
 	@Override
 	public Matrix[] operation() {
 		Matrix[] out = new Matrix[inputs.length];

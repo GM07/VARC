@@ -5,6 +5,10 @@ import java.util.Arrays;
 import math.Matrix;
 
 public class ConvolutionLayer extends CNNLayer {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8927458212916690704L;
 	int filterSize;
 
 
@@ -49,8 +53,7 @@ public class ConvolutionLayer extends CNNLayer {
 	}
 
 	/**
-	 * Methode qui va me donner envie d'exploser mon ordi durant la semaine de relache...
-	 * Sur une note plus serieuse : methode pour calibrer les weights du reseau
+	 * Methode d'entrainement du reseau
 	 */
 	public void backPropagation() {
 

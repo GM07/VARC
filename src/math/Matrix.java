@@ -439,6 +439,7 @@ public class Matrix implements Serializable {
 	 * Methode qui retourne la valeur maximale dans une matrice
 	 * @return la valeur maximale dans la matrice
 	 */
+	//Auteur : Simon Daze
 	public double getMaxValue() {
 		double maxValue = (Double.MAX_VALUE * -1) -1, currentValue;
 		for(int i = 0 ; i < ROWS ; i++) {
@@ -469,7 +470,7 @@ public class Matrix implements Serializable {
 		System.out.println(m1.transpose());
 
 	}
-	
+
 
 
 }

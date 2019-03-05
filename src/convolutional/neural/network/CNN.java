@@ -1,5 +1,6 @@
 package convolutional.neural.network;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import math.Matrix;
@@ -8,7 +9,11 @@ import math.Matrix;
  * @author Simon Daze
  *
  */
-public class CNN {
+public class CNN implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3966726810488689816L;
 	private int nbLayers;
 	private ArrayList<CNNLayer> layers;
 	private int filterSize;
@@ -97,6 +102,11 @@ public class CNN {
 	public void setInputs(Matrix[] inputs) {
 		this.inputs = inputs;
 	}
+	
+	/**
+	 * test de l'activation : a permi de regler les differentes operations entre les matrices pour obtenir la dimension finale 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		CNN cnnTest = new CNN();
 		Matrix[] inputs = new Matrix[3];

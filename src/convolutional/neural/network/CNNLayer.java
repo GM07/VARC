@@ -2,13 +2,26 @@ package convolutional.neural.network;
 
 import java.io.Serializable;
 
+import functions.ActivationFunctions;
 import math.Matrix;
 import neural.network.LayerType;
 
+/**
+ * Classe contenant les methodes communes a toutes les layers en plus de leurs caracteristiques
+ * @author simon Daze
+ *
+ */
 public abstract class CNNLayer implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4404518561044873277L;
 	protected Matrix[] inputs ; 
 	protected Matrix[] outputs;
 	protected Filter[] filters;
+	protected ActivationFunctions function;
+
+
 	
 	public CNNLayer() {}
 
@@ -24,8 +37,7 @@ public abstract class CNNLayer implements Serializable {
 	}
 
 	/**
-	 * Methode qui va me donner envie d'exploser mon ordi durant la semaine de relache...
-	 * Sur une note plus serieuse : methode pour calibrer les weights du reseau
+	 *Methode d'entraienement du reseau
 	 */
 	public void backPropagation() {
 		
