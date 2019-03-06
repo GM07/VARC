@@ -105,7 +105,8 @@ public class CNN implements Serializable {
 	}
 	
 	/**
-	 * test de l'activation : a permi de regler les differentes operations entre les matrices pour obtenir la dimension finale 
+	 * test de l'activation : a permi de regler les differentes operations entre les matrices pour obtenir la dimension finale : on y voit que les layers
+	 * se transmettent leurs inputs/outputs entre elles et que les differentes operations sont respectees 
 	 * @param args
 	 */
 	public static void main(String[] args) {
