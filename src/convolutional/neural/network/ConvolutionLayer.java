@@ -3,7 +3,11 @@ package convolutional.neural.network;
 import java.util.Arrays;
 
 import math.Matrix;
-
+/**
+ * La couche du reseau dont l'operation est la convolution
+ * @author Simon Daze
+ *
+ */
 public class ConvolutionLayer extends CNNLayer {
 	/**
 	 * 
@@ -32,6 +36,7 @@ public class ConvolutionLayer extends CNNLayer {
 
 	public Matrix[] operation() {
 		Matrix[] out = new Matrix[filters.length];
+		
 		for(int i = 0 ; i < filters.length ; i++ ) {
 			out[i] = new Matrix(inputs[0].getCOLS()-filters[0].getCOLS()+1,inputs[0].getCOLS()-filters[0].getCOLS()+1 );
 
@@ -46,7 +51,7 @@ public class ConvolutionLayer extends CNNLayer {
 			for(int j = 0; j < this.inputs.length ; j++) {
 				out[i] = Matrix.sum(out[i], (filters[i].convolution(inputs[j])));
 			}
-			out[i].applyFunction(function.Sigmoid);
+			//out[i].applyFunction(function.Sigmoid);
 			
 		}
 		System.out.println("OUT " + Arrays.toString(out));

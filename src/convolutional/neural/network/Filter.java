@@ -77,7 +77,7 @@ public class Filter extends Matrix {
 	}
 
 	/**
-	 * Test du pooling sur une layer
+	 * Test du pooling sur une layer 
 	 * @param args
 	 */
 	//Auteur : Simon Daze

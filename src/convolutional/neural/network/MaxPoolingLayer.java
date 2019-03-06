@@ -1,6 +1,8 @@
 
 package convolutional.neural.network;
 
+import java.util.Arrays;
+
 import math.Matrix;
 /**
  *  Type de layer qui extrait les valeurs maximales de matrices
@@ -48,13 +50,15 @@ public class MaxPoolingLayer extends CNNLayer {
 	}
 	/**
 	 * operation de cette layer : le max pooling 
+	 * La fonction d'activation permet de limiter les ecarts entre les valeurs
 	 */
 	@Override
 	public Matrix[] operation() {
+		//System.out.println(Arrays.toString(inputs));
 		Matrix[] out = new Matrix[inputs.length];
 		for(int i = 0; i < inputs.length; i++) {
 			out[i] = filters[0].maxPool(inputs[i]);
-			out[i].applyFunction(function.Sigmoid);
+			//out[i].applyFunction(function.Sigmoid);
 			System.out.println(out[i]);
 		}
 		return out;

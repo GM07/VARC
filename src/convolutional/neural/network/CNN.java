@@ -18,7 +18,7 @@ public class CNN implements Serializable {
 	private ArrayList<CNNLayer> layers;
 	private int filterSize;
 	private Matrix[] inputs;
-	
+
 
 	/**
 	 * constructeur du reseau
@@ -64,21 +64,22 @@ public class CNN implements Serializable {
 				layers.get(i).setInputs(in);
 				out = layers.get(i).operation();
 				layers.get(i).setOutputs(out);
+
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Methode qui va me donner envie d'exploser mon ordi durant la semaine de relache...
 	 * Sur une note plus serieuse : methode pour calibrer les weights du reseau
 	 */
 	public void backPropagation() {
-		
+
 	}
-	
-	
-	
+
+
+
 	public int getNbLayers() {
 		return nbLayers;
 	}
@@ -103,10 +104,11 @@ public class CNN implements Serializable {
 	public void setInputs(Matrix[] inputs) {
 		this.inputs = inputs;
 	}
-	
+
 	/**
 	 * test de l'activation : a permi de regler les differentes operations entre les matrices pour obtenir la dimension finale : on y voit que les layers
 	 * se transmettent leurs inputs/outputs entre elles et que les differentes operations sont respectees 
+	 * A chaque ajout de layer, les operations se repettent et elles contiennent le print : il ya donc plusieurs iterations de print
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -125,14 +127,18 @@ public class CNN implements Serializable {
 		//System.out.println(i2);
 		inputs[2] = i2;
 		cnnTest.setInputs(inputs);
+		
 		cnnTest.addLayer(new ConvolutionLayer(3, 3));
+		
 		cnnTest.addLayer( new MaxPoolingLayer (2));
+		
 		cnnTest.addLayer(new ConvolutionLayer(2,2));
-		cnnTest.addLayer(new MaxPoolingLayer(1));
 		
-		
-		
-		
-		
+		cnnTest.addLayer(new MaxPoolingLayer(2));
+
+
+
+
+
 	}
 }
