@@ -46,6 +46,7 @@ public class ConvolutionLayer extends CNNLayer {
 			for(int j = 0; j < this.inputs.length ; j++) {
 				out[i] = Matrix.sum(out[i], (filters[i].convolution(inputs[j])));
 			}
+			out[i].applyFunction(function.Sigmoid);
 			
 		}
 		System.out.println("OUT " + Arrays.toString(out));

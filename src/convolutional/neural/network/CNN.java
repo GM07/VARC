@@ -18,6 +18,7 @@ public class CNN implements Serializable {
 	private ArrayList<CNNLayer> layers;
 	private int filterSize;
 	private Matrix[] inputs;
+	
 
 	/**
 	 * constructeur du reseau

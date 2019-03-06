@@ -23,7 +23,9 @@ public abstract class CNNLayer implements Serializable {
 
 
 	
-	public CNNLayer() {}
+	public CNNLayer() {
+		
+	}
 
 	/**
 	 * L'operation specifique a certaines layer

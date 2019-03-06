@@ -54,6 +54,7 @@ public class MaxPoolingLayer extends CNNLayer {
 		Matrix[] out = new Matrix[inputs.length];
 		for(int i = 0; i < inputs.length; i++) {
 			out[i] = filters[0].maxPool(inputs[i]);
+			out[i].applyFunction(function.Sigmoid);
 			System.out.println(out[i]);
 		}
 		return out;
