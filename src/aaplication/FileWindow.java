@@ -17,6 +17,9 @@ public class FileWindow extends JFrame {
 	private JFileChooser fileChooser;
 	private String path;
 
+	/**
+	 * Constructeur
+	 */
 	public FileWindow() {
 
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -43,11 +46,19 @@ public class FileWindow extends JFrame {
 	}
 
 	/**
-	 * Returns the path of the selected file
-	 * @return
+	 * Methode qui retourne le chemin d'acces
+	 * @return chemin d'acces
 	 */
 	public String getPath() {
 		return path;
+	}
+
+	public void setMode(String mode) {
+		if (mode.equals("Folder")) {
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		} else if (mode.equals("images")) {
+			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		}
 	}
 
 }

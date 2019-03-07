@@ -5,7 +5,7 @@ import java.util.Collections;
 
 
 /**
- * 
+ * Classe qui s'occupe de gerer un dataset (melanger le dataset, donner des parties)
  * @author Gaya Mehenni
  *
  * @param <E> type de donnee qui va etre traitee
@@ -16,14 +16,14 @@ public class Batch<E> {
 	private ArrayList<E> dataset;
 
 	/**
-	 * Constructeur
+	 * Constructeur sans dataset de base
 	 */
 	public Batch() {
 		dataset = new ArrayList<E>();
 	}
 
 	/**
-	 * Constructeur
+	 * Constructeur en ayant un dataset de base
 	 * @param dataset le dataset
 	 */
 	public Batch(ArrayList<E> dataset){
@@ -41,8 +41,9 @@ public class Batch<E> {
 	}
 
 	/**
-	 * @param number
-	 * @return
+	 * Methode qui retourne une partie du dataset
+	 * @param number nombre d'element du dataset que l'on veut avoir
+	 * @return collection contenant le nombre d'element demande
 	 */
 	public ArrayList<E> getPartOfDataset(int number) {
 
@@ -96,8 +97,10 @@ public class Batch<E> {
 		this.dataset = dataset;
 	}
 
-
-
+	/**
+	 * Methode qui s'execute
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		ArrayList<DataElement> dataset = new ArrayList<DataElement>();

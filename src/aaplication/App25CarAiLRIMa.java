@@ -65,7 +65,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JSpinner spnBatch;
 	private JSpinner spnLearningRate;
 
-	// Item de menu
+	// Elements du menu
 	private JMenuBar menuBar;
 
 	private JMenu menuAide;
@@ -82,6 +82,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private ScientificExplanationWindow scientificExplanationWindow;
 	private FileWindow fileWindow;
 	private MarqueWindow marqueWindow;
+	private FileWindow datasetWindow;
 
 	// Arraylist qui contient tous les JComponent
 	private ArrayList<JComponent> elements = new ArrayList<>();
@@ -166,6 +167,7 @@ public class App25CarAiLRIMa extends JFrame {
 	 */
 	private void setUpMenu() {
 
+		// Barre de menu
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -275,16 +277,33 @@ public class App25CarAiLRIMa extends JFrame {
 		nnDraw.setBackground(panInputNumerique.getBackground());
 		panInputNumerique.add(nnDraw);
 
+		// Fenetre qui choisit le dataset
+		datasetWindow = new FileWindow();
+		datasetWindow.setVisible(false);
+		datasetWindow.setMode("Folder");
+
 		// Bouton pour entrainer
 		btnTrain = new JButton();
 		btnTrain.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 8*OFFSET/2, 14*OFFSET, 8*OFFSET, 2 * OFFSET);
 		btnTrain.setText("Entrainer");
-		btnTrain.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				nnDraw.demarrer();
-				carAI.demarrer();
+		btnTrain.addActionListener(actionPerformed -> {
+			datasetWindow.setVisible(true);
+		});
+
+		datasetWindow.addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				try {
+					carAI.setTrainingPath(datasetWindow.getPath());
+					nnDraw.demarrer();
+					carAI.demarrer();
+				} catch (NullPointerException n) {
+					System.out.println("Veuillez selectionner un chemin d'acces");
+				}
 			}
 		});
+
 		panInputNumerique.add(btnTrain);
 
 		// Label qui affiche le texte sur le nombre d'Epoch

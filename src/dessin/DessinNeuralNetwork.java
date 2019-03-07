@@ -12,21 +12,21 @@ import image.processing.ImageManager;
 
 /**
  * Classe de la scene de dessin du reseau de neurones
+ * @author Gaya Mehenni
  * @author Simon Daze
- *
  */
 public class DessinNeuralNetwork extends JPanel implements Runnable{
 
-	private final int DISTANCE_ENTRE_NEURONES = 50;
-	private final Color COULEUR_INPUT_LAYER_NEURONES = Color.blue;
-	private final Color COULEUR_HIDDEN_LAYER_NEURONES = Color.white;
-	private final Color COULEUR_OUTPUT_LAYER_NEURONES = Color.red;
 	private DrawableNeuralNetwork neuralNetwork;
 
 	private boolean enCours = false;
 
+	// Configuration du reseau de neurone
 	private final int[] configuation = {4, 5, 5, 4};
 
+	/**
+	 * Constructeur d'un dessin de neural network
+	 */
 	public DessinNeuralNetwork(){
 		setBackground(Color.WHITE);
 
@@ -35,6 +35,10 @@ public class DessinNeuralNetwork extends JPanel implements Runnable{
 				configuation);
 	}
 
+	/**
+	 * Methode qui dessine le reseau
+	 * @param g contexte graphique
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -43,6 +47,9 @@ public class DessinNeuralNetwork extends JPanel implements Runnable{
 		neuralNetwork.dessiner(g2d);
 	}
 
+	/**
+	 * Methode qui anime le panel et qui contient la boucle d'animation
+	 */
 	public void run() {
 
 		while(enCours) {
@@ -61,6 +68,9 @@ public class DessinNeuralNetwork extends JPanel implements Runnable{
 
 	}
 
+	/**
+	 * Methode qui demarre l'application
+	 */
 	public void demarrer() {
 
 		Thread thread = new Thread(this);

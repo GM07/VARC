@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * Cette classe contient une reference a l'application pour pouvoir faire une animation de l'entrainement
  * @author Gaya Mehenni
  *
- *
  * A faire :
  * Ajout d'un evenement CarAI qui est lancee lorsque l'animation est terminee
  *

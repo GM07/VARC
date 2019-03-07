@@ -37,7 +37,7 @@ public class CNN {
 	}
 
 	/**
-	 * activation du reseau 
+	 * Activation du reseau
 	 * @param inputs la matrice contenant les valeurs de RGB de l'image a evaluee
 	 */
 	public void activation(Matrix[] inputs) {

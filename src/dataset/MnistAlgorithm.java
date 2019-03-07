@@ -10,10 +10,10 @@ import image.processing.ImageManager;
 import math.MathTools;
 import neural.network.NeuralNetwork;
 
-
 /**
+ * Entraine un reseau de neurone en utilisant le MNIST dataset
+ * Classe de test au reseau de neurone
  * @author Gaya Mehenni
- * Trains a neural network with the MNIST Dataset using Stochastic Gradient Descent
  */
 public class MnistAlgorithm {
 
@@ -29,26 +29,21 @@ public class MnistAlgorithm {
 
 	public static void main(String[] args) {
 
-		//NeuralNetwork nn = NeuralNetwork.loadNetwork("D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST.dat");
-
 		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 784, 16, 16, 10);
-//		try{
-//			System.out.println(savingPath + ".xml");
-//			nn = NeuralNetwork.loadNetworkFromXML(savingPath + ".xml");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		//NeuralNetwork nn2 = new NeuralNetwork(ActivationFunctions.Sigmoid, 784, 800, 400, 200, 100, 50, 10);
 
 		System.out.println("\nNON TRAINED NETWORK \n" + testNetwork(nn));
 
 		trainNetwork(nn);
 
 		System.out.println("\n" + "TESTING TRAINED NETWORK \n" + testNetwork(nn));
-		//System.out.println("\n" + "TESTING NON-TRAINED NETWORK \n" + testNetwork(nn2));
 
 	}
 
+	/**
+	 * Methode qui teste le reseau de neurone
+	 * @param nn reseau de neurone
+	 * @return taux de reussite
+	 */
 	public static double testNetwork(NeuralNetwork nn) {
 
 		ArrayList<String> folders = FileManager.getFoldersFromFolder(testingPath);
@@ -64,7 +59,7 @@ public class MnistAlgorithm {
 
 			//System.out.println("IMAGE SIZE : " + images.size());
 
-			for(int j = 0; j < images.size()/100; j++) {
+			for(int j = 0; j < images.size(); j++) {
 
 				BufferedImage image = images.get(j);
 
@@ -95,6 +90,10 @@ public class MnistAlgorithm {
 		return result/total;
 	}
 
+	/**
+	 * Methode qui entraine le reseau
+	 * @param nn reseau de neurone
+	 */
 	public static void trainNetwork(NeuralNetwork nn) {
 
 		ArrayList<String> folders = FileManager.getFoldersFromFolder(trainingPath);
