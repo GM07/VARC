@@ -1,21 +1,39 @@
+
 package convolutional.neural.network;
 
-import math.Matrix;
+import java.util.Arrays;
 
+import math.Matrix;
+/**
+ *  Type de layer qui extrait les valeurs maximales de matrices
+ * @author Simon Daze
+ *
+ */
 public class MaxPoolingLayer extends CNNLayer {
 
-	protected int filterSize;
-	protected int poolingSize;
 
-	public void MaxPoolingLayer(int size, int nbFilters, int poolSize) {
-		filterSize = size;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3259937901909895649L;
+	protected int poolingSize;
+	int nbFilters = 1 ; 
+
+	public MaxPoolingLayer( int poolSize) {
+
 		filters = new Filter[nbFilters];
 
 		poolingSize = poolSize;
 		for(int i = 0; i < nbFilters; i++ ) {
-			filters[i] = new Filter(filterSize,filterSize);
+			filters[i] = new Filter(poolSize,poolSize);
 		}
 	}
+
+	/**
+	 * L'operation de ce type de Layer : le max pool qui retourne la valeur maximale d'une sous matrice dans une matrice
+	 * @param inputs : le tableau des matrices sur lesquels on va appliquer le maxPooling
+	 * @return out : le tableau de matrices contenant les valeurs maximales de chaque matrices
+	 */
 
 	public Matrix[] operation(Matrix[] inputs){
 		Matrix[] out = new Matrix[filters.length];
@@ -24,5 +42,27 @@ public class MaxPoolingLayer extends CNNLayer {
 		}
 		return out;
 	}
+	/**
+	 * methode d'entrainement du reseau
+	 */
+	public void backPropagation() {
+
+	}
+	/**
+	 * operation de cette layer : le max pooling 
+	 * La fonction d'activation permet de limiter les ecarts entre les valeurs
+	 */
+	@Override
+	public Matrix[] operation() {
+		//System.out.println(Arrays.toString(inputs));
+		Matrix[] out = new Matrix[inputs.length];
+		for(int i = 0; i < inputs.length; i++) {
+			out[i] = filters[0].maxPool(inputs[i]);
+			//out[i].applyFunction(function.Sigmoid);
+			System.out.println(out[i]);
+		}
+		return out;
+	}
 
 }
+

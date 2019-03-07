@@ -435,6 +435,24 @@ public class Matrix implements Serializable {
 		return COLS;
 	}
 
+	/**
+	 * Methode qui retourne la valeur maximale dans une matrice
+	 * @return la valeur maximale dans la matrice
+	 */
+	//Auteur : Simon Daze
+	public double getMaxValue() {
+		double maxValue = (Double.MAX_VALUE * -1) -1, currentValue;
+		for(int i = 0 ; i < ROWS ; i++) {
+			for (int j = 0 ; j < COLS ; j++) {
+				currentValue = mat[i][j];
+				if(currentValue > maxValue) {
+					maxValue = currentValue;
+				}
+			}
+		}
+		return maxValue;
+	}
+
 	public static void main(String[] args) {
 		Matrix m1 = new Matrix(new double[][]{
 			{1, 2, 1},
@@ -451,19 +469,6 @@ public class Matrix implements Serializable {
 		System.out.println(m1.scalarProduct(3));
 		System.out.println(m1.transpose());
 
-	}
-	
-	public double getMaxValue() {
-		double maxValue = 0 , currentValue;
-		for(int i = 0 ; i < ROWS ; i++) {
-			for (int j = 0 ; j < COLS ; j++) {
-				currentValue = mat[i][j];
-				if(currentValue > maxValue) {
-					maxValue = currentValue;
-				}
-			}
-		}
-		return maxValue;
 	}
 
 
