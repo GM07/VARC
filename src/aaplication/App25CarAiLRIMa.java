@@ -128,7 +128,7 @@ public class App25CarAiLRIMa extends JFrame {
 		setSize(LARGEUR_PRINCIPALE, HAUTEUR_PRINCIPALE);
 		setLocationRelativeTo(null);
 
-		// Creation des fenetres intermediaires
+		// Fenetres intermediaires
 		helpWindow = new HelpWindow();
 		scientificExplanationWindow = new ScientificExplanationWindow();
 		marqueWindow = new MarqueWindow();
