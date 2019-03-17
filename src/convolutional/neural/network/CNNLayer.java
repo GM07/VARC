@@ -1,6 +1,7 @@
 package convolutional.neural.network;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import functions.ActivationFunctions;
 import math.Matrix;
@@ -22,9 +23,9 @@ public abstract class CNNLayer implements Serializable {
 	protected ActivationFunctions function;
 
 
-	
+
 	public CNNLayer() {
-		
+
 	}
 
 	/**
@@ -42,7 +43,7 @@ public abstract class CNNLayer implements Serializable {
 	 *Methode d'entraienement du reseau
 	 */
 	public void backPropagation() {
-		
+
 	}
 	/**
 	 * permet d'acceder a la matrice des inputs
@@ -96,10 +97,60 @@ public abstract class CNNLayer implements Serializable {
 		this.filters = filters;
 	}
 
-	
-	
-	
-	
-	
+	/**
+	 * Linearise les outputs sous forme de vecteurs pour les utiliser comme inputs d'une FullyConnectedLayer
+	 * @return le vecteur contenant les outputs
+	 */
+	public Matrix linearizeV1() {
+		int linearizedMatrixSize = 0;
+		Matrix linearizedOutputs;
+		ArrayList<Double> arrayOutput  = new ArrayList<Double>();
+		for (int f = 0 ; f < outputs.length; f++ ) {
+			for (int i = 0 ; i < outputs[f].getROWS(); i++) {
+				for (int j = 0 ; j < outputs[f].getCOLS(); j++) {
+					arrayOutput.add(outputs[f].getElement(i, j));
+					linearizedMatrixSize += 1;
+				}
+			}
+		}
+		linearizedOutputs = new Matrix(1,linearizedMatrixSize);
+		for(int i = 0; i < linearizedMatrixSize ; i++) {
+			linearizedOutputs.setElement(0, i, arrayOutput.get(i));
+		}
+		System.out.println(linearizedOutputs);
+		return linearizedOutputs;
+
+	}
+
+
+	/**
+	 * Linearise les outputs sous forme de vecteurs pour les utiliser comme inputs d'une FullyConnectedLayer
+	 * Cette version additionne toutes les matrices des outputs ensemble avant de les lineariser
+	 * @return le vecteur contenant les outputs
+	 */
+	public Matrix linearizeV2() {
+		int linearizedMatrixSize = 0;
+		Matrix linearizedOutputs;
+		Matrix intermediateMatrix = new Matrix();
+		ArrayList<Double> arrayOutput  = new ArrayList<Double>();
+		for (int f = 0 ; f < outputs.length; f++ ) {
+			intermediateMatrix.add(outputs[f]);
+		}
+		for (int i = 0; i < intermediateMatrix.getROWS(); i++) {
+			for (int j = 0; j < intermediateMatrix.getCOLS(); j++) {
+				arrayOutput.add(intermediateMatrix.getElement(i, j));
+			}
+		}
+		linearizedOutputs = new Matrix(0,linearizedMatrixSize);
+		for(int i = 0; i < linearizedMatrixSize; i++) {
+			linearizedOutputs.setElement(0, i, arrayOutput.get(i));
+		}
+		System.out.println(linearizedOutputs);
+		return linearizedOutputs;
+	}
+
+
+
+
 
 }

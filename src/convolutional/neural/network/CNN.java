@@ -135,6 +135,8 @@ public class CNN implements Serializable {
 		cnnTest.addLayer(new ConvolutionLayer(2,2));
 		
 		cnnTest.addLayer(new MaxPoolingLayer(2));
+		
+		
 
 
 

@@ -36,23 +36,23 @@ public class ConvolutionLayer extends CNNLayer {
 
 	public Matrix[] operation() {
 		Matrix[] out = new Matrix[filters.length];
-		
+
 		for(int i = 0 ; i < filters.length ; i++ ) {
 			out[i] = new Matrix(inputs[0].getCOLS()-filters[0].getCOLS()+1,inputs[0].getCOLS()-filters[0].getCOLS()+1 );
 
 
 			System.out.println("IN " + Arrays.toString(inputs));
 			System.out.println("FIL " + Arrays.toString(filters));
-			
-			
 
-			
-			
+
+
+
+
 			for(int j = 0; j < this.inputs.length ; j++) {
 				out[i] = Matrix.sum(out[i], (filters[i].convolution(inputs[j])));
 			}
 			//out[i].applyFunction(function.Sigmoid);
-			
+
 		}
 		System.out.println("OUT " + Arrays.toString(out));
 		return out;
@@ -82,7 +82,8 @@ public class ConvolutionLayer extends CNNLayer {
 		Filter[] filter = test.getFilters();
 		System.out.println(filter[0]);
 		System.out.println(test.operation()[0]);
-
+		test.setOutputs(test.operation());
+		test.linearizeV1();
 
 	}
 }
