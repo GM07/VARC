@@ -182,8 +182,12 @@ public class App25CarAiLRIMa extends JFrame {
 		// Bouton qui charge un reseau dans le menu des options
 		menuItemLoad = new JMenuItem("Charger un reseau");
 		menuOptions.add(menuItemLoad);
-
+		
+		// Bouton qui ferme la fenetre
 		menuItemQuit = new JMenuItem("Quitter");
+		menuItemQuit.addActionListener(actionPerformed->{
+			dispose();
+		});
 		menuOptions.add(menuItemQuit);
 
 		// Menu d'aide

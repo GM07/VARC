@@ -12,13 +12,15 @@ import math.Matrix;
 public class MaxPoolingLayer extends CNNLayer {
 
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -3259937901909895649L;
 	protected int poolingSize;
 	int nbFilters = 1 ; 
 
+	/**
+	 * COnstruteur d'un layer de MaxPooling 
+	 * @param poolSize : la taille du filtre de pooling
+	 */
 	public MaxPoolingLayer( int poolSize) {
 
 		filters = new Filter[nbFilters];

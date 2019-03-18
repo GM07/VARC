@@ -13,6 +13,11 @@ public class Filter extends Matrix {
 	 */
 	private static final long serialVersionUID = 601262895217910258L;
 
+	/**
+	 * Constructeur des filters
+	 * @param rows : le nombre de ligne de la matrice
+	 * @param cols : le nombre de colonnes de la matrice
+	 */
 	public Filter(int rows, int cols) {
 		super(rows, cols);
 		this.initWithRandomValues(-1, 1);

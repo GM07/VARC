@@ -453,6 +453,10 @@ public class Matrix implements Serializable {
 		return maxValue;
 	}
 
+	/**
+	 * Test de methodes sur les matrices
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Matrix m1 = new Matrix(new double[][]{
 			{1, 2, 1},

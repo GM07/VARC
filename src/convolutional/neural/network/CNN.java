@@ -80,27 +80,59 @@ public class CNN implements Serializable {
 
 
 
+	/**
+	 * Retourne le nombre de couches du reseau
+	 * @return le nombre de layers
+	 */
 	public int getNbLayers() {
 		return nbLayers;
 	}
+	/**
+	 * Modifie le nombre de layers
+	 * @param nbLayers : le nouveau nombre de layers
+	 */ 
 	public void setNbLayers(int nbLayers) {
 		this.nbLayers = nbLayers;
 	}
+	/**
+	 * return le arraylisyt contenant toutes les layers
+	 * @return le arraylisyt contenant toutes les layers
+	 */
 	public ArrayList<CNNLayer> getLayers() {
 		return layers;
 	}
+	/**
+	 * Permet de modifier le arraylisyt contenant toutes les layers
+	 * @param layers : le nouveau arraylisyt contenant toutes les layers
+	 */
 	public void setLayers(ArrayList<CNNLayer> layers) {
 		this.layers = layers;
 	}
+	/**
+	 * Retourne la dimension des matrices des filtres 
+	 * @return la dimension des matrices des filtres
+	 */
 	public int getFilterSize() {
 		return filterSize;
 	}
+	/**
+	 * modifie la dimension des filtres
+	 * @param filterSize : la nouvelle dimension des filtres
+	 */
 	public void setFilterSize(int filterSize) {
 		this.filterSize = filterSize;
 	}
+	/**
+	 * Retourne les inputs du reseau
+	 * @return le tableau de matrices des inputs
+	 */
 	public Matrix[] getInputs() {
 		return inputs;
 	}
+	/**
+	 * initialise les inputs du reseau
+	 * @param inputs : le tableau de matrices a mettre en inputs du reseau
+	 */
 	public void setInputs(Matrix[] inputs) {
 		this.inputs = inputs;
 	}

@@ -8,11 +8,11 @@ import math.Matrix;
  */
 public class VerticalFilter extends Filter{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 843250495998652002L;
 
+	/**
+	 * Constructeur d'un filtre vertical
+	 */
 	public VerticalFilter() {
 		super(3,3);
 		double[][] filter = {

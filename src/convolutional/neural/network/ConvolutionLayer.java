@@ -17,6 +17,11 @@ public class ConvolutionLayer extends CNNLayer {
 
 
 
+	/**
+	 * Constructeur d'une laye de convolution
+	 * @param size : la taille des filters (dimensions)
+	 * @param nbFilter : le nombre de filters
+	 */
 	public ConvolutionLayer(int size, int nbFilter) {
 
 		filterSize = size;

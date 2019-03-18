@@ -10,13 +10,11 @@ import math.Matrix;
 public class HorizontalFilter extends Filter {
 
 	
-
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6538563290814677755L;
 
+	/**
+	 * Constructeur d'un filtre horizontal
+	 */
 	public HorizontalFilter() {
 		super(3,3);
 		double[][] filter = {
