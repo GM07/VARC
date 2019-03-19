@@ -22,15 +22,12 @@ public abstract class CNNLayer implements Serializable {
 	protected Filter[] filters;
 	protected ActivationFunctions function;
 
-
-
 	public CNNLayer() {
 
 	}
 
 	/**
 	 * L'operation specifique a certaines layer
-	 * @param inputs les inputs de l'operation
 	 * @return une matrice des outputs
 	 */
 	public abstract Matrix[] operation();

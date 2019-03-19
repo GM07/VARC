@@ -56,7 +56,7 @@ public class Matrix implements Serializable {
 		}
 	}
 
-	/*
+	/**
 	 * Initialize with random values (default : between 0 and 1)
 	 */
 	public void initWithRandomValues() {

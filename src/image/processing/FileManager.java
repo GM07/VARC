@@ -8,8 +8,17 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Classe qui facilite l'ouverture de fichiers et qui permet d'extraire les dossiers et les images dans un chemin d'acces
+ * @author Gaya Mehenni
+ */
 public class FileManager {
-	
+
+	/**
+	 * Methode qui retourne toutes les images (.png ou .jpg) dans un dossier
+	 * @param path chemin d'acces du dossier
+	 * @return tableau d'images
+	 */
 	public static ArrayList<BufferedImage> getImagesFromFolder(String path) {
 		
 		File folder = new File(path);
@@ -25,6 +34,12 @@ public class FileManager {
 	}
 
 
+	/**
+	 * Methode qui retourne un certain nombre d'images (.png ou .jpg) dans un dossier
+	 * @param path chemin d'acces du dossier
+	 * @param numberOfImages nombre d'images desire
+	 * @return tableau d'images
+	 */
 	public static ArrayList<BufferedImage> getImagesFromFolder(String path, int numberOfImages) {
 		File folder = new File(path);
 		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
@@ -44,6 +59,11 @@ public class FileManager {
 		return images;
 	}
 
+	/**
+	 * Methode qui retourne tous les noms des dossiers presents dans un chemin d'acces
+	 * @param path chemin d'acces
+	 * @return tableau contenant les noms des dossiers
+	 */
 	public static ArrayList<String> getFoldersFromFolder(String path) {
 		
 		File folder = new File(path);
@@ -57,6 +77,11 @@ public class FileManager {
 		return folders;
 	}
 
+	/**
+	 * Methode qui retourne l'image presente dans un fichier
+	 * @param f fichier
+	 * @return image
+	 */
 	private static BufferedImage getImageFromFile(File f) {
 		String fileName = f.getName();
 

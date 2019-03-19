@@ -3,6 +3,7 @@ package functions;
 import java.io.Serializable;
 
 /**
+ * Enumeration qui prend en compte les fonctions d'activations que le reseau de neurones peut prendre en compte
  * @author Gaya Mehenni
  */
 
@@ -20,6 +21,7 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 		}
 		
 		/**
+		 * Methode qui retourne la derivee de la fonction
 		 * @return fonction derivee
 		 */
 		public DerivativeFunctions getDerivative() {
@@ -31,12 +33,14 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 	Sigmoid {
 
 		/**
+		 * Methode qui donne la valeur f(x) pour un certain x
 		 * @param x valeur
 		 * @return y de la fonction
 		 */
 		public double getValue(double x) { return (1.0 / (1.0 + Math.pow(Math.E, -x))); }
 
 		/**
+		 * Methode qui retourne la derivee de la fonction
 		 * @return fonction derivee
 		 */
 		public DerivativeFunctions getDerivative() {
@@ -47,6 +51,7 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 	Tanh {
 
 		/**
+		 * Methode qui donne la valeur f(x) pour un certain x
 		 * @param x valeur
 		 * @return y de la fonction
 		 */
@@ -55,6 +60,7 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 		}
 
 		/**
+		 * Methode qui retourne la derivee de la fonction
 		 * @return fonction derivee
 		 */
 		public DerivativeFunctions getDerivative() {
@@ -64,7 +70,9 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 	},
 	
 	ReLU {
+
 		/**
+		 * Methode qui donne la valeur f(x) pour un certain x
 		 * @param x valeur
 		 * @return y de la fonction
 		 */
@@ -74,6 +82,7 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 		}
 
 		/**
+		 * Methode qui retourne la derivee de la fonction
 		 * @return fonction derivee
 		 */
 		public DerivativeFunctions getDerivative() {

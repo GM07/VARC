@@ -2,18 +2,17 @@ package neural.network;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 
 import functions.ActivationFunctions;
 import math.MathTools;
 import math.Matrix;
 
+/**
+ * Classe qui represente la structure d'un reseau de neurones
+ * @author Gaya Mehenni
+ * @author Simon Daze
+ */
 public class NeuralNetwork implements Serializable {
 
 	private static final long serialVersionUID = 643116515073485682L;
@@ -271,6 +270,51 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	/**
+	 * Save the neural network
+	 * @param path
+	 */
+	public void saveNetwork(String path) {
+		try {
+			//File f = new File(path + ".dat");
+			FileOutputStream fos = new FileOutputStream(path + ".dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(this);
+			//oos.flush();
+			oos.close();
+			//fos.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+			System.out.println(path);
+			System.out.println("File hasn't been found");
+		}
+	}
+
+	/**
+	 * Load a neural network
+	 * @param path
+	 * @return neural network
+	 */
+	public static NeuralNetwork loadNetwork(String path){
+		try {
+			System.out.println(path);
+			File f = new File(path + ".dat");
+			FileInputStream fis = new FileInputStream(f);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			NeuralNetwork network = (NeuralNetwork) ois.readObject();
+			ois.close();
+			fis.close();
+			return network;
+		} catch(IOException e) {
+			System.out.println("Le fichier n'existe pas");
+			return null;
+		} catch (ClassNotFoundException e) {
+			System.out.println("La classe n'a pas ete trouvee");
+			return null;
+		}
+	}
+
+
+	/**
 	 * Retourne les couches du reseau de neurone
 	 * @return les couches du reseau
 	 */
@@ -317,10 +361,10 @@ public class NeuralNetwork implements Serializable {
 
 	/**
 	 * Change le nombre de couches du reseau
-	 * @param nUMBER_OF_LAYERS nombre de couches
+	 * @param NUMBER_OF_LAYERS nombre de couches
 	 */
-	public void setNUMBER_OF_LAYERS(int nUMBER_OF_LAYERS) {
-		NUMBER_OF_LAYERS = nUMBER_OF_LAYERS;
+	public void setNUMBER_OF_LAYERS(int NUMBER_OF_LAYERS) {
+		NUMBER_OF_LAYERS = NUMBER_OF_LAYERS;
 	}
 
 	/**
@@ -363,23 +407,22 @@ public class NeuralNetwork implements Serializable {
 	//auteur : Simon Daze
 	public static void main(String[] args) throws IOException {
 
-		System.out.println(NeuralNetwork.class.getClassLoader().getResource(""));
+		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 64 * 64 * 3, 28, 16, 3);
 
-		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 3,2,1,2);
-		double[] inputs = new double[]{1,2,3};
-		double[] outputs = new double[] {2,1};
-		nn.train(inputs, outputs);
-		nn.updateWeightsAndBiases(0.1);
-		System.out.println(nn);
-		String path = "C:\\Users\\mehga\\Documents\\Autres\\Network Savee\\neural3";
-		/*NeuralNetwork nn3 = new NeuralNetwork();
-		nn3.setActivationFunction(ActivationFunctions.Sigmoid);
-		NeuralNetwork.saveNetworkToXML(nn3, "res/network_saves/neural");*/
-		NeuralNetwork.saveNetworkToXML(nn, path);
-		NeuralNetwork nn2 = NeuralNetwork.loadNetworkFromXML(path);
-		//System.out.println(NeuralNetwork.loadNetwork(path));
+		String path = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\test1";
 
-		System.out.println(nn2);
+		long t1 = System.currentTimeMillis();
+		long t2;
+		nn.saveNetwork(path);
+
+		t2 = System.currentTimeMillis();
+		System.out.println(t2 - t1);
+
+		System.out.println("Loading");
+
+		NeuralNetwork nn2 = NeuralNetwork.loadNetwork(path);
+
+		System.out.println("Fin");
 
 	}
 

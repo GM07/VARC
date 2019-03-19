@@ -11,12 +11,17 @@ import javax.imageio.ImageIO;
 
 import math.MathTools;
 
+/**
+ * Classe qui permet de manipuler des images pour les adapter au reseau de neurones
+ * @author Gaya Mehenni
+ */
 public class ImageManager {
 
 	/**
-	 * Method that converts an image into a one dimensional array ([r1, g1, b1, r2, g2, ...)
-	 * @param img : image (BufferedImage)
-	 * @return
+	 * Methode qui convertit une image en tableau de valeurs rgb
+	 * @param img image
+	 * @return tableau des valeurs rgb
+	 * @throws IOException
 	 */
 	public static double[] convertRGB(BufferedImage img) throws IOException {
 		BufferedImage bi = img;
@@ -34,7 +39,13 @@ public class ImageManager {
 
 		return MathTools.getAsOneDimension(values);
 	}
-	
+
+	/**
+	 * Methode qui convertit une image en tableau des valeurs rgb, mais en ne prenant que la moyenne des trois valeurs (grey scale)
+	 * @param img image
+	 * @return tableau des valeurs
+	 * @throws IOException
+	 */
 	public static double[] convertGreyValues(BufferedImage img) throws IOException {
 		
 		BufferedImage bi = img;
@@ -54,10 +65,10 @@ public class ImageManager {
 	}
 
 	/**
-	 * Squares up an image
-	 * @param img
-	 * @param imageSize
-	 * @return
+	 * Convertit une image en image carre
+	 * @param img image
+	 * @param imageSize taille
+	 * @return image carre
 	 */
 	public static BufferedImage getSquaredImage(BufferedImage img, int imageSize) {
 
@@ -72,11 +83,11 @@ public class ImageManager {
 	}
 
 	/**
-	 * Function that gets the r, g and b values of a pixel from an image
-	 * @param img : image
-	 * @param x : x coordinate
-	 * @param y : y coordinate
-	 * @return
+	 * Method qui retourne les valeurs rgb d'un pixel d'une image
+	 * @param img image
+	 * @param x position en x
+	 * @param y position en y
+	 * @return valeurs rgb
 	 */
 	public static double[] getPixelData(BufferedImage img, int x, int y) {
 		int argb = img.getRGB(x, y);
@@ -124,6 +135,11 @@ public class ImageManager {
 
 	}
 
+	/**
+	 * Methode qui retourne la couleur moyenne d'une image en mettant la priorite sur les pixels du milieu
+	 * @param img image
+	 * @return tableau des valeurs rgb moyennes
+	 */
 	public static double[] getAverageColorFromMiddle(BufferedImage img) {
 
 		double[] rgbValues = new double[3];

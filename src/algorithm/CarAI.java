@@ -253,11 +253,7 @@ public class CarAI extends JPanel implements Runnable{
      * @param path chemin d'acces de la sauvegarde du reseau
      */
     public void saveNetwork(String path){
-        try {
-            neuralNetwork.saveNetworkToXML(neuralNetwork, path);
-        } catch (IOException e) {
-            System.out.println("Le reseau n'a pas pu etre sauvegarde");
-        }
+        neuralNetwork.saveNetwork(path);
     }
 
     /**
@@ -265,11 +261,7 @@ public class CarAI extends JPanel implements Runnable{
      * @param path chemin d'acces du chargement du reseau
      */
     public void loadNetwork(String path) {
-        try {
-            neuralNetwork = NeuralNetwork.loadNetworkFromXML(path);
-        } catch (IOException e) {
-            System.out.println("Le reseau n'a pas pu etre charge");
-        }
+        neuralNetwork = NeuralNetwork.loadNetwork(path);
     }
 
     /**

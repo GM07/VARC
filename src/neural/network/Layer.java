@@ -5,6 +5,10 @@ import math.Matrix;
 
 import java.io.Serializable;
 
+/**
+ * Classe representant une couche dans le reseau de neurones
+ * @author Gaya Mehenni
+ */
 public class Layer implements Serializable{
 
 	private static final long serialVersionUID = -6865142233942855068L;
@@ -13,8 +17,18 @@ public class Layer implements Serializable{
 	private ActivationFunctions function;
 	private LayerType type;
 
+	/**
+	 * Constructeur nul pour la sauvegarde xml
+	 */
 	public Layer() {}
 
+	/**
+	 * Constructeur
+	 * @param nbNeurons nombre de neurones de la couche
+	 * @param inputNeurons nombre de neurones en entree
+	 * @param type type de couche
+	 * @param function fonction d'activation de la couche
+	 */
 	public Layer(int nbNeurons, int inputNeurons, LayerType type, ActivationFunctions function) {
 
 		NB_NEURONS = nbNeurons;
@@ -56,7 +70,7 @@ public class Layer implements Serializable{
 	}
 
 	/**
-	 * Calculates the output of the layer
+	 * Methode qui calcul les sorties de la couche
 	 */
 	public void feedForward() {
 
@@ -71,7 +85,7 @@ public class Layer implements Serializable{
 	}
 	
 	/**
-	 * Adujsts the weights and the biases with the errors
+	 * Methode qui ajuste les poids et les biais de la couche en fonction de l'erreur de la couche
 	 * @param learningRate
 	 */
 	public void backpropagation(double learningRate) {
@@ -97,6 +111,10 @@ public class Layer implements Serializable{
 		}
 	}
 
+	/**
+	 * Methode qui affiche la couche dans la console
+	 * @return chaine de caractere qui represente la couche
+	 */
 	public String toString() {
 
 		String s = "";
@@ -255,10 +273,6 @@ public class Layer implements Serializable{
 		return NB_NEURONS;
 	}
 
-	public static long getSerialVersionUID() {
-		return serialVersionUID;
-	}
-
 	/**
 	 * Returns the number of neurons in the previous layer
 	 * @return
@@ -267,14 +281,26 @@ public class Layer implements Serializable{
 		return NB_INPUT_NEURONS;
 	}
 
+	/**
+	 * Methode qui change le nombre de neurones dans la couche
+	 * @param NB_NEURONS nombre de neurones
+	 */
 	public void setNB_NEURONS(int NB_NEURONS) {
 		this.NB_NEURONS = NB_NEURONS;
 	}
 
+	/**
+	 * Methode qui change le nombre de neurones en entree
+	 * @param NB_INPUT_NEURONS nombre de neurones en entree
+	 */
 	public void setNB_INPUT_NEURONS(int NB_INPUT_NEURONS) {
 		this.NB_INPUT_NEURONS = NB_INPUT_NEURONS;
 	}
 
+	/**
+	 * Methode qui change la valeur des activations de la couche
+	 * @param outputsZ matrice des activations
+	 */
 	public void setOutputsZ(Matrix outputsZ) {
 		this.outputsZ = outputsZ;
 	}
