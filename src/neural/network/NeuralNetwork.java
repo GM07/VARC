@@ -270,34 +270,32 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	/**
-	 * Save the neural network
-	 * @param path
+	 * Methode qui sauvegarde un reseau de neurone
+	 * @param path chemin d'acces
 	 */
 	public void saveNetwork(String path) {
 		try {
-			//File f = new File(path + ".dat");
 			FileOutputStream fos = new FileOutputStream(path + ".dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(this);
-			//oos.flush();
 			oos.close();
-			//fos.close();
+			fos.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 			System.out.println(path);
-			System.out.println("File hasn't been found");
+			System.out.println("Le fichier n'a pas ete trouve");
 		}
 	}
 
 	/**
-	 * Load a neural network
-	 * @param path
-	 * @return neural network
+	 * Methode qui charge un reseau de neurone
+	 * @param path chemin d'acces du reseau
+	 * @return reseau de neurone
 	 */
 	public static NeuralNetwork loadNetwork(String path){
 		try {
 			System.out.println(path);
-			File f = new File(path + ".dat");
+			File f = new File(path);
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			NeuralNetwork network = (NeuralNetwork) ois.readObject();
