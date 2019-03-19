@@ -158,11 +158,7 @@ public class MnistAlgorithm {
 			//System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1));
 		}
 
-		try {
-			NeuralNetwork.saveNetworkToXML(nn, savingPath + ((int) (100 * testNetwork(nn))) + "%.xml");
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
+		nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%.xml");
 	}
 
 }

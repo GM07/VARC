@@ -270,34 +270,32 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	/**
-	 * Save the neural network
-	 * @param path
+	 * Methode qui sauvegarde un reseau de neurone
+	 * @param path chemin d'acces
 	 */
 	public void saveNetwork(String path) {
 		try {
-			//File f = new File(path + ".dat");
 			FileOutputStream fos = new FileOutputStream(path + ".dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(this);
-			//oos.flush();
 			oos.close();
-			//fos.close();
+			fos.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 			System.out.println(path);
-			System.out.println("File hasn't been found");
+			System.out.println("Le fichier n'a pas ete trouve");
 		}
 	}
 
 	/**
-	 * Load a neural network
-	 * @param path
-	 * @return neural network
+	 * Methode qui charge un reseau de neurone
+	 * @param path chemin d'acces du reseau
+	 * @return reseau de neurone
 	 */
 	public static NeuralNetwork loadNetwork(String path){
 		try {
 			System.out.println(path);
-			File f = new File(path + ".dat");
+			File f = new File(path);
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			NeuralNetwork network = (NeuralNetwork) ois.readObject();
@@ -409,27 +407,7 @@ public class NeuralNetwork implements Serializable {
 
 		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 64 * 64 * 3, 28, 16, 3);
 
-
-		//NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 48*48*3,28,16,3);
-		//double[] inputs = new double[]{1,2,3};
-		double[] inputs =  new double[48*48*3];
-		for (int i =0 ; i < (48*48*3); i++) {
-			inputs[i] = 1;
-		}
-		double[] outputs = new double[] {2,1,2};
-		nn.train(inputs, outputs);
-		nn.updateWeightsAndBiases(0.1);
-		System.out.println(nn);
-		String path = "D:/cegep/prog/neural5.xml";
-		/*NeuralNetwork nn3 = new NeuralNetwork();
-		nn3.setActivationFunction(ActivationFunctions.Sigmoid);
-		NeuralNetwork.saveNetworkToXML(nn3, "res/network_saves/neural");*/
-		NeuralNetwork.saveNetworkToXML(nn, path);
-		NeuralNetwork nn2 = NeuralNetwork.loadNetworkFromXML(path);
-		//System.out.println(NeuralNetwork.loadNetwork(path));
-
-		
-		
+		String path = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\test3";
 
 		long t1 = System.currentTimeMillis();
 		long t2;

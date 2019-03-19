@@ -23,9 +23,7 @@ public abstract class CNNLayer implements Serializable {
 	protected ActivationFunctions function;
 	
 
-	public CNNLayer() {
-
-	}
+	public CNNLayer() {}
 
 	/**
 	 * L'operation specifique a certaines layer
