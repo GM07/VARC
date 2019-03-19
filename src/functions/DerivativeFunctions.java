@@ -3,15 +3,16 @@ package functions;
 import java.io.Serializable;
 
 /**
+ * Enumeration des derivees des fonctions d'activation
  * @author Gaya Mehenni
  */
-
 
 public enum DerivativeFunctions implements DerivativeFunctionsInterface, Serializable {
 
 	Linear {
 
 		/**
+		 * Methode qui donne la valeur f(x) pour un certain x
 		 * @param x valeur
 		 * @return y de la fonction
 		 */
@@ -23,6 +24,7 @@ public enum DerivativeFunctions implements DerivativeFunctionsInterface, Seriali
 	Sigmoid {
 
 		/**
+		 * Methode qui donne la valeur f(x) pour un certain x
 		 * @param x valeur
 		 * @return y de la fonction
 		 */
@@ -34,6 +36,7 @@ public enum DerivativeFunctions implements DerivativeFunctionsInterface, Seriali
 	Tanh {
 
 		/**
+		 * Methode qui donne la valeur f(x) pour un certain x
 		 * @param x valeur
 		 * @return y de la fonction
 		 */
@@ -45,6 +48,7 @@ public enum DerivativeFunctions implements DerivativeFunctionsInterface, Seriali
 	ReLU {
 
 		/**
+		 * Methode qui donne la valeur f(x) pour un certain x
 		 * @param x valeur
 		 * @return y de la fonction
 		 */

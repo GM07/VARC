@@ -13,6 +13,7 @@ import javax.swing.event.MenuListener;
 import algorithm.CarAI;
 import dessin.DessinNeuralNetwork;
 import image.processing.ImageManager;
+import neural.network.NeuralNetwork;
 
 /**
  * Classe de la fenetre principale et de demarrage de l'application
@@ -84,6 +85,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private MarqueWindow marqueWindow;
 	private FileWindow datasetWindow;
 	private FileWindow saveNetworkWindow;
+	private FileWindow loadNetworkWindow;
 
 	// Arraylist qui contient tous les JComponent
 	private ArrayList<JComponent> elements = new ArrayList<>();
@@ -191,14 +193,27 @@ public class App25CarAiLRIMa extends JFrame {
 					carAI.saveNetwork(saveNetworkWindow.getPath());
 					System.out.println("Le reseau a ete sauvegarde");
 				} catch (NullPointerException n) {
-					System.out.println("Le reseau n'a pas pu etre sauvegarder, car il faut choisir une destination");
+					System.out.println("Le reseau n'a pas pu etre sauvegarde, car il faut choisir une destination valide");
 				}
 			}
 		});
 
+		loadNetworkWindow = new FileWindow();
+
 		// Bouton qui charge un reseau dans le menu des options
 		menuItemLoad = new JMenuItem("Charger un reseau");
+		menuItemLoad.addActionListener(actionPerformed -> {
+			loadNetworkWindow.setVisible(true);
+		});
 		menuOptions.add(menuItemLoad);
+
+		loadNetworkWindow.addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				carAI.loadNetwork(loadNetworkWindow.getPath());
+			}
+		});
 		
 		// Bouton qui ferme la fenetre
 		menuItemQuit = new JMenuItem("Quitter");
