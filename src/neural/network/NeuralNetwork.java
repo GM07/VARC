@@ -4,13 +4,10 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import functions.ActivationFunctions;
@@ -19,9 +16,6 @@ import math.Matrix;
 
 public class NeuralNetwork implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 643116515073485682L;
 
 	private Layer[] layers;
@@ -30,8 +24,16 @@ public class NeuralNetwork implements Serializable {
 
 	private ActivationFunctions activationFunction;
 
+	/**
+	 * Constructeur nul pour permettre la sauvegarde et le chargement en XML
+	 */
 	public NeuralNetwork() {}
 
+	/**
+	 * Constructeur
+	 * @param function fonction d'activation du reseau
+	 * @param configuration configuration du reseau (nombre de neurones par couche)
+	 */
     public NeuralNetwork(ActivationFunctions function, int... configuration) {
 
 		// Activation function
@@ -76,8 +78,8 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	/**
-	 * Gets the output of the neuron given a certain input by using the feed forward algorithm
-	 * @param inputs
+	 * Calcul le resultat que le reseau genere pour des donnees en entree
+	 * @param inputs donnees en entree
 	 */
 	public void feedForward(double[] inputs) {
 
@@ -104,8 +106,8 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	/**
-	 * Applies the backpropagation algorithm to train the network
-	 * @param expected
+	 * Applique l'algorithme de backpropagation base sur la descente du gradient au reseau de neurone
+	 * @param expected resultat voulu
 	 */
 	public void backpropagation(double[] expected) {
 
@@ -131,49 +133,10 @@ public class NeuralNetwork implements Serializable {
 			}
 		}
 
-
-		/*
-		Matrix expectedMatrix = new Matrix(MathTools.getAsTwoDimensionalArray(expected));
-
-		Matrix outputDerivative = layers[NUMBER_OF_LAYERS - 1].getOutputs().applyFunctionDerivative(layers[NUMBER_OF_LAYERS - 1].getFunction());
-		layers[NUMBER_OF_LAYERS - 1].setErrors(Matrix.subtract(expectedMatrix, layers[NUMBER_OF_LAYERS - 1].getOutputs()).product(outputDerivative));
-
-		for(int layer = NUMBER_OF_LAYERS - 2; layer > 0; layer--) {
-
-			outputDerivative = layers[layer].getOutputs().applyFunctionDerivative(layers[layer].getFunction());
-			Matrix error = layers[layer + 1].getWeights().transpose().multiply(layers[layer + 1].getErrors()).product(outputDerivative);
-			layers[layer].setErrors(error);
-		}
-		*/
-
-
-		/*
-		// Error in the output layer
-		Matrix outputDerivative = layers[NUMBER_OF_LAYERS - 1].getOutputs().applyFunctionDerivative(layers[NUMBER_OF_LAYERS - 1].getFunction());
-		layers[NUMBER_OF_LAYERS - 1].setErrors(Matrix.subtract(expectedMatrix, layers[NUMBER_OF_LAYERS - 1].getOutputs()));
-		//layers[NUMBER_OF_LAYERS - 1].setErrors(Matrix.subtract(expectedMatrix, layers[NUMBER_OF_LAYERS - 1].getOutputs()).product(layers[NUMBER_OF_LAYERS - 1].getOuputsZ().applyFunctionDerivative(layers[NUMBER_OF_LAYERS - 1].getFunction())));
-
-		// Error in the hidden layers
-		for(int layer = NUMBER_OF_LAYERS - 2; layer > 0; layer--) {
-
-			//System.out.println("UPDATING " + layers[layer].getType() + " - " + layer);
-			Matrix wT = layers[layer + 1].getWeights().transpose();
-			Matrix errorNextLayer = layers[layer + 1].getErrors();
-			Matrix oD = layers[layer].getOutputs().applyFunctionDerivative(layers[layer].getFunction());
-			Matrix error = wT.multiply(errorNextLayer).product(oD);
-			layers[layer].setErrors(error);
-
-//			Matrix errorLayer = layers[layer + 1].getWeights().transpose().multiply(layers[layer + 1].getErrors()).product(layers[layer].getOutputs().applyFunctionDerivative(layers[layer].getFunction()));
-//			layers[layer].setErrors(errorLayer);
-		}
-		*/
-
-
-
 	}
 	/**
-	 * Updating each weights and biases with the error associated to each node
-	 * @param learningRate constant at which the neural network learns
+	 * Met a jour la valeur de chaque poids et chaque biais en fonction de l'erreur de la neurone
+	 * @param learningRate constante a laquelle le reseau apprend
 	 */
 	public void updateWeightsAndBiases(double learningRate) {
 
@@ -190,37 +153,13 @@ public class NeuralNetwork implements Serializable {
 					}
 			}
 
-
-            //layers[layer].backpropagation(learningRate);
-
-			/*
-			layers[layer].setBiases(Matrix.sum(layers[layer].getBiases(), layers[layer].getErrors().scalarProduct(-learningRate)));
-
-			layers[layer].setWeights(Matrix.sum(layers[layer].getWeights(), layers[layer].getErrors().multiply(layers[layer - 1].getOutputs().transpose()).scalarProduct(-learningRate)));
-
-			*/
-
-//			Layer currentLayer = layers[layer];
-//			Matrix weights = currentLayer.getWeights();
-//			Matrix errors = currentLayer.getErrors();
-//
-//			Layer previousLayer = layers[layer - 1];
-//			Matrix outputs = previousLayer.getOutputs();
-//
-//			for(int neuron = 0; neuron < currentLayer.get; neuron++) {
-//
-//				for (int prevNeuron = 0; prevNeuron < NB_INPUT_NEURONS; prevNeuron++) {
-//
-//
-//				}
-//			}
         }
 	}
 
 	/**
-	 * Trains the neural network
-	 * @param inputs neural network's inputs (going in the input layer)
-	 * @param target outputs expected from the neural network
+	 * Entraine le reseau en appliquant l'algorithme de feed forward et de backpropagation
+	 * @param inputs l'entree du reseau de neurone
+	 * @param target le resultat qui est attendu
 	 */
 	public void train(double[] inputs, double[] target) {
 
@@ -229,8 +168,8 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	/**
-	 * Sets the inputs of the neural network
-	 * @param inputs neural network's inputs (going in the input layer)
+	 * Change l'entree du reseau
+	 * @param inputs entree du reseau
 	 */
 	public void setInputs(double[] inputs) {
 
@@ -245,67 +184,18 @@ public class NeuralNetwork implements Serializable {
 
 	}
 
-
 	/**
-	 * Save the neural network
-	 * @param path a path where the neural network will be saved
-	 */
-	public void saveNetwork(String path) {
-		try {
-			//File f = new File(path + ".dat");
-			FileOutputStream fos = new FileOutputStream(path + ".dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(this);
-			oos.flush();
-			oos.close();
-			fos.close();
-		} catch(IOException e) {
-			e.printStackTrace();
-			System.out.println(path);
-			System.out.println("File hasn't been found");
-		}
-	}
-
-	/**
-	 * Load a neural network
-	 * @param path a path which tells where to load the neural network
-	 * @return neural network
-	 */
-	public static NeuralNetwork loadNetwork(String path){
-		try {
-			File f = new File(path);
-			FileInputStream fis = new FileInputStream(f);
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			NeuralNetwork network = (NeuralNetwork) ois.readObject();
-			ois.close();
-			fis.close();
-			return network;
-		} catch(IOException e) {
-			System.out.println("File doesn't exist");
-			return null;
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		} catch(NullPointerException e) {
-			return null;
-		}
-	}
-
-
-	/**
-	 * Returns the last layer of the neural network
-	 * @return
+	 * Retourne la matrice de sortie du reseau
+	 * @return matrice de sortie
 	 */
 	public Matrix getResults() {
-
-		//System.out.println("RESULTS : " + layers[NUMBER_OF_LAYERS - 1]);
 		return layers[NUMBER_OF_LAYERS - 1].getOutputs();
 	}
 
 	/**
-	 * Gets a certain layer
-	 * @param index
-	 * @return layer
+	 * Retourne une certaine couche du reseau
+	 * @param index numero de la couche (la premiere couche est de numero 0)
+	 * @return couche qui correspond au numero
 	 */
 	public Layer getLayer(int index) {
 
@@ -317,8 +207,8 @@ public class NeuralNetwork implements Serializable {
 	}
 
 	/**
-	 *
-	 * @return
+	 * Methode qui retourne les donnees du reseau de neurone
+	 * @return les donnees du reseau sous forme de chaine de caracteres
 	 */
 	@Override
 	public String toString() {
@@ -337,35 +227,37 @@ public class NeuralNetwork implements Serializable {
 
 
 	/**
-	 * methode pour sauvegarder un reseau sour format XML
-	 * @param nn : le reseau de neurones a sauvegarder
-	 * @param path : le buildpath ou sauvegarder le reseau
+	 * Methode pour sauvegarder un reseau sour format XML
+	 * @param nn le reseau de neurones a sauvegarder
+	 * @param path le chemin d'acces ou sauvegarder le reseau
 	 */
 	//Auteurs : source web : https://www.edureka.co/blog/serialization-of-java-objects-to-xml-using-xmlencoder-decoder/
 
 	public static void saveNetworkToXML (NeuralNetwork nn, String path) throws IOException
 	{
-		XMLEncoder encoder=null;
+		XMLEncoder encoder = null;
 		try{
-			encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(path)));
+			System.out.println(path);
+			encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(path + ".xml")));
 			encoder.writeObject(nn);
 			encoder.close();
+			System.out.println("Le reseau a bel et bien ete sauvegarde : " + path);
 		}catch(FileNotFoundException fileNotFound){
 			fileNotFound.printStackTrace();
-			System.out.println("ERROR: While Creating or Opening the File : " + path);
+			System.out.println("Erreur en creant le fichier : " + path);
 		}
 
 	}
 	/**
-	 * permet de lire un reseau sauvergarde sous format XML
-	 * @param path : le path du reseau a charger
+	 * Permet de lire un reseau sauvergarde sous format XML
+	 * @param path le path du reseau a charger
 	 * @return le reseau charge a partir du fichier
 	 * @throws IOException
 	 */
 	//auteurs Source web : https://www.edureka.co/blog/serialization-of-java-objects-to-xml-using-xmlencoder-decoder/
 
 	public static NeuralNetwork loadNetworkFromXML(String path) throws IOException {
-		XMLDecoder decoder=null;
+		XMLDecoder decoder = null;
 		try {
 			decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(path)));
 			NeuralNetwork decodedNetwork = (NeuralNetwork) decoder.readObject();
@@ -378,57 +270,93 @@ public class NeuralNetwork implements Serializable {
 		}
 	}
 
+	/**
+	 * Retourne les couches du reseau de neurone
+	 * @return les couches du reseau
+	 */
 	public Layer[] getLayers() {
 		return layers;
 	}
 
+	/**
+	 * Change les couches du reseau de neurone selon une nouvelle configuration de couches
+	 * @param layers nouvelle configuration de couches
+	 */
 	public void setLayers(Layer[] layers) {
 		this.layers = layers;
 	}
 
+	/**
+	 * Retourne la fonction d'activation utilisee par le reseau de neurone
+	 * @return la fonction d'activation
+	 */
 	public ActivationFunctions getActivationFunction() {
 		return activationFunction;
 	}
 
+	/**
+	 * Change la fonction d'activation utilisee par le reseau de neurone
+	 * @param activationFunction fonction d'activation
+	 */
 	public void setActivationFunction(ActivationFunctions activationFunction) {
 		this.activationFunction = activationFunction;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	/*
+	Tous les getter et setter suivant n'ont pour simple but que de permettre la sauvegarde du reseau dans un fichier XML
+	Les valeurs vont toujours etre constantes pour une instance de la classe
+	 */
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
+	/**
+	 * Retourne le nombre de couches du reseau
+	 * @return nombre de couches
+	 */
     public int getNUMBER_OF_LAYERS() {
 		return NUMBER_OF_LAYERS;
 	}
 
+	/**
+	 * Change le nombre de couches du reseau
+	 * @param nUMBER_OF_LAYERS nombre de couches
+	 */
 	public void setNUMBER_OF_LAYERS(int nUMBER_OF_LAYERS) {
 		NUMBER_OF_LAYERS = nUMBER_OF_LAYERS;
 	}
 
+	/**
+	 * Change le nombre de neurones dans la couche d'entree du reseau
+	 * @param iNPUT_LAYER_SIZE nombre de neurones en entree
+	 */
 	public void setINPUT_LAYER_SIZE(int iNPUT_LAYER_SIZE) {
 		INPUT_LAYER_SIZE = iNPUT_LAYER_SIZE;
 	}
 
-	public void setOUTPUT_LAYER_SIZE(int oUTPUT_LAYER_SIZE) {
-		OUTPUT_LAYER_SIZE = oUTPUT_LAYER_SIZE;
-	}
-
+	/**
+	 * Retourne le nombre de neurone dans la premiere couche du reseau
+	 * @return nombre de neurones dans la couche d'entree
+	 */
 	public int getINPUT_LAYER_SIZE() {
 		return INPUT_LAYER_SIZE;
 	}
 
+	/**
+	 * Change le nombre de neurones dans la derniere couche du reseau
+	 * @param OUTPUT_LAYER_SIZE nombre de neurones en sortie
+	 */
+	public void setOUTPUT_LAYER_SIZE(int OUTPUT_LAYER_SIZE) {
+		OUTPUT_LAYER_SIZE = OUTPUT_LAYER_SIZE;
+	}
+
+	/**
+	 * Retourne le nombre de neurones dans la derniere couche du reseau
+	 * @return nombre de neurones en sortie
+	 */
 	public int getOUTPUT_LAYER_SIZE() {
 		return OUTPUT_LAYER_SIZE;
 	}
 
-
 	/**
-	 * test du chargement de la sauvegarde du reseau
+	 * Test du chargement de la sauvegarde du reseau
 	 * @param args
 	 * @throws IOException
 	 */
@@ -443,7 +371,7 @@ public class NeuralNetwork implements Serializable {
 		nn.train(inputs, outputs);
 		nn.updateWeightsAndBiases(0.1);
 		System.out.println(nn);
-		String path = "neural3.xml";
+		String path = "C:\\Users\\mehga\\Documents\\Autres\\Network Savee\\neural3";
 		/*NeuralNetwork nn3 = new NeuralNetwork();
 		nn3.setActivationFunction(ActivationFunctions.Sigmoid);
 		NeuralNetwork.saveNetworkToXML(nn3, "res/network_saves/neural");*/
@@ -455,44 +383,6 @@ public class NeuralNetwork implements Serializable {
 
 	}
 
-//	public static void main(String[] args) {
-//		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 2, 4, 1);
-//		double[][] in = {
-//				{0, 1},
-//				{1, 0},
-//				{0, 0},
-//				{1, 1}
-//		};
-//
-//		double[][] out = {
-//				{1},
-//				{1},
-//				{0},
-//				{0}
-//		};
-//
-//
-//		nn.feedForward(in[0]);
-//		System.out.println(nn);
-//		System.out.println(nn.getResults());
-//		for(int i = 0; i < 1000; i++) {
-//			nn.train(in[i % 4], out[i % 4]);
-//			nn.updateWeightsAndBiases(0.3/4.0);
-//			System.out.println("Result " + nn.getResults() + " expected : " + out[i % 4][0]);
-//			System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1).getErrors());
-//		}
-//
-//		System.out.println("NEW NEURAL \n\n");
-//		nn.feedForward(in[0]);
-//		System.out.println(nn.getResults());
-//		nn.feedForward(in[1]);
-//		System.out.println(nn.getResults());
-//		nn.feedForward(in[2]);
-//		System.out.println(nn.getResults());
-//		nn.feedForward(in[3]);
-//		System.out.println(nn.getResults());
-//
-//	}
 
 
 

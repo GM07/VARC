@@ -85,13 +85,13 @@ public class Layer implements Serializable{
 
 			/*
 			for(int neuron = 0; neuron < NB_NEURONS; neuron++) {
-				
+
 				for(int prevNeuron = 0; prevNeuron < NB_INPUT_NEURONS; prevNeuron++) {
-					
+
 					weights.setElement(neuron, prevNeuron, weights.getElement(neuron, prevNeuron) - learningRate * errors.getElement(neuron, 0) * inputs.getElement(prevNeuron, 0));
 					biases.setElement(neuron, 0, biases.getElement(neuron, 0) - learningRate * errors.getElement(neuron, 0));
 				}
-				
+
 			}
 			*/
 		}
@@ -273,5 +273,9 @@ public class Layer implements Serializable{
 
 	public void setNB_INPUT_NEURONS(int NB_INPUT_NEURONS) {
 		this.NB_INPUT_NEURONS = NB_INPUT_NEURONS;
+	}
+
+	public void setOutputsZ(Matrix outputsZ) {
+		this.outputsZ = outputsZ;
 	}
 }

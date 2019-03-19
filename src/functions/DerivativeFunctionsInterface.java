@@ -2,9 +2,9 @@ package functions;
 
 public interface DerivativeFunctionsInterface {
 
-    /*
-    * @param	x	value
-    * @return		output of the function
-    */
+    /**
+     * @param x valeur
+     * @return y de la fonction
+     */
     double getValue(double x);
 }

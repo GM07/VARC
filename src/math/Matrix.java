@@ -5,6 +5,7 @@ import java.io.Serializable;
 import functions.ActivationFunctions;
 
 /**
+ * Classe utilisee pour representer des matrices
  * @author Gaya Mehenni
  * @author Simon Daze
  */
@@ -368,7 +369,7 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 *  ajout d'un padding a une matrice (contours de 0)
+	 * Ajout d'un padding a une matrice (contours de 0)
 	 * @param paddingSize le nombre de rangee + colonne de 0 qui entoure la matrice
 	 * @return une nouvelle matrice entouree de couches de 0 
 	 */
@@ -420,11 +421,27 @@ public class Matrix implements Serializable {
 	}
 
 	/**
+	 * Change le nombre de rangee de la matrice
+	 * @param ROWS
+	 */
+	public void setROWS(int ROWS) {
+		this.ROWS = ROWS;
+	}
+
+	/**
 	 * Returns the number of rows of the matrix
 	 * @return		Number of rows of the matrix
 	 */
 	public int getROWS() {
 		return ROWS;
+	}
+
+	/**
+	 * Change le nombre de colonnes de la matrice
+	 * @param COLS
+	 */
+	public void setCOLS(int COLS) {
+		this.COLS = COLS;
 	}
 
 	/**

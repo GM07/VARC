@@ -83,6 +83,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private FileWindow fileWindow;
 	private MarqueWindow marqueWindow;
 	private FileWindow datasetWindow;
+	private FileWindow saveNetworkWindow;
 
 	// Arraylist qui contient tous les JComponent
 	private ArrayList<JComponent> elements = new ArrayList<>();
@@ -90,9 +91,7 @@ public class App25CarAiLRIMa extends JFrame {
 	// Autres variables de classes
 	Color color = Color.GRAY;
 
-	/*
-	 * Instance de la classe qui contient tous les algorithmes pour detecter les vehicules
-	 */
+	//Instance de la classe qui contient tous les algorithmes pour detecter les vehicules
 	private CarAI carAI;
 
 	/**
@@ -175,9 +174,27 @@ public class App25CarAiLRIMa extends JFrame {
 		menuOptions = new JMenu("Options");
 		menuBar.add(menuOptions);
 
+		saveNetworkWindow = new FileWindow();
+
 		// Bouton qui sauvegarde le reseau dans le menu des options
 		menuItemSave = new JMenuItem("Sauvegarder mon reseau");
+		menuItemSave.addActionListener(actionPerformed -> {
+			saveNetworkWindow.setVisible(true);
+		});
 		menuOptions.add(menuItemSave);
+
+		saveNetworkWindow.addWindowListener(new WindowAdapter() {
+
+			public void windowDeactivated(WindowEvent e){
+
+				try {
+					carAI.saveNetwork(saveNetworkWindow.getPath());
+					System.out.println("Le reseau a ete sauvegarde");
+				} catch (NullPointerException n) {
+					System.out.println("Le reseau n'a pas pu etre sauvegarder, car il faut choisir une destination");
+				}
+			}
+		});
 
 		// Bouton qui charge un reseau dans le menu des options
 		menuItemLoad = new JMenuItem("Charger un reseau");
@@ -299,9 +316,11 @@ public class App25CarAiLRIMa extends JFrame {
 			@Override
 			public void windowDeactivated(WindowEvent e) {
 				try {
-					carAI.setTrainingPath(datasetWindow.getPath());
-					nnDraw.demarrer();
-					carAI.demarrer();
+					if (!datasetWindow.getPath().equals("")) {
+						carAI.setTrainingPath(datasetWindow.getPath());
+						nnDraw.demarrer();
+						carAI.demarrer();
+					}
 				} catch (NullPointerException n) {
 					System.out.println("Veuillez selectionner un chemin d'acces");
 				}

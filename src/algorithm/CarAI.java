@@ -1,6 +1,5 @@
 package algorithm;
 
-import aaplication.App25CarAiLRIMa;
 import dataset.Batch;
 import dataset.DataElement;
 import functions.ActivationFunctions;
@@ -32,8 +31,7 @@ public class CarAI extends JPanel implements Runnable{
     //private String trainingPath = "C:\\Users\\mehga\\Documents\\dataset\\car_train_weak";
     private String testingPath = "D:\\Cegep\\Session_4\\IA Data\\dataset_vehicules\\testing";
     private double learningRate;
-    private int numberOfEpochs;
-    private int batchSize;
+    private int numberOfEpochs, batchSize, numberImagesPerFolderMax = 3000;
 
     // ArrayList qui contient toutes les images;
     private Batch<DataElement> batch = new Batch<DataElement>();
@@ -47,7 +45,7 @@ public class CarAI extends JPanel implements Runnable{
     /*
         La taille des images en entree du reseau de neurone est fixee a 28x28
      */
-    private final int IMAGE_SIZE = 28;
+    private final int IMAGE_SIZE = 64;
 
     /*
         Le reseau de neurone identifie 3 types de vehicules
@@ -90,10 +88,10 @@ public class CarAI extends JPanel implements Runnable{
         g2d.drawImage(img, 0, 0, getWidth(), getHeight(), null);
     }
 
-    @Override
     /**
      * Methode qui s'occupe de l'animation du panel
      */
+    @Override
     public void run() {
 
         while(enCours) {
@@ -114,12 +112,16 @@ public class CarAI extends JPanel implements Runnable{
             }
 
             // Si le nombre d'epoch est termine, on arrete tout
-            if (counter > numberOfEpochs) enCours = false;
+            if (counter >= numberOfEpochs) {
+                System.out.println(counter + ", " + numberOfEpochs);
+                counter = 0;
+                enCours = false;
+            }
 
             counter++;
 
             try{
-                Thread.sleep(75);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -152,15 +154,14 @@ public class CarAI extends JPanel implements Runnable{
         for(int folder = 0; folder < folders.size(); folder++) {
             // On parcoure chaque dossier
 
-            ArrayList<BufferedImage> images = FileManager.getImagesFromFolder(trainingPath + "\\" + folders.get(folder));
-            System.out.print(" " + folders.get(folder));
+            ArrayList<BufferedImage> images = FileManager.getImagesFromFolder(trainingPath + "\\" + folders.get(folder), numberImagesPerFolderMax);
 
-            for (BufferedImage image : images) {
-
-                DataElement<String, BufferedImage> dE = new DataElement<String, BufferedImage>(folders.get(folder), image);
-                batch.addElementToDataset(dE);
+            for(BufferedImage i : images) {
+                DataElement<String, BufferedImage> data = new DataElement<>(folders.get(folder), i);
+                batch.addElementToDataset(data);
             }
 
+            System.out.println("\t" + folders.get(folder) + " : " + batch.getDataset().size());
         }
 
         System.out.println();
@@ -219,20 +220,20 @@ public class CarAI extends JPanel implements Runnable{
         batch.shuffleDataset();
         ArrayList<DataElement> epochData = batch.getDataset();
 
-        System.out.println(epochData.size());
+        System.out.println("\t" + epochData.size());
 
         for (int data = 0; data < epochData.size(); data++) {
 
             DataElement dataElement = batch.getDataset().get(data);
 
             try {
-                double[] input = MathTools.mapArray(ImageManager.convertRGB(ImageManager.getSquaredImage((BufferedImage) dataElement.getData(), 28)), 0, 255, 0, 1);
+                double[] input = MathTools.mapArray(ImageManager.convertRGB(ImageManager.getSquaredImage((BufferedImage) dataElement.getData(), IMAGE_SIZE)), 0, 255, 0, 1);
                 double[] output = getOutputFromString((String) dataElement.getLabel());
 
                 neuralNetwork.train(input, output);
 
                 img = (BufferedImage) (dataElement.getData());
-                if (data % 1000 == 0) repaint();
+                if (data % 50 == 0) repaint();
 
                 if (data % batchSize == 0) neuralNetwork.updateWeightsAndBiases(learningRate/batchSize);
 
@@ -245,6 +246,30 @@ public class CarAI extends JPanel implements Runnable{
 
         }
 
+    }
+
+    /**
+     * Methode qui sauvegarde le reseau de neurone
+     * @param path chemin d'acces de la sauvegarde du reseau
+     */
+    public void saveNetwork(String path){
+        try {
+            neuralNetwork.saveNetworkToXML(neuralNetwork, path);
+        } catch (IOException e) {
+            System.out.println("Le reseau n'a pas pu etre sauvegarde");
+        }
+    }
+
+    /**
+     * Methode qui charge le reseau de neurone
+     * @param path chemin d'acces du chargement du reseau
+     */
+    public void loadNetwork(String path) {
+        try {
+            neuralNetwork = NeuralNetwork.loadNetworkFromXML(path);
+        } catch (IOException e) {
+            System.out.println("Le reseau n'a pas pu etre charge");
+        }
     }
 
     /**

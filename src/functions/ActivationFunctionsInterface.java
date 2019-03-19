@@ -3,15 +3,15 @@ package functions;
 public interface ActivationFunctionsInterface {
 
     /**
-     * @param	x	value
-     * @return		output of the function
+     * @param x valeur
+     * @return y de la fonction
      */
     double getValue(double x);
 
     /**
-     * @return		derivative of the function
+     * Retourne la fonction derivee
+     * @return
      */
     DerivativeFunctions getDerivative();
 
-    double getValueOfInverse(double x);
 }

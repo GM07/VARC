@@ -2,19 +2,18 @@ package functions;
 
 import java.io.Serializable;
 
-/*
+/**
  * @author Gaya Mehenni
- * @author Simon Daze
  */
 
 
 public enum DerivativeFunctions implements DerivativeFunctionsInterface, Serializable {
 
 	Linear {
-		
-		/*
-		 * @param	x	value
-		 * @return		output of the function
+
+		/**
+		 * @param x valeur
+		 * @return y de la fonction
 		 */
 		public double getValue(double x) {
 			return 1;
@@ -22,10 +21,10 @@ public enum DerivativeFunctions implements DerivativeFunctionsInterface, Seriali
 	},
 	
 	Sigmoid {
-		
-		/*
-		 * @param	x	value
-		 * @return		output of the function
+
+		/**
+		 * @param x valeur
+		 * @return y de la fonction
 		 */
 		public double getValue(double x) {
 			return ActivationFunctions.Sigmoid.getValue(x) * (1 - ActivationFunctions.Sigmoid.getValue(x));
@@ -33,10 +32,10 @@ public enum DerivativeFunctions implements DerivativeFunctionsInterface, Seriali
 	},
 	
 	Tanh {
-		
-		/*
-		 * @param	x	value
-		 * @return		output of the function
+
+		/**
+		 * @param x valeur
+		 * @return y de la fonction
 		 */
 		public double getValue(double x) {
 			return (1 - Math.pow(ActivationFunctions.Tanh.getValue(x), 2));
@@ -44,9 +43,10 @@ public enum DerivativeFunctions implements DerivativeFunctionsInterface, Seriali
 	},
 	
 	ReLU {
-		/*
-		 * @param	x	value
-		 * @return		output of the function
+
+		/**
+		 * @param x valeur
+		 * @return y de la fonction
 		 */
 		public double getValue(double x) {
 			if (x >= 0) return 1;
