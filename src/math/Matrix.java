@@ -512,7 +512,8 @@ public class Matrix implements Serializable {
 			{2, 0, 2},
 			{1, 0, 1}
 		});
-
+ 
+		
 		System.out.println(m1.scalarProduct(3));
 		System.out.println(m1.transpose());
 
