@@ -17,8 +17,16 @@ public class Matrix implements Serializable {
 	private double[][] mat;
 	private int ROWS, COLS;
 
+	/**
+	 * Constructeur sans parametre pour la sauvegarde du fichier
+	 */
 	public Matrix() {}
 
+	/**
+	 * Constructeur ou les dimensions sont passees en parametres
+	 * @param rows le nombre de lignes
+	 * @param cols le nombre de colonnes
+	 */
 	public Matrix(int rows, int cols) {
 		mat = new double[rows][cols];
 		this.ROWS = rows;
@@ -26,12 +34,22 @@ public class Matrix implements Serializable {
 
 	}
 
+	/**
+	 * Constructeur a l'aide du matrice
+	 * @param mat la matrice a copiee
+	 */
 	public Matrix(double[][] mat) {
 		this.mat = mat;
 		this.ROWS = mat.length;
 		this.COLS = mat[0].length;
 	}
 
+	/**
+	 * Constructeur avec dimensions pour une valeur specifique
+	 * @param rows le nombre de lignes
+	 * @param cols le nombre de colonnes
+	 * @param value la valeur a laquelle la matrice est initialisee
+	 */ 
 	public Matrix(int rows, int cols, double value) {
 		mat = new double[rows][cols];
 		this.ROWS = rows;
@@ -45,8 +63,8 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Sets the value of each number in the matrix to a certain number
-	 * @param value
+	 * modifie la matrice a une certaines valeurs
+	 * @param value la valeur a laquelle on initie la matrice
 	 */
 	public void setValue(double value) {
 		for(int i = 0; i < ROWS; i++) {
@@ -57,16 +75,16 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Initialize with random values (default : between 0 and 1)
+	 * Intialise la matrice a des valeurs par defauts ( de base entre -1 et 1)
 	 */
 	public void initWithRandomValues() {
 		this.initWithRandomValues(-1, 1);
 	}
 
 	/**
-	 * Initialize with random values between two bounds
-	 * @param	lowerBound
-	 * @param	upperBound
+	 * Intialise la matrice a des valeurs entre 2 bornes
+	 * @param	lowerBound la borne inferieure
+	 * @param	upperBound la borne superieure
 	 */
 	public void initWithRandomValues(double lowerBound, double upperBound) {
 		for(int i = 0; i < ROWS; i++) {
@@ -79,8 +97,8 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Matrix addition
-	 * @param	m	matrix to add in argument
+	 * Addition de matrices
+	 * @param	m	la matrice a additioner
 	 */
 	public void add(Matrix m) {
 		for(int i = 0; i < mat.length; i++) {
@@ -93,8 +111,8 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Matrix addition
-	 * @param	m	two dimensional array of doubles to add to this matrix
+	 * Addition de matrices
+	 * @param	m	un tableau de doubles a ajouter a la matrice
 	 */
 	public void add(double[][] m) {
 		for(int i = 0; i < mat.length; i++) {
@@ -107,10 +125,10 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Matrix addition
-	 * @param	m	first Matrix
-	 * @param	m2	second Matrix
-	 * @return		sum of the two matrices
+	 * Addition de matrices
+	 * @param	m	la premiere matrice
+	 * @param	m2	la deuxieme matrice
+	 * @return		la somme des 2 matrices
 	 */
 	public static Matrix sum(Matrix m, Matrix m2) {
 
@@ -131,10 +149,10 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Matrix subtraction
-	 * @param	m	first Matrix
-	 * @param	m2	second Matrix
-	 * @return		difference of the two matrices
+	 * Soustraction de matrices
+	 * @param	m	la premiere matrice
+	 * @param	m2	la deuxieme matrice
+	 * @return		la difference entre les 2 matrices
 	 */
 	public static Matrix subtract(Matrix m, Matrix m2) {
 
@@ -156,8 +174,8 @@ public class Matrix implements Serializable {
 
 
 	/**
-	 * Matrix subtraction
-	 * @param	m	matrix to subtract
+	 * Soustraction de matrices
+	 * @param	m	la matrice a soustraire
 	 */
 	public void subtract(Matrix m) {
 		for(int i = 0; i < mat.length; i++) {
@@ -170,8 +188,8 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Matrix subtraction
-	 * @param	m	two dimensional array of doubles to subtract to this matrix
+	 * Soustraction de matrices
+	 * @param	m	un tableau de doubles a soustraire a la matrice
 	 */
 	public void subtract(double[][] m) {
 		for(int i = 0; i < mat.length; i++) {
@@ -184,9 +202,9 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Matrix multiplication
-	 * @param	m	the Matrix to multiply in argument (THIS * PARAM)
-	 * @return 		the dot product of the two Matrices	
+	 * Multiplication matricielle
+	 * @param	m	la matrice qui multiplie la matrice (this.multiply(m))
+	 * @return 		Le produit matriciel 
 	 * 
 	 */
 	public Matrix multiply(Matrix m) {
@@ -217,9 +235,9 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Hadamard's product on matrices
-	 * @param m
-	 * @return
+	 * produit matriciel d'Hadamard 
+	 * @param m la matrice a multiplie
+	 * @return 
 	 */
 	public Matrix product(Matrix m) {
 
@@ -243,12 +261,16 @@ public class Matrix implements Serializable {
 		}
 	}
 
+	/**
+	 * produit matriciel d'une matrice avec elle meme
+	 * @return la matrice au carre
+	 */
 	public Matrix getSquaredMatrix(){
 		return this.product(this);
 	}
 
 	/**
-	 * Multiplies every element by a scalar
+	 * Multiplie tous les elements de la matrice par un scalaire
 	 */
 	public Matrix scalarProduct(double k) {
 		Matrix m = new Matrix(ROWS, COLS);
@@ -261,8 +283,8 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Calculates the sum of every element in the matrix
-	 * @return
+	 * Fais la somme des elements de la matrice
+	 * @return la somme de tous les elements de la matrice
 	 */
 	public double sumOfElements() {
 
@@ -277,29 +299,29 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Sets the element at the position i,j to a certain value
-	 * @param i
-	 * @param j
-	 * @param value
+	 * mofifier la valeur d'un element a la position (i,j)
+	 * @param i la ligne 
+	 * @param j la colonne 
+	 * @param value la valeur a laquelle on modifie la valeur
 	 */
 	public void setElement(int i, int j, double value) {
 		mat[i][j] = value;
 	}
 
 	/**
-	 * Returns the element at the position i, j
-	 * @param i
-	 * @param j
-	 * @return
+	 * retourne l'element de la position (i,j)
+	 * @param i la ligne de l'element
+	 * @param j la colonne de l'element
+	 * @return l'element en (i,j)
 	 */
 	public double getElement(int i, int j) {
 		return mat[i][j];
 	}
 
 	/**
-	 * Apply a certain function to every element of the matrix
-	 * @param function
-	 * @return
+	 * Applique une fonction a tous les elements de la matrice
+	 * @param function la fonction a appliquer
+	 * @return une nouvelle matrice activee par la fonction 
 	 */
 	public Matrix applyFunction(ActivationFunctions function) {
 
@@ -317,9 +339,9 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Apply the derivative of a certain function to every element of the matrix
-	 * @param function
-	 * @return
+	 * Applique la derivee d'une fonction a tous les elements de la matrice
+	 * @param function la fonction 
+	 * @return une nouvelle matrice affectee par la derive de la fonction
 	 */
 	public Matrix applyFunctionDerivative(ActivationFunctions function) {
 
@@ -337,9 +359,9 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Transposes the matrix
-	 * @return
-	 */
+	 * Transpose la matrice
+	 * @return la matrice transposee
+	 */ 
 	public Matrix transpose() {
 		Matrix matTranspose = new Matrix(getCOLS(), getROWS());
 
@@ -352,7 +374,7 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Print the matrix
+	 * Println d'une matrice
 	 */
 	@Override
 	public String toString() {
@@ -392,29 +414,33 @@ public class Matrix implements Serializable {
 		return new Matrix(m);
 	}
 
+	/**
+	 * Retourne la taille de la matrice
+	 * @return la taille de la matrice
+	 */
 	public String getMatrixSize() {
 		return "" + ROWS + "x" + COLS;
 	}
 
 	/**
-	 * Returns the Matrix
-	 * @return		The matrix in a two dimensional array
+	 * Retourne la matrice sous forme de tableau a 2 dimensions
+	 * @return		la matrice a sous forme de tableaux a 2 dimensions
 	 */
 	public double[][] getMat() {
 		return mat;
 	}
 
 	/**
-	 * Changes the matrix
-	 * @param mat two dimensional array
+	 * Modifie la matrice
+	 * @param mat un tableau a 2 dimensions
 	 */
 	public void setMat(double[][] mat) {
 		this.mat = mat;
 	}
 
 	/**
-	 * Changes the matrix
-	 * @param m		Matrix object
+	 * Modifie la matrice 
+	 * @param m		une autre matrice
 	 */
 	public void setMat(Matrix m) {
 		this.mat = m.getMat();
@@ -422,15 +448,15 @@ public class Matrix implements Serializable {
 
 	/**
 	 * Change le nombre de rangee de la matrice
-	 * @param ROWS
+	 * @param ROWS 
 	 */
 	public void setROWS(int ROWS) {
 		this.ROWS = ROWS;
 	}
 
 	/**
-	 * Returns the number of rows of the matrix
-	 * @return		Number of rows of the matrix
+	 * Retourne le nombre de lignes de la matrice
+	 * @return		le nombre de lignes de la matrice
 	 */
 	public int getROWS() {
 		return ROWS;
@@ -445,8 +471,8 @@ public class Matrix implements Serializable {
 	}
 
 	/**
-	 * Returns the number of columns of the matrix
-	 * @return		Number of columns of the matrix
+	 * Retourne le nombre de colonnes de la matrice
+	 * @return		Nombre de colonnes de la matrice
 	 */
 	public int getCOLS() {
 		return COLS;
