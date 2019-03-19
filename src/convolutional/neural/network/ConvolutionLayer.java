@@ -13,7 +13,9 @@ public class ConvolutionLayer extends CNNLayer {
 	 * 
 	 */
 	private static final long serialVersionUID = -8927458212916690704L;
-	int filterSize;
+	private int filterSize;
+	protected Matrix[] biases;
+	
 
 
 
@@ -26,10 +28,12 @@ public class ConvolutionLayer extends CNNLayer {
 
 		filterSize = size;
 		filters = new Filter[nbFilter];
+		
 
 
 		for(int i = 0; i < nbFilter; i++ ) {
 			filters[i] = new Filter(filterSize, filterSize);
+			
 		}
 	}
 
@@ -56,6 +60,8 @@ public class ConvolutionLayer extends CNNLayer {
 			for(int j = 0; j < this.inputs.length ; j++) {
 				out[i] = Matrix.sum(out[i], (filters[i].convolution(inputs[j])));
 			}
+			initBiases();
+			out[i].add(biases[i]);
 			//out[i].applyFunction(function.Sigmoid);
 
 		}
@@ -68,6 +74,18 @@ public class ConvolutionLayer extends CNNLayer {
 	 */
 	public void backPropagation() {
 
+	}
+	
+	/**
+	 * Methode qui initialise les biais 
+	 */
+
+	public void initBiases() {
+		biases = new Matrix[filters.length];
+		for( int i = 0 ; i < biases.length ; i++) {
+			biases[i] = new Matrix(inputs[0].getCOLS()-filters[0].getCOLS()+1,inputs[0].getCOLS()-filters[0].getCOLS()+1); 
+			biases[i].initWithRandomValues(-1,1);
+		}
 	}
 
 
