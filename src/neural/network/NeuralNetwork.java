@@ -365,13 +365,17 @@ public class NeuralNetwork implements Serializable {
 
 		System.out.println(NeuralNetwork.class.getClassLoader().getResource(""));
 
-		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 3,2,1,2);
-		double[] inputs = new double[]{1,2,3};
-		double[] outputs = new double[] {2,1};
+		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 48*48*3,28,16,3);
+		//double[] inputs = new double[]{1,2,3};
+		double[] inputs =  new double[48*48*3];
+		for (int i =0 ; i < (48*48*3); i++) {
+			inputs[i] = 1;
+		}
+		double[] outputs = new double[] {2,1,2};
 		nn.train(inputs, outputs);
 		nn.updateWeightsAndBiases(0.1);
 		System.out.println(nn);
-		String path = "C:\\Users\\mehga\\Documents\\Autres\\Network Savee\\neural3";
+		String path = "D:/cegep/prog/neural5.xml";
 		/*NeuralNetwork nn3 = new NeuralNetwork();
 		nn3.setActivationFunction(ActivationFunctions.Sigmoid);
 		NeuralNetwork.saveNetworkToXML(nn3, "res/network_saves/neural");*/
