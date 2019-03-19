@@ -21,6 +21,7 @@ public abstract class CNNLayer implements Serializable {
 	protected Matrix[] outputs;
 	protected Filter[] filters;
 	protected ActivationFunctions function;
+	
 
 	public CNNLayer() {
 
