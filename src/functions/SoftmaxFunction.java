@@ -22,11 +22,12 @@ public class SoftmaxFunction {
 	 */
 	public double getValue(Matrix logits , int index) {
 		double eSum = 0;
+		double d = -1 * logits.getMaxValue();
 		for (int  i = 0 ; i < logits.getROWS(); i++) {
-			eSum+= Math.exp(logits.getElement(i, 0));
+			eSum+= Math.exp(logits.getElement(i, 0)+d);
 		}
 		
-		return (Math.exp(logits.getElement(index, 0) )/ eSum);
+		return (Math.exp(logits.getElement(index, 0)+d )/ eSum);
 	}
 	
 	/**
