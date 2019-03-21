@@ -1,6 +1,6 @@
 package functions;
 
-import com.sun.media.sound.SoftMainMixer;
+
 import math.Matrix;
 
 import java.io.Serializable;
@@ -97,13 +97,21 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 	Softmax {
 
 		public Matrix inputs;
-		public int index;
+		public Matrix outputs;
+		
 
 		public void setInputs(Matrix i) {
 			inputs = i;
 		}
 
+		public void setOutputs(Matrix o) {
+			outputs = o;
+		}
 		public double getValue(double x) {
+			return 0;
+		}
+
+		public double getValueInput(int index) {
 
 			if (inputs != null) {
 
@@ -118,12 +126,28 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 				return 0;
 			}
 		}
+		public double getValueOutput(int index) {
+
+			if (inputs != null) {
+
+				double eSum = 0;
+				for (int i = 0; i < outputs.getROWS(); i++) {
+					eSum += Math.exp(outputs.getElement(i, 0));
+				}
+
+				return (Math.exp(outputs.getElement(index, 0)) / eSum);
+			} else {
+				System.out.print("La matrice des valeurs n'a pas ete implementee");
+				return 0;
+			}
+		}
 
 		public DerivativeFunctions getDerivative() {
 			return DerivativeFunctions.Softmax;
 		}
 
 
-	}
+	};
+
 
 }

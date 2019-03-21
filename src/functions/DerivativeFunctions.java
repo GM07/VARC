@@ -63,24 +63,23 @@ public enum DerivativeFunctions implements DerivativeFunctionsInterface, Seriali
 
 	Softmax {
 
-		Matrix outputs;
-		Matrix inputs;
 		int indexInput;
 		int indexOutput;
 
-		public void setInputs(Matrix i) {
-			inputs = i;
-		}
-
-		public void setOutputs(Matrix o) {
-			outputs = o;
-		}
 
 		public double getValue(double x) {
-			if (indexInput == indexOutput) {
-				return (ActivationFunctions.Softmax.getValue(x) * (1 - ActivationFunctions.Softmax.getValue(x)));
-			}
+			return 0;
 		}
+
+		
+		/*public double getValue(int x) {
+			if (indexInput == indexOutput) {
+				return (ActivationFunctions.Softmax.getValueOutput(indexOutput) * (1 - ActivationFunctions.Softmax.getValueInput(indexInput)));
+			}else {
+				return (-1*ActivationFunctions.Softmax.getValueOutput(indexOutput)*ActivationFunctions.Softmax.getValueInput(indexInput));
+			}
+		}*/
 	}
 	
 }
+	
