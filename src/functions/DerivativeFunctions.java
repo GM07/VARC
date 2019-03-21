@@ -80,6 +80,7 @@ public enum DerivativeFunctions implements DerivativeFunctionsInterface, Seriali
 			if (indexInput == indexOutput) {
 				return (ActivationFunctions.Softmax.getValue(x) * (1 - ActivationFunctions.Softmax.getValue(x)));
 			}
+			return 0;
 		}
 	}
 	

@@ -56,7 +56,11 @@ public class NeuralNetwork implements Serializable {
 			} else if (layer == configuration.length - 1) {
 
 				// Output layer
-				layers[layer] = new Layer(OUTPUT_LAYER_SIZE, configuration[NUMBER_OF_LAYERS - 2], LayerType.OutputLayer, activationFunction);
+				if (activationFunction == ActivationFunctions.ReLU) {
+					layers[layer] = new Layer(OUTPUT_LAYER_SIZE, configuration[NUMBER_OF_LAYERS - 2], LayerType.OutputLayer, ActivationFunctions.Softmax);
+				} else {
+					layers[layer] = new Layer(OUTPUT_LAYER_SIZE, configuration[NUMBER_OF_LAYERS - 2], LayerType.OutputLayer, activationFunction);
+				}
 
 			} else {
 

@@ -1,39 +1,41 @@
 package convolutional.neural.network;
 
 import java.io.Serializable;
+import java.rmi.activation.ActivationID;
 import java.util.ArrayList;
 
+import functions.ActivationFunctions;
 import math.Matrix;
 /**
  * Le reseau de convolution contenant differents types de layers
  * @author Simon Daze
+ * @author Gaya Mehenni
  *
  */
 public class CNN implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -3966726810488689816L;
 	private int nbLayers;
 	private ArrayList<CNNLayer> layers;
 	private int filterSize;
 	private Matrix[] inputs;
+	private ActivationFunctions activationFunction;
 
 
 	/**
-	 * constructeur du reseau
-	 * @param nbLayers le nombre de layers du reseau
+	 * constructeur du resea
 	 * @param filterSize la taille du premier filter
 	 * @param nbFilters le nombre de filters de la premiere couche
 	 */
-	public CNN(int filterSize, int nbFilters, Matrix[] input ) {
+	public CNN(int filterSize, int nbFilters, ActivationFunctions activationFunction) {
 		layers = new ArrayList<CNNLayer>();
 		layers.set(0, new ConvolutionLayer(filterSize, nbFilters));
+		this.activationFunction = activationFunction;
 		activation();
 
 	}
 	/**
-	 * constructeur sans paramètres
+	 * Constructeur sans paramètres pour l'encodage XML
 	 */
 	public CNN() {
 		layers = new ArrayList<CNNLayer>();
@@ -49,12 +51,10 @@ public class CNN implements Serializable {
 	}
 
 	/**
-	 * activation du reseau 
-	 * @param inputs la matrice contenant les valeurs de RGB de l'image a evaluee
+	 * Activation du reseau
 	 */
 	public void activation() {
 		Matrix[] in;
-		Matrix[]out;
 		for(int i = 0 ; i < layers.size() ; i++) {
 			if (i == 0) {
 				layers.get(i).setInputs(inputs);
@@ -62,23 +62,19 @@ public class CNN implements Serializable {
 			} else {
 				in = layers.get(i-1).getOutputs();
 				layers.get(i).setInputs(in);
-				out = layers.get(i).operation();
-				layers.get(i).setOutputs(out);
-
+				layers.get(i).setOutputs(layers.get(i).operation());
 			}
 		}
 	}
 
-
 	/**
 	 * Methode qui va me donner envie d'exploser mon ordi durant la semaine de relache...
-	 * Sur une note plus serieuse : methode pour calibrer les weights du reseau
+	 * Sur une note plus serieuse : methode pour calibrer les poids du reseau
 	 */
 	public void backPropagation() {
 
+
 	}
-
-
 
 	/**
 	 * Retourne le nombre de couches du reseau
@@ -138,6 +134,22 @@ public class CNN implements Serializable {
 	}
 
 	/**
+	 * Methode qui retourne la fonction d'activation du reseau
+	 * @return fonction d'activation
+	 */
+	public ActivationFunctions getActivationFunction() {
+		return activationFunction;
+	}
+
+	/**
+	 * Methode qui change la fonction d'activation du reseau
+	 * @param activationFunction fonction d'activation reseau
+	 */
+	public void setActivationFunction(ActivationFunctions activationFunction) {
+		this.activationFunction = activationFunction;
+	}
+
+	/**
 	 * test de l'activation : a permi de regler les differentes operations entre les matrices pour obtenir la dimension finale : on y voit que les layers
 	 * se transmettent leurs inputs/outputs entre elles et que les differentes operations sont respectees 
 	 * A chaque ajout de layer, les operations se repettent et elles contiennent le print : il ya donc plusieurs iterations de print
@@ -162,7 +174,7 @@ public class CNN implements Serializable {
 		
 		cnnTest.addLayer(new ConvolutionLayer(3, 3));
 		
-		cnnTest.addLayer( new MaxPoolingLayer (2));
+		cnnTest.addLayer(new MaxPoolingLayer (2));
 		
 		cnnTest.addLayer(new ConvolutionLayer(2,2));
 		

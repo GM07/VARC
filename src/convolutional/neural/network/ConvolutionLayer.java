@@ -6,7 +6,7 @@ import math.Matrix;
 /**
  * La couche du reseau dont l'operation est la convolution
  * @author Simon Daze
- *
+ * @author Gaya Mehenni
  */
 public class ConvolutionLayer extends CNNLayer {
 	/**
@@ -15,9 +15,6 @@ public class ConvolutionLayer extends CNNLayer {
 	private static final long serialVersionUID = -8927458212916690704L;
 	private int filterSize;
 	protected Matrix[] biases;
-	
-
-
 
 	/**
 	 * Constructeur d'une laye de convolution
@@ -28,13 +25,14 @@ public class ConvolutionLayer extends CNNLayer {
 
 		filterSize = size;
 		filters = new Filter[nbFilter];
-		
 
-
+		// Initialisation des filters
 		for(int i = 0; i < nbFilter; i++ ) {
 			filters[i] = new Filter(filterSize, filterSize);
-			
 		}
+
+		// Initialisation des biases
+		initBiases();
 	}
 
 
@@ -47,25 +45,22 @@ public class ConvolutionLayer extends CNNLayer {
 		Matrix[] out = new Matrix[filters.length];
 
 		for(int i = 0 ; i < filters.length ; i++ ) {
-			out[i] = new Matrix(inputs[0].getCOLS()-filters[0].getCOLS()+1,inputs[0].getCOLS()-filters[0].getCOLS()+1 );
 
+			/*
+			OUTPUTSIZE = INPUTSIZE - FILTERSIZE + 1
+			 */
 
-			System.out.println("IN " + Arrays.toString(inputs));
-			System.out.println("FIL " + Arrays.toString(filters));
-
-
-
-
+			out[i] = new Matrix(inputs[0].getCOLS() - filters[0].getCOLS() + 1,inputs[0].getCOLS() - filters[0].getCOLS() + 1);
 
 			for(int j = 0; j < this.inputs.length ; j++) {
 				out[i] = Matrix.sum(out[i], (filters[i].convolution(inputs[j])));
 			}
-			initBiases();
+
 			out[i].add(biases[i]);
-			//out[i].applyFunction(function.Sigmoid);
+			out[i].applyFunction(activationFunction);
 
 		}
-		System.out.println("OUT " + Arrays.toString(out));
+
 		return out;
 	}
 
@@ -79,7 +74,6 @@ public class ConvolutionLayer extends CNNLayer {
 	/**
 	 * Methode qui initialise les biais 
 	 */
-
 	public void initBiases() {
 		biases = new Matrix[filters.length];
 		for( int i = 0 ; i < biases.length ; i++) {
@@ -95,7 +89,6 @@ public class ConvolutionLayer extends CNNLayer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
 
 		Matrix[] inputs = new Matrix[1];
 		inputs[0] = new Matrix (6,6);
