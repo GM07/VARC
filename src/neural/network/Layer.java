@@ -1,6 +1,7 @@
 package neural.network;
 
 import functions.ActivationFunctions;
+import functions.SoftmaxFunction;
 import math.Matrix;
 
 import java.io.Serializable;
@@ -76,7 +77,21 @@ public class Layer implements Serializable{
 
 		if (type != LayerType.InputLayer) {
 			outputsZ = Matrix.sum(weights.multiply(inputs), biases);
-			outputs = outputsZ.applyFunction(function);
+
+
+			if (function == ActivationFunctions.Softmax) {
+
+				SoftmaxFunction sf = new SoftmaxFunction();
+				Matrix o = new Matrix(outputs.getROWS(), outputs.getCOLS());
+				for(int i = 0; i < outputsZ.getCOLS(); i++) {
+					o.setElement(i, 0, sf.getValue(outputsZ, i));
+				}
+
+				outputs = o;
+
+			} else {
+				outputs = outputsZ.applyFunction(function);
+			}
 		} else {
 			outputsZ = inputs;
 			outputs = outputsZ;

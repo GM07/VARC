@@ -2,9 +2,19 @@ package neural.network;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import functions.ActivationFunctions;
+import functions.SoftmaxFunction;
 import math.MathTools;
 import math.Matrix;
 
@@ -56,7 +66,11 @@ public class NeuralNetwork implements Serializable {
 			} else if (layer == configuration.length - 1) {
 
 				// Output layer
-				layers[layer] = new Layer(OUTPUT_LAYER_SIZE, configuration[NUMBER_OF_LAYERS - 2], LayerType.OutputLayer, activationFunction);
+				if (activationFunction == ActivationFunctions.ReLU) {
+					layers[layer] = new Layer(OUTPUT_LAYER_SIZE, configuration[NUMBER_OF_LAYERS - 2], LayerType.OutputLayer, ActivationFunctions.Softmax);
+				} else {
+					layers[layer] = new Layer(OUTPUT_LAYER_SIZE, configuration[NUMBER_OF_LAYERS - 2], LayerType.OutputLayer, activationFunction);
+				}
 
 			} else {
 
@@ -112,8 +126,15 @@ public class NeuralNetwork implements Serializable {
 
 
 		for(int neuron = 0; neuron < OUTPUT_LAYER_SIZE; neuron++) {
+			if(layers[NUMBER_OF_LAYERS - 1].getFunction() == ActivationFunctions.Softmax) {
+				SoftmaxFunction sf = new SoftmaxFunction();
+				
+				
+				layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS-1].getOutputsZ(), layers[NUMBER_OF_LAYERS -1].getOutputs());
+			}else {
 			layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * layers[NUMBER_OF_LAYERS - 1].getFunction().getDerivative().getValue(layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0]);
 		}
+			}
 
 		for(int layer = NUMBER_OF_LAYERS - 2; layer > 0; layer--) {
 

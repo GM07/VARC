@@ -106,6 +106,7 @@ public class CarAI extends JPanel implements Runnable{
 
             // On change la valeur de la barre de progression
             try {
+                bar.setMaximum(numberOfEpochs);
                 bar.setValue(counter);
             } catch (NullPointerException e) {
                 System.out.println("Ne peut pas changer la valeur de la barre de progression, car l'algorithme ne possede pas de reference a celle-ci");
@@ -237,7 +238,7 @@ public class CarAI extends JPanel implements Runnable{
                 img = (BufferedImage) (dataElement.getData());
                 if (data % 50 == 0) repaint();
 
-                if (data % batchSize == 0) neuralNetwork.updateWeightsAndBiases(learningRate/batchSize);
+                if (data % batchSize == 0) neuralNetwork.updateWeightsAndBiases(learningRate);
 
             } catch (IOException e){
                 System.out.println("Erreur lors du chargement de l'image : " + data);
