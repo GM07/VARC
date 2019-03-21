@@ -232,8 +232,7 @@ public class NeuralNetwork implements Serializable {
 	 */
 	//Auteurs : source web : https://www.edureka.co/blog/serialization-of-java-objects-to-xml-using-xmlencoder-decoder/
 
-	public static void saveNetworkToXML (NeuralNetwork nn, String path) throws IOException
-	{
+	public static void saveNetworkToXML (NeuralNetwork nn, String path) throws IOException {
 		XMLEncoder encoder = null;
 		try{
 			System.out.println(path);

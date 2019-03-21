@@ -154,6 +154,8 @@ public class CarAI extends JPanel implements Runnable{
         for(int folder = 0; folder < folders.size(); folder++) {
             // On parcoure chaque dossier
 
+            System.out.println("\t- " + folders.get(folder));
+
             ArrayList<BufferedImage> images = FileManager.getImagesFromFolder(trainingPath + "\\" + folders.get(folder), numberImagesPerFolderMax);
 
             for(BufferedImage i : images) {

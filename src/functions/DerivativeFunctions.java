@@ -1,5 +1,7 @@
 package functions;
 
+import math.Matrix;
+
 import java.io.Serializable;
 
 /**
@@ -57,6 +59,28 @@ public enum DerivativeFunctions implements DerivativeFunctionsInterface, Seriali
 			else return 0;
 		}
 
+	},
+
+	Softmax {
+
+		Matrix outputs;
+		Matrix inputs;
+		int indexInput;
+		int indexOutput;
+
+		public void setInputs(Matrix i) {
+			inputs = i;
+		}
+
+		public void setOutputs(Matrix o) {
+			outputs = o;
+		}
+
+		public double getValue(double x) {
+			if (indexInput == indexOutput) {
+				return (ActivationFunctions.Softmax.getValue(x) * (1 - ActivationFunctions.Softmax.getValue(x)));
+			}
+		}
 	}
 	
 }
