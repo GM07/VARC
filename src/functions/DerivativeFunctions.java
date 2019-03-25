@@ -1,5 +1,7 @@
 package functions;
 
+import math.Matrix;
+
 import java.io.Serializable;
 
 /**
@@ -57,6 +59,31 @@ public enum DerivativeFunctions implements DerivativeFunctionsInterface, Seriali
 			else return 0;
 		}
 
+	},
+
+	Softmax {
+
+		int indexInput;
+		int indexOutput;
+
+
+		public double getValue(double x) {
+
+			if (indexInput == indexOutput) {
+				return (ActivationFunctions.Softmax.getValue(x) * (1 - ActivationFunctions.Softmax.getValue(x)));
+			}
+			return 0;
+		}
+
+		
+		/*public double getValue(int x) {
+			if (indexInput == indexOutput) {
+				return (ActivationFunctions.Softmax.getValueOutput(indexOutput) * (1 - ActivationFunctions.Softmax.getValueInput(indexInput)));
+			}else {
+				return (-1*ActivationFunctions.Softmax.getValueOutput(indexOutput)*ActivationFunctions.Softmax.getValueInput(indexInput));
+			}
+		}*/
 	}
 	
 }
+	

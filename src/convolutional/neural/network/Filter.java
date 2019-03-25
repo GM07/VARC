@@ -8,9 +8,6 @@ import math.Matrix;
  */
 public class Filter extends Matrix {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 601262895217910258L;
 
 	/**
@@ -59,10 +56,9 @@ public class Filter extends Matrix {
 	 * Retourne la plus grande valeur dans une sous matrice de la taille du filter
 	 * @return la matrice contenant toutes les valeurs maximales des sous-matrices nxn
 	 * @param m = La matrice sur laquelle on applique le maxPooling
-	 * @param n = La taille du pooling qu'on applique
 	 */
 	//auteur : Simon Daze
-	public Matrix maxPool( Matrix m   ) {
+	public Matrix maxPool(Matrix m) {
 		Matrix pooledMat = new Matrix(m.getROWS() - this.getROWS() + 1, m.getCOLS() - this.getROWS() + 1);
 		for (int ofX = 0 ; ofX < m.getROWS() - this.getROWS() + 1; ofX++) {
 			for(int ofY = 0; ofY < m.getCOLS() - this.getCOLS() + 1; ofY++) {

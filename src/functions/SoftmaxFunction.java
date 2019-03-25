@@ -9,20 +9,25 @@ import math.Matrix;
  *
  */
 public class SoftmaxFunction {
-	
+
+
+	public double getValue(double x){return 0;}
+	public DerivativeFunctions getDerivative() {return null;}
+
 	/**
 	 * Applique la fonction softmax a un vecteur pour en ressortir des probabilites
 	 * @param logits le vecteur 
 	 * @param index l'element du vecteur a evalue
 	 * @return la probabilite associee a l'element du vecteur en index
 	 */
-	public static double getValue( Matrix logits , int index) {
+	public double getValue(Matrix logits , int index) {
 		double eSum = 0;
+		double d = -1 * logits.getMaxValue();
 		for (int  i = 0 ; i < logits.getROWS(); i++) {
-			eSum+= Math.exp(logits.getElement(i, 0));
+			eSum+= Math.exp(logits.getElement(i, 0)+d);
 		}
 		
-		return (Math.exp(logits.getElement(index, 0) )/ eSum);
+		return (Math.exp(logits.getElement(index, 0)+d )/ eSum);
 	}
 	
 	/**
@@ -32,24 +37,25 @@ public class SoftmaxFunction {
 	 * @param results la probabilite associee a cet element
 	 * @return la derivee de softmax relative a cet element
 	 */
-	public static double getDerivative(int index, Matrix logits, Matrix results) {
+	public double getDerivative(int index, Matrix logits, Matrix results) {
 		return (getValue(results,index)*(1-getValue(logits,index)));
 	}
 	
 	public static void main(String[] args) {
-		Matrix logits = new Matrix(3,1);
-		Matrix results = new Matrix(3,1);
-		logits.setElement(0, 0, 2);
-		logits.setElement(1, 0, 1);
-		logits.setElement(2, 0, 0.1);
-		results.setElement(0, 0, getValue(logits,0));
-		results.setElement(1, 0, getValue(logits,1));
-		results.setElement(2, 0, getValue(logits,2));
-		System.out.println(logits);
-		System.out.println(results);
-	/* testDerivative = getDerivative(0,logits,results);
-		System.out.println(testDerivative);
-		*/
+//		SoftmaxFunction s = new SoftmaxFunction();
+//		Matrix logits = new Matrix(3,1);
+//		Matrix results = new Matrix(3,1);
+//		logits.setElement(0, 0, 2);
+//		logits.setElement(1, 0, 1);
+//		logits.setElement(2, 0, 0.1);
+//		results.setElement(0, 0, getValue(logits,0));
+//		results.setElement(1, 0, getValue(logits,1));
+//		results.setElement(2, 0, getValue(logits,2));
+//		System.out.println(logits);
+//		System.out.println(results);
+//	/* testDerivative = getDerivative(0,logits,results);
+//		System.out.println(testDerivative);
+//		*/
 	}
 		
 
