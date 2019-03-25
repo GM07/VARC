@@ -378,7 +378,6 @@ public class CarAI extends JPanel implements Runnable{
     public String getTestingPath() {
         return testingPath;
     }
-
     /**
      * Change le chemin d'acces vers les images de test
      * @param testingPath
