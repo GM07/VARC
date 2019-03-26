@@ -129,8 +129,8 @@ public class NeuralNetwork implements Serializable {
 			if(layers[NUMBER_OF_LAYERS - 1].getFunction() == ActivationFunctions.Softmax) {
 				SoftmaxFunction sf = new SoftmaxFunction();
 				
-				
-				layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS-1].getOutputsZ(), layers[NUMBER_OF_LAYERS -1].getOutputs());
+				layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = sf.crossEntropy(layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0],expected[neuron]) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS-1].getOutputsZ(), layers[NUMBER_OF_LAYERS -1].getOutputs());
+				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS-1].getOutputsZ(), layers[NUMBER_OF_LAYERS -1].getOutputs());
 			}else {
 			layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * layers[NUMBER_OF_LAYERS - 1].getFunction().getDerivative().getValue(layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0]);
 		}

@@ -40,6 +40,29 @@ public class SoftmaxFunction {
 	public double getDerivative(int index, Matrix logits, Matrix results) {
 		return (getValue(results,index)*(1-getValue(logits,index)));
 	}
+	 
+	/**
+	 *  Fonction du cout de softmax
+	 * @param output la probabilite obtenue
+	 * @param expected la probabilite souhaitee
+	 * @return la regression entre la valeur souhaitee et celle obtenue
+	 */
+	public double crossEntropy(double output,double expected) {
+		if(output == 1) {
+			return -Math.log(expected);
+		}else {
+			return -Math.log(1-expected);
+		}
+		
+	}
+	
+	public double crossEntropyMatrixes( Matrix outputs, Matrix expected) {
+		double sum = 0;
+		for (int i = 0 ; i < outputs.getROWS(); i++) {
+			sum += crossEntropy(outputs.getElement(i, 0), expected.getElement(i, 0));
+		}
+		return sum;
+	}
 	
 	public static void main(String[] args) {
 //		SoftmaxFunction s = new SoftmaxFunction();
