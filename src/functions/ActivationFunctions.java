@@ -108,7 +108,7 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 			outputs = o;
 		}
 		public double getValue(double x) {
-			return 0;
+			return x;
 		}
 
 		public double getValueInput(int index) {

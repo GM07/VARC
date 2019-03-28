@@ -76,6 +76,25 @@ public class Filter extends Matrix {
 		return pooledMat;
 
 	}
+	
+	
+	public Matrix averagePool(Matrix m) {
+		Matrix pooledMat = new Matrix(m.getROWS() - this.getROWS() + 1, m.getCOLS() - this.getROWS() + 1);
+		for (int ofX = 0 ; ofX < m.getROWS() - this.getROWS() + 1; ofX++) {
+			for(int ofY = 0; ofY < m.getCOLS() - this.getCOLS() + 1; ofY++) {
+				double[][] matInput = new double[this.getROWS()][this.getCOLS()];
+				for(int i = 0; i < this.getROWS() ; i++) {
+					for(int j = 0 ; j < this.getCOLS() ; j++) {
+						matInput[i][j] = m.getElement(ofX + i, ofY + j);
+					}
+				}
+				Matrix inputMatrix = new Matrix(matInput);
+				pooledMat.setElement(ofX, ofY, inputMatrix.getAverageValue());
+			}
+
+		}
+		return pooledMat;
+	}
 
 	/**
 	 * Test du pooling sur une layer 

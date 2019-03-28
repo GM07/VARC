@@ -15,7 +15,7 @@ public class MaxPoolingLayer extends CNNLayer {
 	
 	private static final long serialVersionUID = -3259937901909895649L;
 	protected int poolingSize;
-	int nbFilters = 1 ; 
+	int nbFilters = inputs.length ; 
 
 	/**
 	 * COnstruteur d'un layer de MaxPooling 

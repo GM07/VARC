@@ -82,8 +82,8 @@ public class Layer implements Serializable{
 			if (function == ActivationFunctions.Softmax) {
 
 				SoftmaxFunction sf = new SoftmaxFunction();
-				Matrix o = new Matrix(outputs.getROWS(), outputs.getCOLS());
-				for(int i = 0; i < outputsZ.getCOLS(); i++) {
+				Matrix o = new Matrix(outputsZ.getROWS(), outputsZ.getCOLS());
+				for(int i = 0; i < outputsZ.getROWS(); i++) {
 					o.setElement(i, 0, sf.getValue(outputsZ, i));
 				}
 
@@ -132,7 +132,7 @@ public class Layer implements Serializable{
 	 */
 	public String toString() {
 
-		String s = "";
+		String s = this.function.getClass().getName() + "";
 
 		if (type != LayerType.InputLayer) {
 
