@@ -17,14 +17,14 @@ import neural.network.NeuralNetwork;
  */
 public class MnistAlgorithm {
 
-	private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\training";
-	private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\testing";
-	private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\neural_";
-	private static double learningRate = 0.03;
+	private static String trainingPath = "D:\\cegep\\prog\\mnist_png\\training";
+	private static String testingPath = "D:\\cegep\\prog\\mnist_png\\testing";
+	private static String savingPath = "D:\\cegep\\prog\\Network Saves\\MNIST\\neural_";
+	private static double learningRate = 0.11;
 	private static int numberOfEpochs = 200;
 	private static int numberOfImagesPerEpoch = 10000;
-	private static int batch_size = 15;
-	private static int resultCounter = 0;
+	private static int batch_size = 20;
+	private static int resultCounter = 11;
 	private static double lastResult = 0;
 
 	public static void main(String[] args) {
@@ -87,7 +87,7 @@ public class MnistAlgorithm {
 
 
 //		System.out.println(result + " " + total);
-		return result/total;
+		return (result/total) * 100;
 	}
 
 	/**
