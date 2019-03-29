@@ -81,7 +81,7 @@ public enum ActivationFunctions implements ActivationFunctionsInterface, Seriali
 		 */
 		public double getValue(double x) {
 			if (x >= 0) return x;
-			else return 0;
+			else return x/3.0;
 		}
 
 		/**
