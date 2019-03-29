@@ -17,9 +17,11 @@ import neural.network.NeuralNetwork;
  */
 public class MnistAlgorithm {
 
+
 	private static String trainingPath = "D:\\cegep\\prog\\mnist_png\\training";
 	private static String testingPath = "D:\\cegep\\prog\\mnist_png\\testing";
 	private static String savingPath = "D:\\cegep\\prog\\Network Saves\\MNIST\\neural_";
+
 	private static double learningRate = 0.11;
 	private static int numberOfEpochs = 200;
 	private static int numberOfImagesPerEpoch = 10000;
@@ -29,7 +31,7 @@ public class MnistAlgorithm {
 
 	public static void main(String[] args) {
 
-		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 784, 16, 16, 10);
+		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.ReLU, 784, 16, 16, 10);
 
 		System.out.println("\nNON TRAINED NETWORK \n" + testNetwork(nn));
 
@@ -154,6 +156,7 @@ public class MnistAlgorithm {
 			System.out.println(testNetwork(nn));
 
 
+			//System.out.println(nn);
 
 			//System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1));
 		}

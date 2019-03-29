@@ -497,6 +497,20 @@ public class Matrix implements Serializable {
 	}
 
 	/**
+	 * methode qui retourne la valeur moyenne de la matrice
+	 * @return la valeur moyenne de la matrice
+	 */
+	public double getAverageValue() {
+		double sum = 0;
+		double size = getROWS() * getCOLS();
+		for(int i = 0 ; i < getROWS(); i++) {
+			for(int j = 0; j < getCOLS(); j++) {
+				sum += mat[i][j];
+			}
+		}
+		return (sum/size);
+	}
+	/**
 	 * Test de methodes sur les matrices
 	 * @param args
 	 */
@@ -516,8 +530,12 @@ public class Matrix implements Serializable {
 		
 		System.out.println(m1.scalarProduct(3));
 		System.out.println(m1.transpose());
+		
+		System.out.println(m1.getAverageValue());
 
 	}
+
+	
 
 
 
