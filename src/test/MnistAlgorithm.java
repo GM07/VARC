@@ -19,10 +19,10 @@ import neural.network.NeuralNetwork;
  */
 public class MnistAlgorithm {
 
-	private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\training";
-	private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\testing";
-	private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\neural_";
-	private static double learningRate = 0.4;
+    private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\training";
+    private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\testing";
+    private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\neural_";
+    private static double learningRate = 0.11;
 	private static int numberOfEpochs = 200;
 	private static int numberOfImagesPerEpoch = 10000;
 	private static int batch_size = 15;
@@ -79,8 +79,6 @@ public class MnistAlgorithm {
 					double[] output = MathTools.getAsOneDimension(nn.getResults().getMat());
 					//System.out.print(MathTools.getHighestIndex(output) + ", " + number + " --\t ");
 
-					//System.out.println(nn.getResults());
-
 					//for(int k = 0; k < output.length; k++) System.out.print("\t" + output[k]);
 					if (MathTools.getHighestIndex(output) == number) result++;
 					total++;
@@ -93,7 +91,7 @@ public class MnistAlgorithm {
 
 
 //		System.out.println(result + " " + total);
-		return result/total;
+		return (result/total) * 100;
 	}
 
 	/**
@@ -159,12 +157,13 @@ public class MnistAlgorithm {
 
 			System.out.println(testNetwork(nn));
 
+
 			//System.out.println(nn);
 
 			//System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1));
 		}
 
-		//nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%.xml");
+		nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%.xml");
 	}
 
 }

@@ -11,8 +11,8 @@ import math.Matrix;
 public class SoftmaxFunction {
 
 
-	public double getValue(double x){return x;}
-	public DerivativeFunctions getDerivative() {return null;}
+	//public double getValue(double x){return x;}
+	//public DerivativeFunctions getDerivative() {return null;}
 
 	/**
 	 * Applique la fonction softmax a un vecteur pour en ressortir des probabilites
@@ -71,11 +71,48 @@ public class SoftmaxFunction {
 		return -1*sum;
 	}
 	
+	/**
+	 * Derivee de la fonction crossEntropy
+	 * @param expected valeur attendue
+	 * @param logits matrice des outputs
+	 * @param index l'index de la valeur evaluee par rapport a la valeur attendue
+	 * @return
+	 */
 	public double lostFunctionDerivative(double expected, Matrix logits, int index) {
 		return (getValue(logits,index) - expected);
 		
 	}
 	
+	/**
+	 * regression de la fonction softmax pour un reseau de neurones en restreignant la taille des weights
+	 * @param outputs : le output du reseau
+	 * @param expected : le output souhaite
+	 * @param index : le neurone sur lequel la regression est appliquee
+	 * @return : l'erreur du neurone
+	 */
+	public double weightRegression(Matrix outputs, double[] expected, int index) {
+		double m = -1.0 / outputs.getROWS();
+		double decay = 0;
+		double x = 0;
+		double wDecay = 10;
+		for  (int i = 0 ; i < outputs.getROWS() ; i++) {
+			if (i == index && expected[i] == 1) {
+				x = 1;
+			}else {
+				x = 0;
+			}
+			decay += (x - getValue(outputs, i));
+		}
+		decay = m * decay + wDecay * expected[index];
+		
+		return decay;
+		
+	}
+	
+	/**
+	 * test softmax
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SoftmaxFunction s = new SoftmaxFunction();
 		Matrix logits = new Matrix(3,1);
