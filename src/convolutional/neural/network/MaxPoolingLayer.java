@@ -11,8 +11,6 @@ import math.Matrix;
  */
 public class MaxPoolingLayer extends CNNLayer {
 
-
-	
 	private static final long serialVersionUID = -3259937901909895649L;
 	protected int poolingSize;
 	int nbFilters = inputs.length ; 
@@ -44,12 +42,16 @@ public class MaxPoolingLayer extends CNNLayer {
 		}
 		return out;
 	}
-	/**
-	 * methode d'entrainement du reseau
-	 */
-	public void backPropagation() {
 
+	/**
+	 * Methode qui calcul l'erreur de la couche
+	 * @param target erreur de la couche d'apres
+	 * @return
+	 */
+	public Matrix[] backpropagation(Matrix[] target) {
+		return null;
 	}
+
 	/**
 	 * operation de cette layer : le max pooling 
 	 * La fonction d'activation permet de limiter les ecarts entre les valeurs

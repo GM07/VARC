@@ -47,11 +47,8 @@ public class FileManager {
 		int max = folder.listFiles().length;
 		if (max > numberOfImages) max = numberOfImages;
 
-		System.out.println("\t\t- Nombre d'images : " + max);
-
 		for(int i = 0; i < max; i++) {
 
-			if (i % 100 == 0)System.out.print(i + ", ");
 			File f = folder.listFiles()[i];
 
 			BufferedImage image = getImageFromFile(f);

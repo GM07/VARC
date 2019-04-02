@@ -78,16 +78,21 @@ public class SoftmaxFunction {
 	
 	public static void main(String[] args) {
 		SoftmaxFunction s = new SoftmaxFunction();
-	Matrix logits = new Matrix(3,1);
-	Matrix results = new Matrix(3,1);
+		Matrix logits = new Matrix(3,1);
+		Matrix results = new Matrix(3,1);
 		logits.setElement(0, 0, 2);
 		logits.setElement(1, 0, 1);
 		logits.setElement(2, 0, 0.1);
 		results.setElement(0, 0, s.getValue(logits,0));
 		results.setElement(1, 0, s.getValue(logits,1));
 		results.setElement(2, 0, s.getValue(logits,2));
+
+
 		System.out.println(logits);
 		System.out.println(results);
+
+		//System.out.println(logits);
+		//System.out.println(results);
 //	/* testDerivative = getDerivative(0,logits,results);
 //		System.out.println(testDerivative);
 //		*/

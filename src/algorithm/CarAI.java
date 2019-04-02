@@ -30,6 +30,7 @@ public class CarAI extends JPanel implements Runnable{
     private String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\dataset_vehicules\\training";
     //private String trainingPath = "C:\\Users\\mehga\\Documents\\dataset\\car_train_weak";
     private String testingPath = "D:\\Cegep\\Session_4\\IA Data\\dataset_vehicules\\testing";
+    private String savingPath = "D:\\Cegep\\Session_4\\IA Data\\neuralTrained";
     private double learningRate;
     private int numberOfEpochs, batchSize, numberImagesPerFolderMax = 3000;
 
@@ -113,7 +114,8 @@ public class CarAI extends JPanel implements Runnable{
             }
 
             // Si le nombre d'epoch est termine, on arrete tout
-            if (counter >= numberOfEpochs) {
+            if (counter > numberOfEpochs) {
+                neuralNetwork.saveNetwork(savingPath);
                 System.out.println(counter + ", " + numberOfEpochs);
                 counter = 0;
                 enCours = false;
@@ -231,7 +233,7 @@ public class CarAI extends JPanel implements Runnable{
 
             try {
                 double[] input = MathTools.mapArray(ImageManager.convertRGB(ImageManager.getSquaredImage((BufferedImage) dataElement.getData(), IMAGE_SIZE)), 0, 255, 0, 1);
-                double[] output = getOutputFromString((String) dataElement.getLabel());
+                double[] output = getOutputFromString((String) dataElement.getLabel(), neuralNetwork.getOUTPUT_LAYER_SIZE());
 
                 neuralNetwork.train(input, output);
 
@@ -272,9 +274,9 @@ public class CarAI extends JPanel implements Runnable{
      * @param s nom du label
      * @return tableau de sortie du neurone
      */
-    private double[] getOutputFromString(String s) {
+    public static double[] getOutputFromString(String s, int numberOfOutputs) {
 
-        double[] a = new double[NUMBER_OF_OUTPUTS];
+        double[] a = new double[numberOfOutputs];
 
         switch (s) {
             case "Voiture":

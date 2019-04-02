@@ -82,6 +82,18 @@ public class MathTools implements Serializable {
 		return out;
 	}
 
+	public static double[][] mapArray(double[][] in, double c1, double c2, double t1, double t2) {
+		double[][] out = new double[in.length][];
+		for(int i = 0 ;i < in.length; i++) {
+			out[i] = new double[in[i].length];
+			for(int j = 0; j < in[i].length; j++) {
+				out[i][j] = t1 + (t2 - t1) * ((in[i][j] - c1) / (c2 - c1));
+			}
+		}
+
+		return out;
+	}
+
 	/**
 	 * Permet de transformer une valeur contenu dans un certain intervalle a sa valeur dans l'intervalle plus petit
 	 * @param value valeur

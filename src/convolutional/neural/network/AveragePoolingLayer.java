@@ -2,6 +2,10 @@ package convolutional.neural.network;
 
 import math.Matrix;
 
+/**
+ * Classe qui represente la structure d'une couche de average pooling dans les reseaux de convolution
+ * @author Simon Daze
+ */
 public class AveragePoolingLayer extends CNNLayer {
 	protected int poolingSize;
 	int nbFilters = inputs.length ; 
@@ -26,8 +30,17 @@ public class AveragePoolingLayer extends CNNLayer {
 			out[i] = filters[i].averagePool(inputs[i]);
 		}
 		return out;
+
 	}
-	
-	
+
+	/**
+	 * Methode qui permet de retourner l'erreur de la couche en fonction de l'erreur de la couche d'apres
+	 * @param target erreur de la couche d'apres
+	 * @return erreur de la couche actuelle
+	 */
+	public Matrix[] backpropagation(Matrix[] target) {
+		return null;
+	}
+
 
 }

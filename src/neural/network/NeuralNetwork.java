@@ -68,9 +68,9 @@ public class NeuralNetwork implements Serializable {
 				// Output layer
 				if (activationFunction == ActivationFunctions.ReLU) {
 					layers[layer] = new Layer(OUTPUT_LAYER_SIZE, configuration[NUMBER_OF_LAYERS - 2], LayerType.OutputLayer, ActivationFunctions.Softmax);
-				} else {
-					layers[layer] = new Layer(OUTPUT_LAYER_SIZE, configuration[NUMBER_OF_LAYERS - 2], LayerType.OutputLayer, activationFunction);
 				}
+				layers[layer] = new Layer(OUTPUT_LAYER_SIZE, configuration[NUMBER_OF_LAYERS - 2], LayerType.OutputLayer, activationFunction);
+
 
 			} else {
 
@@ -126,10 +126,14 @@ public class NeuralNetwork implements Serializable {
 
 
 		for(int neuron = 0; neuron < OUTPUT_LAYER_SIZE; neuron++) {
+			layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * layers[NUMBER_OF_LAYERS - 1].getFunction().getDerivative().getValue(layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0]);
+
 			if(layers[NUMBER_OF_LAYERS - 1].getFunction() == ActivationFunctions.Softmax) {
 				SoftmaxFunction sf = new SoftmaxFunction();
-				
-				layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS - 1].getOutputs(),new Matrix (MathTools.getAsTwoDimensionalArray(expected))) ;
+
+				layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = expected[neuron] * Math.log(layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0]) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS].getOutputsZ(), layers[NUMBER_OF_LAYERS - 1].getOutputs());
+
+				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] *= sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS-1].getOutputsZ(), layers[NUMBER_OF_LAYERS - 1].getOutputs());// = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS - 1].getOutputs(),new Matrix (MathTools.getAsTwoDimensionalArray(expected))) ;
 				
 				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = sf.getValue(layers[NUMBER_OF_LAYERS - 1].getOutputs(), neuron) - expected[neuron];
 				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = sf.getValue(logits, index) - sf.getValue(layers[NUMBER_OF_LAYERS-1].getOutputs(), neuron);
@@ -138,7 +142,7 @@ public class NeuralNetwork implements Serializable {
 				
 				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = sf.crossEntropyLoss(layers[NUMBER_OF_LAYERS-1].getOutputs(), expected) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS-1].getOutputs(), layers[NUMBER_OF_LAYERS -1].getOutputs());
 				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS-1].getOutputsZ(), layers[NUMBER_OF_LAYERS -1].getOutputs());
-			}else {
+			} else {
 				layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * layers[NUMBER_OF_LAYERS - 1].getFunction().getDerivative().getValue(layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0]);
 			}
 		}

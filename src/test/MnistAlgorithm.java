@@ -1,9 +1,11 @@
-package dataset;
+package test;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import dataset.Batch;
+import dataset.DataElement;
 import functions.ActivationFunctions;
 import image.processing.FileManager;
 import image.processing.ImageManager;
@@ -17,10 +19,10 @@ import neural.network.NeuralNetwork;
  */
 public class MnistAlgorithm {
 
-	private static String trainingPath = "D:\\cegep prog\\mnist_png\\training";
-	private static String testingPath = "D:\\cegep prog\\mnist_png\\testing";
-	private static String savingPath = "D:\\cegep prog\\Network Saves\\MNIST\\neural_";
-	private static double learningRate = 0.11;
+	private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\training";
+	private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\testing";
+	private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\neural_";
+	private static double learningRate = 0.4;
 	private static int numberOfEpochs = 200;
 	private static int numberOfImagesPerEpoch = 10000;
 	private static int batch_size = 15;
@@ -29,7 +31,9 @@ public class MnistAlgorithm {
 
 	public static void main(String[] args) {
 
-		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.ReLU, 784, 16, 16, 10);
+		System.out.print("STARTING PROGRAM...");
+
+		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 784, 16, 16, 10);
 
 		System.out.println("\nNON TRAINED NETWORK \n" + testNetwork(nn));
 
@@ -74,6 +78,8 @@ public class MnistAlgorithm {
 					//System.out.println("RESULTS : " + number + "\n" + nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1).getOutputsZ());
 					double[] output = MathTools.getAsOneDimension(nn.getResults().getMat());
 					//System.out.print(MathTools.getHighestIndex(output) + ", " + number + " --\t ");
+
+					//System.out.println(nn.getResults());
 
 					//for(int k = 0; k < output.length; k++) System.out.print("\t" + output[k]);
 					if (MathTools.getHighestIndex(output) == number) result++;
@@ -153,13 +159,12 @@ public class MnistAlgorithm {
 
 			System.out.println(testNetwork(nn));
 
-
 			//System.out.println(nn);
 
 			//System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1));
 		}
 
-		nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%.xml");
+		//nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%.xml");
 	}
 
 }

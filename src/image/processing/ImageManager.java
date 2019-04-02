@@ -41,6 +41,28 @@ public class ImageManager {
 	}
 
 	/**
+	 * Methode qui convertit une image en tableau a 2 dimensions contenant les valeurs rgb de chaque pixel de l'image
+	 * @param img image
+	 * @return tableau a 2 dimensions
+	 * @throws IOException
+	 */
+	public static double[][] convertRGB2D(BufferedImage img) throws IOException {
+		double values[][] = new double[img.getWidth()][img.getHeight()];
+
+		for(int i = 0; i < img.getWidth(); i++) {
+			//System.out.println();
+			for(int j = 0; j < img.getHeight(); j++) {
+
+				double[] rgb = getPixelData(img, i, j);
+				values[i][j] = (rgb[0] + rgb[1] + rgb[2])/3.0;
+
+			}
+		}
+
+		return values;
+	}
+
+	/**
 	 * Methode qui convertit une image en tableau des valeurs rgb, mais en ne prenant que la moyenne des trois valeurs (grey scale)
 	 * @param img image
 	 * @return tableau des valeurs
