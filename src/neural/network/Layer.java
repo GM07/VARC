@@ -90,6 +90,14 @@ public class Layer implements Serializable{
 				outputs = o;
 
 			} else {
+				/*SoftmaxFunction sf = new SoftmaxFunction();
+				 Matrix o = new Matrix(outputs.getROWS(), outputsZ.getCOLS());
+				for(int i = 0; i < outputs.getROWS(); i++) {
+					o.setElement(i, 0, sf.getValue(outputs, i));
+				}
+				outputsS = o;
+
+				*/
 				outputs = outputsZ.applyFunction(function);
 			}
 		} else {

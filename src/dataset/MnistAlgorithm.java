@@ -20,16 +20,23 @@ public class MnistAlgorithm {
 	private static String trainingPath = "D:\\cegep prog\\mnist_png\\training";
 	private static String testingPath = "D:\\cegep prog\\mnist_png\\testing";
 	private static String savingPath = "D:\\cegep prog\\Network Saves\\MNIST\\neural_";
-	private static double learningRate = 1;
+	private static double learningRate = 0.12;
+
+/*
+	private static String trainingPath = "D:\\cegep\\prog\\mnist_png\\training";
+	private static String testingPath = "D:\\cegep\\prog\\mnist_png\\testing";
+	private static String savingPath = "D:\\cegep\\prog\\Network Saves\\MNIST\\neural_";
+*/
+
 	private static int numberOfEpochs = 200;
 	private static int numberOfImagesPerEpoch = 10000;
-	private static int batch_size = 15;
-	private static int resultCounter = 0;
+	private static int batch_size = 12;
+	private static int resultCounter = 11;
 	private static double lastResult = 0;
 
 	public static void main(String[] args) {
 
-		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.ReLU, 784, 16, 16, 10);
+		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 784, 16, 16, 10);
 
 		System.out.println("\nNON TRAINED NETWORK \n" + testNetwork(nn));
 
@@ -87,7 +94,7 @@ public class MnistAlgorithm {
 
 
 //		System.out.println(result + " " + total);
-		return result/total;
+		return (result/total) * 100;
 	}
 
 	/**
