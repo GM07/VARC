@@ -20,7 +20,7 @@ public class MnistAlgorithm {
 	private static String trainingPath = "D:\\cegep prog\\mnist_png\\training";
 	private static String testingPath = "D:\\cegep prog\\mnist_png\\testing";
 	private static String savingPath = "D:\\cegep prog\\Network Saves\\MNIST\\neural_";
-	private static double learningRate = 0.11;
+	private static double learningRate = 1;
 	private static int numberOfEpochs = 200;
 	private static int numberOfImagesPerEpoch = 10000;
 	private static int batch_size = 15;
