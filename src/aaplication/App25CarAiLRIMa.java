@@ -219,6 +219,9 @@ public class App25CarAiLRIMa extends JFrame {
 		menuItemQuit = new JMenuItem("Quitter");
 		menuItemQuit.addActionListener(actionPerformed->{
 			dispose();
+			helpWindow.dispose();
+			scientificExplanationWindow.dispose();
+			
 		});
 		menuOptions.add(menuItemQuit);
 

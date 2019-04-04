@@ -62,7 +62,7 @@ public class HelpWindow extends JFrame {
          
         panAide.setBounds(35, 11, 800, 541);
         contentPane.add(panAide);
-        panAide.setFichierImage("file:///C:/Users/simon/git/25carai/res/fenetreAideProg.jpg");
+        panAide.setFichierImage("fenetre aide prog-1.jpg");
 		
 		
 		

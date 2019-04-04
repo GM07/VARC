@@ -44,6 +44,11 @@ public class ScientificExplanationWindow extends JFrame{
 			setContentPane(contentPane);
 			contentPane.setLayout(null);
 			
+			ImageAvecDefilement panScience = new ImageAvecDefilement();
+			panScience.setBounds(20, 20, 860, 560);
+			contentPane.add(panScience);
+			panScience.setFichierImage("Concepts scientifiques-1.jpg");
+			
 			
 			
 		}
