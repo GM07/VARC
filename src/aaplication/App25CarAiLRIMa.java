@@ -79,6 +79,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JMenuItem menuItemSave;
 	private JMenuItem menuItemLoad;
 	private JMenuItem menuItemQuit;
+	private JMenuItem menuItemLoadPreTrained;
 
 	// Fenetre secondaire
 	private HelpWindow helpWindow;
@@ -216,6 +217,13 @@ public class App25CarAiLRIMa extends JFrame {
 				carAI.loadNetwork(loadNetworkWindow.getPath());
 			}
 		});
+		
+		//Bouton qui charge notre reseau preentrainer
+		menuItemLoadPreTrained = new JMenuItem("Charger notre reseau");
+		menuItemLoadPreTrained.addActionListener(actionPerformed->{
+			//carAi.loadNetwork(notreReseau);
+		});
+		menuOptions.add(menuItemLoadPreTrained);
 
 		// Bouton qui ferme la fenetre
 		menuItemQuit = new JMenuItem("Quitter");
