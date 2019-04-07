@@ -204,7 +204,7 @@ public class ImageManager {
 		}
 		double totalRgb = rgbValues[0]  + rgbValues[1] + rgbValues[2];
 		for(int i = 0 ; i < rgbValues.length; i++) {
-			rgbValues[i] = rgbValues[i] / (img.getHeight() * img.getWidth());
+			rgbValues[i] = (rgbValues[i] / (img.getHeight() * img.getWidth()) ) + 15 ;
 			
 			if (rgbValues[i] > 255) rgbValues[i] = 255;
 			else if (rgbValues[i] < 0) rgbValues[i] = 0;
