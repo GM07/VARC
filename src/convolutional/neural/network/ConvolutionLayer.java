@@ -1,6 +1,6 @@
 package convolutional.neural.network;
 
-import java.util.Arrays;
+import java.io.Serializable;
 
 import math.Matrix;
 /**
@@ -8,7 +8,7 @@ import math.Matrix;
  * @author Simon Daze
  * @author Gaya Mehenni
  */
-public class ConvolutionLayer extends CNNLayer {
+public class ConvolutionLayer extends CNNLayer implements Serializable {
 	/**
 	 * 
 	 */

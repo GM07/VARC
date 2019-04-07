@@ -1,5 +1,7 @@
 package convolutional.neural.network;
 
+import java.io.Serializable;
+
 import functions.ActivationFunctions;
 import math.Matrix;
 import neural.network.LayerType;
@@ -8,7 +10,7 @@ import neural.network.LayerType;
  * @author Gaya Mehenni
  *
  */
-public class FullyConnectedLayer extends CNNLayer {
+public class FullyConnectedLayer extends CNNLayer implements Serializable{
 
 	private int NB_NEURONS, NB_INPUT_NEURONS;
 	private Matrix weights, outputs, outputsZ, inputs, biases, errors;

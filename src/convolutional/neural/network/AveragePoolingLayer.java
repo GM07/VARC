@@ -1,5 +1,7 @@
 package convolutional.neural.network;
 
+import java.io.Serializable;
+
 import math.Matrix;
 
 /**
@@ -7,7 +9,7 @@ import math.Matrix;
  * @author Simon Daze
  *
  */
-public class AveragePoolingLayer extends CNNLayer {
+public class AveragePoolingLayer extends CNNLayer implements Serializable{
 	protected int poolingSize;
 	int nbFilters = inputs.length ; 
 	/**

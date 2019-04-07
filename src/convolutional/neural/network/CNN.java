@@ -1,11 +1,18 @@
 package convolutional.neural.network;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.rmi.activation.ActivationID;
 import java.util.ArrayList;
 
 import functions.ActivationFunctions;
 import math.Matrix;
+import neural.network.NeuralNetwork;
 /**
  * Le reseau de convolution contenant differents types de layers
  * @author Simon Daze
@@ -74,6 +81,48 @@ public class CNN implements Serializable {
 	public void backPropagation() {
 
 
+	}
+	/**
+	 * Methode qui sauvegarde un reseau de convolution
+	 * @param path
+	 */
+	
+	public void saveNetwork(String path) {
+		try {
+			FileOutputStream fos = new FileOutputStream(path + ".dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(this);
+			oos.close();
+			fos.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+			System.out.println(path);
+			System.out.println("Le fichier n'a pas ete trouve");
+		}
+	}
+	
+	/**
+	 * Methode qui charge un reseau de convolution
+	 * @param path chemin d'acces du reseau
+	 * @return reseau de convolution
+	 */
+	public static CNN loadNetwork(String path){
+		try {
+			System.out.println(path);
+			File f = new File(path);
+			FileInputStream fis = new FileInputStream(f);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			CNN cnn = (CNN) ois.readObject();
+			ois.close();
+			fis.close();
+			return cnn;
+		} catch(IOException e) {
+			System.out.println("Le fichier n'existe pas");
+			return null;
+		} catch (ClassNotFoundException e) {
+			System.out.println("La classe n'a pas ete trouvee");
+			return null;
+		}
 	}
 
 	/**
