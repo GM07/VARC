@@ -175,6 +175,11 @@ public class ImageManager {
 		System.out.println(Arrays.toString(rgbValues));
 		return rgbValues;
 	}
+	/**
+	 * Detection de la couleur d'une image en donnant plus d'importance au pixel du centre
+	 * @param img l'image
+	 * @return la couleur moyenne u centre de l'image
+	 */
 	
 	public static double[] getColorImageCenter(BufferedImage img) {
 		double rgbValues[] = new double[3];
