@@ -2,6 +2,7 @@ package convolutional.neural.network;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.io.Serializable;
 
 import functions.ActivationFunctions;
 import math.Matrix;
@@ -10,8 +11,10 @@ import math.Matrix;
  * @author Simon Daze
  * @author Gaya Mehenni
  */
-public class ConvolutionLayer extends CNNLayer {
-
+public class ConvolutionLayer extends CNNLayer implements Serializable {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -8927458212916690704L;
 	private int filterSize;
 
@@ -90,10 +93,12 @@ public class ConvolutionLayer extends CNNLayer {
 		}
 	}
 
+
 	/**
 	 * L'operation qui est effectue sur les inputs de cette couche : la convolution
 	 */
 	@Override
+
 	public Matrix[] operation() {
 
 		if (inputs != null) {

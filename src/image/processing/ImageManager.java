@@ -165,8 +165,8 @@ public class ImageManager {
 	public static double[] getAverageColorFromMiddle(BufferedImage img) {
 
 		double[] rgbValues = new double[3];
-		double middleX = img.getWidth()/2d;
-		double middleY = img.getHeight()/2d;
+		double middleX = img.getWidth()/2.0;
+		double middleY = img.getHeight()/2.0;
 		double maxValue = Math.sqrt(middleX * middleX + middleY * middleY);
 
 		System.out.println(img.getWidth() + ", " + img.getHeight());
@@ -196,6 +196,44 @@ public class ImageManager {
 
 		System.out.println(Arrays.toString(rgbValues));
 		return rgbValues;
+	}
+	/**
+	 * Detection de la couleur d'une image en donnant plus d'importance au pixel du centre
+	 * @param img l'image
+	 * @return la couleur moyenne u centre de l'image
+	 */
+	
+	public static double[] getColorImageCenter(BufferedImage img) {
+		double rgbValues[] = new double[3];
+		double dx;
+		double dy;
+		double middleX = img.getWidth()/2.0;
+		double middleY = img.getHeight()/2.0;
+		double maxValue = Math.sqrt(middleX * middleX + middleY * middleY);
+		double coef;
+		
+		for(int i = 0; i < img.getWidth(); i++) {
+			for(int j = 0; j < img.getHeight(); j++) {
+				
+				dx = Math.abs(i - middleX);
+				dy = Math.abs(j - middleY);
+				coef = Math.abs(3 * maxValue - 2 * (Math.sqrt(dx * dx + dy * dy))) / (2 * maxValue);
+				rgbValues[0] += ImageManager.getPixelData(img, i, j)[0]*coef;
+				rgbValues[1] += ImageManager.getPixelData(img, i, j)[1]*coef;
+				rgbValues[2] += ImageManager.getPixelData(img, i, j)[2]*coef;
+				
+			}
+		}
+		double totalRgb = rgbValues[0]  + rgbValues[1] + rgbValues[2];
+		for(int i = 0 ; i < rgbValues.length; i++) {
+			rgbValues[i] = (rgbValues[i] / (img.getHeight() * img.getWidth()) ) + 15 ;
+			
+			if (rgbValues[i] > 255) rgbValues[i] = 255;
+			else if (rgbValues[i] < 0) rgbValues[i] = 0;
+		}
+		
+		return rgbValues;
+		
 	}
 
 	/**

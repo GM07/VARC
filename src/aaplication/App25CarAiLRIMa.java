@@ -13,6 +13,7 @@ import javax.swing.event.MenuListener;
 import algorithm.CarAI;
 import dessin.DessinNeuralNetwork;
 import image.processing.ImageManager;
+import math.MathTools;
 import neural.network.NeuralNetwork;
 
 /**
@@ -55,6 +56,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JLabel lblOutputVoiture;
 	private JLabel lblOutputMoto;
 	private JLabel lblOutputCamion;
+	private JLabel lblOutputFinal;
 	private JLabel lblOutputMarque;
 	private JLabel lblColorVehicle;
 	private JLabel lblColorText;
@@ -77,6 +79,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JMenuItem menuItemSave;
 	private JMenuItem menuItemLoad;
 	private JMenuItem menuItemQuit;
+	private JMenuItem menuItemLoadPreTrained;
 
 	// Fenetre secondaire
 	private HelpWindow helpWindow;
@@ -117,12 +120,12 @@ public class App25CarAiLRIMa extends JFrame {
 	 * Constructeur de l'application
 	 */
 	public App25CarAiLRIMa() {
-
+		/*
 		// Permet de changer la taille des caracteres
 		UIManager.put("Label.font",new Font("Courier", Font.BOLD, 20));
 		UIManager.put("MenuItem.font ",new Font("Courier", Font.BOLD,20));
 		UIManager.put("Button.font", new Font("Courier", Font.BOLD, 20));
-
+		 */
 		// Creation de la fenetre
 		setTitle("CarAI-LRIMA");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -215,13 +218,20 @@ public class App25CarAiLRIMa extends JFrame {
 			}
 		});
 		
+		//Bouton qui charge notre reseau preentrainer
+		menuItemLoadPreTrained = new JMenuItem("Charger notre reseau");
+		menuItemLoadPreTrained.addActionListener(actionPerformed->{
+			//carAi.loadNetwork(notreReseau);
+		});
+		menuOptions.add(menuItemLoadPreTrained);
+
 		// Bouton qui ferme la fenetre
 		menuItemQuit = new JMenuItem("Quitter");
 		menuItemQuit.addActionListener(actionPerformed->{
 			dispose();
 			helpWindow.dispose();
 			scientificExplanationWindow.dispose();
-			
+
 		});
 		menuOptions.add(menuItemQuit);
 
@@ -284,8 +294,9 @@ public class App25CarAiLRIMa extends JFrame {
 				try {
 					imageVoiture.setImage(fileWindow.getPath());
 
-					double[] rgb = ImageManager.getAverageColor(imageVoiture.getImage());
+					double[] rgb = ImageManager.getColorImageCenter (imageVoiture.getImage());
 					Color c = new Color((int) rgb[0], (int) rgb[1], (int) rgb[2]);
+					System.out.println( "rouge : " + rgb[0] + " vert : " + rgb[1] +" bleu : " +rgb[2]);
 					lblColorVehicle.setBackground(c);
 
 					repaint();
@@ -396,6 +407,18 @@ public class App25CarAiLRIMa extends JFrame {
 			lblOutputVoiture.setText("Possibilite voiture : " + df.format(out[0]) + "%");
 			lblOutputMoto.setText("Possibilite moto : " + df.format(out[1]) + "%");
 			lblOutputCamion.setText("Possibilite camion : " + df.format(out[2]) + "%");
+
+			int index = MathTools.getHighestIndex(out);
+			if( index ==0 ) {
+				lblOutputFinal.setText("Decision du reseau : voiture");
+			}else if( index == 1) {
+				lblOutputFinal.setText("Decision du reseau : moto");
+			}else {
+				lblOutputFinal.setText("Decision du reseau : camion");
+			}
+			
+			
+			repaint();
 		});
 		panInputNumerique.add(btnTest);
 
@@ -444,6 +467,11 @@ public class App25CarAiLRIMa extends JFrame {
 		lblOutputCamion = new JLabel("Possibilite camion: " + "%", SwingConstants.CENTER);
 		lblOutputCamion.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 9 * OFFSET, 12 * OFFSET, 2 * OFFSET);
 		panOutput.add(lblOutputCamion);
+
+		// Label qui affiche la probabilite que ce soit un camion
+		lblOutputFinal = new JLabel("Decision du reseau: ", SwingConstants.CENTER);
+		lblOutputFinal.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 12 * OFFSET , 12 * OFFSET, 2 * OFFSET);
+		panOutput.add(lblOutputFinal);
 
 		// Label qui affiche la marque identifiee
 		lblOutputMarque = new JLabel(" Marque identifiee : ", SwingConstants.CENTER);

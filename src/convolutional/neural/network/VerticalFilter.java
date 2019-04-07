@@ -1,12 +1,14 @@
 package convolutional.neural.network;
 
+import java.io.Serializable;
+
 import math.Matrix;
 
 /**
  * filtre vertical pour detecter les contours verticaux d'une image
  * @author Simon Daze
  */
-public class VerticalFilter extends Filter{
+public class VerticalFilter extends Filter implements Serializable{
 
 	private static final long serialVersionUID = 843250495998652002L;
 

@@ -1,7 +1,7 @@
 
 package convolutional.neural.network;
 
-import java.util.Arrays;
+import java.io.Serializable;
 
 import math.Matrix;
 /**
@@ -9,8 +9,10 @@ import math.Matrix;
  * @author Simon Daze
  *
  */
-public class MaxPoolingLayer extends CNNLayer {
+public class MaxPoolingLayer extends CNNLayer implements Serializable {
 
+
+	
 	private static final long serialVersionUID = -3259937901909895649L;
 	protected int poolingSize;
 	int nbFilters = inputs.length ; 

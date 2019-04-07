@@ -1,5 +1,7 @@
 package convolutional.neural.network;
 
+import java.io.Serializable;
+
 import functions.ActivationFunctions;
 import functions.SoftmaxFunction;
 import math.MathTools;
@@ -16,7 +18,7 @@ import java.util.Arrays;
  * @author Gaya Mehenni
  *
  */
-public class FullyConnectedLayer extends CNNLayer{
+public class FullyConnectedLayer extends CNNLayer implements Serializable{
 
 	private ActivationFunctions function;
 	private Matrix weights;

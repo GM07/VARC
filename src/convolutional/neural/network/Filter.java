@@ -1,12 +1,14 @@
 package convolutional.neural.network;
 
+import java.io.Serializable;
+
 import math.Matrix;
 /**
  * Les differents filtres qui seront apposes sur les images lors de leur passage dans le reseau
  * @author Simon Daze
  * @author Gaya Mehenni
  */
-public class Filter extends Matrix {
+public class Filter extends Matrix implements Serializable{
 
 	private static final long serialVersionUID = 601262895217910258L;
 

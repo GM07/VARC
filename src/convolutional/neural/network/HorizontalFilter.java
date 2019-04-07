@@ -1,5 +1,7 @@
 package convolutional.neural.network;
 
+import java.io.Serializable;
+
 import math.Matrix;
 
 /**
@@ -7,7 +9,7 @@ import math.Matrix;
  * @author Simon Daze
  *
  */
-public class HorizontalFilter extends Filter {
+public class HorizontalFilter extends Filter implements Serializable {
 
 	
 	private static final long serialVersionUID = 6538563290814677755L;
