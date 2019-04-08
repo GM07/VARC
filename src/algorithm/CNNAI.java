@@ -25,6 +25,11 @@ public class CNNAI {
         cnn = CNN.loadNetwork(getClass().getClassLoader().getResource(loadingPath).getPath());
     }
 
+    /**
+     * Methode qui passe une image a travers le reseau
+     * @param img image
+     * @return retourne le tableau de probabilites des marques
+     */
     public double[] feedForward(BufferedImage img) {
 
         double[] out = new double[3];

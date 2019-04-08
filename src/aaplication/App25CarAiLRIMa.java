@@ -431,13 +431,10 @@ public class App25CarAiLRIMa extends JFrame {
 				System.out.println(Arrays.toString(output));
 				int i = MathTools.getHighestIndex(output);
 				if (i == 0) {
-					// BMW
 					lblMarque.setText("Marque : BMW");
 				} else if (i == 1) {
-					// Chevrolet
 					lblMarque.setText("Marque : Chevrolet");
 				} else {
-					// Toyota
 					lblMarque.setText("Marque : Toyota");
 				}
 
