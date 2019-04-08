@@ -219,6 +219,7 @@ public class ImageManager {
 				
 				dx = Math.abs(i - middleX);
 				dy = Math.abs(j - middleY);
+				
 				coef = 1.20 *Math.abs(3 * maxValue - 2 * (Math.sqrt(dx * dx + dy * dy))) / (2 * maxValue);
 				rgbValues[0] += ImageManager.getPixelData(img, i, j)[0]*coef;
 				rgbValues[1] += ImageManager.getPixelData(img, i, j)[1]*coef;
