@@ -31,6 +31,22 @@ public class SoftmaxFunction {
 	}
 	
 	/**
+	 * Applique la fonction softmax a un vecteur pour en ressortir des probabilites
+	 * @param logits le vecteur 
+	 * @param index l'element du vecteur a evalue
+	 * @return la probabilite associee a l'element du vecteur en index
+	 */
+	public double getValue(double[] logits , int index) {
+		double eSum = 0;
+		double d =  0;
+		for (int  i = 0 ; i < logits.length; i++) {
+			eSum += Math.exp(logits[i] - d);
+		}
+		
+		return (Math.exp(logits[index] - d )/ eSum);
+	}
+	
+	/**
 	 * Evalue la derivee dela fonction softmax pour un element d'un vecteur
 	 * @param index l'index de l'element ou la derivee est evaluee
 	 * @param logits l'element du vecteur

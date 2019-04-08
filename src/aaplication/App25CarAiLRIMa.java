@@ -1,20 +1,33 @@
 package aaplication;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 
 import algorithm.CarAI;
 import dessin.DessinNeuralNetwork;
+import functions.SoftmaxFunction;
 import image.processing.ImageManager;
 import math.MathTools;
-import neural.network.NeuralNetwork;
 
 /**
  * Classe de la fenetre principale et de demarrage de l'application
@@ -405,9 +418,13 @@ public class App25CarAiLRIMa extends JFrame {
 
 			DecimalFormat df = new DecimalFormat("#.###");
 			double[] out = carAI.testNetwork(imageVoiture.getImage());
-			lblOutputVoiture.setText("Possibilite voiture : " + df.format(out[0]) + "%");
-			lblOutputMoto.setText("Possibilite moto : " + df.format(out[1]) + "%");
-			lblOutputCamion.setText("Possibilite camion : " + df.format(out[2]) + "%");
+			SoftmaxFunction sf = new SoftmaxFunction();
+			out[0] = sf.getValue(out, 0);
+			out[1] = sf.getValue(out, 1);
+			out[2] = sf.getValue(out, 2);
+			lblOutputVoiture.setText("Possibilite voiture : " + df.format(out[0] * 100) + "%");
+			lblOutputMoto.setText("Possibilite moto : " + df.format(out[1] * 100) + "%");
+			lblOutputCamion.setText("Possibilite camion : " + df.format(out[2] * 100) + "%");
 
 			int index = MathTools.getHighestIndex(out);
 			if( index ==0 ) {
