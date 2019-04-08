@@ -217,7 +217,7 @@ public class ImageManager {
 				
 				dx = Math.abs(i - middleX);
 				dy = Math.abs(j - middleY);
-				coef = Math.abs(3 * maxValue - 2 * (Math.sqrt(dx * dx + dy * dy))) / (2 * maxValue);
+				coef = 1.20 *Math.abs(3 * maxValue - 2 * (Math.sqrt(dx * dx + dy * dy))) / (2 * maxValue);
 				rgbValues[0] += ImageManager.getPixelData(img, i, j)[0]*coef;
 				rgbValues[1] += ImageManager.getPixelData(img, i, j)[1]*coef;
 				rgbValues[2] += ImageManager.getPixelData(img, i, j)[2]*coef;
@@ -226,7 +226,7 @@ public class ImageManager {
 		}
 		double totalRgb = rgbValues[0]  + rgbValues[1] + rgbValues[2];
 		for(int i = 0 ; i < rgbValues.length; i++) {
-			rgbValues[i] = (rgbValues[i] / (img.getHeight() * img.getWidth()) ) + 15 ;
+			rgbValues[i] = (rgbValues[i] / (img.getHeight() * img.getWidth()) ) ;
 			
 			if (rgbValues[i] > 255) rgbValues[i] = 255;
 			else if (rgbValues[i] < 0) rgbValues[i] = 0;
