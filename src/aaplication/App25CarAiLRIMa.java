@@ -427,6 +427,7 @@ public class App25CarAiLRIMa extends JFrame {
 			lblOutputCamion.setText("Possibilite camion : " + df.format(out[2] * 100) + "%");
 
 			int index = MathTools.getHighestIndex(out);
+			
 			if( index ==0 ) {
 				lblOutputFinal.setText("Decision du reseau : voiture");
 			}else if( index == 1) {
