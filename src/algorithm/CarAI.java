@@ -46,7 +46,7 @@ public class CarAI extends JPanel implements Runnable{
     /*
         La taille des images en entree du reseau de neurone est fixee a 28x28
      */
-    private final int IMAGE_SIZE = 64;
+    private final int IMAGE_SIZE = 28;
 
     /*
         Le reseau de neurone identifie 3 types de vehicules
@@ -270,9 +270,10 @@ public class CarAI extends JPanel implements Runnable{
     }
 
     /**
-     * Methode qui convertit une chaine de caractere en tableau de sortie pour le reseau de neurone
+     * Methode qui convertit une chaine de caractere representant le type de vehicule en tableau de sortie pour les reseaux de neurones
      * @param s nom du label
-     * @return tableau de sortie du neurone
+     * @param numberOfOutputs nombre de sorties du reseau
+     * @return tableau de sortie attendu du neurone
      */
     public static double[] getOutputFromString(String s, int numberOfOutputs) {
 
@@ -286,6 +287,34 @@ public class CarAI extends JPanel implements Runnable{
                 a[1] = 1;
                 break;
             case "Camion":
+                a[2] = 1;
+                break;
+            default:
+                System.out.println("L'algorithme n'a pas reconnue le label");
+                break;
+        }
+
+        return a;
+    }
+
+    /**
+     * Methode qui convertit une chaine de caractere representant la marque d'un vehicule en tableau de sortie pour les reseaux de neurones
+     * @param s nom du label
+     * @param numberOfOutputs nombre de sorties pour les reseaux
+     * @return tableau de sortie attendu du reseau
+     */
+    public static double[] getOutputFromStringBrands(String s, int numberOfOutputs) {
+
+        double[] a = new double[numberOfOutputs];
+
+        switch (s) {
+            case "BMW":
+                a[0] = 1;
+                break;
+            case "Chevrolet":
+                a[1] = 1;
+                break;
+            case "Toyota":
                 a[2] = 1;
                 break;
             default:

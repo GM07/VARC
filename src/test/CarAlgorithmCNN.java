@@ -1,6 +1,7 @@
 package test;
 
 import algorithm.CarAI;
+import convolutional.neural.network.AveragePoolingLayer;
 import convolutional.neural.network.CNN;
 import convolutional.neural.network.ConvolutionLayer;
 import dataset.Batch;
@@ -14,6 +15,8 @@ import math.Matrix;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Classe qui teste le reseau de convolution sur le dataset des vehicules
@@ -21,14 +24,14 @@ import java.util.ArrayList;
  */
 public class CarAlgorithmCNN {
 
-    private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\training";
-    private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\testing";
-    //private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\MNIST\\neural_";
-    private static double learningRate = 0.003;
-    private static int numberOfEpochs = 200;
-    private static int numberOfImagesPerEpoch = 1000;
+    private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Marques\\training";
+    private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Marques\\testing";
+    private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\CNN_Saves\\trained_cnn_";
+    private static double learningRate = 0.001;
+    private static int numberOfEpochs = 10;
+    private static int numberOfImagesPerEpoch = 200;
     private static int numberOfImagesToTest = 1000;
-    private static int batch_size = 3;
+    private static int batch_size = 1;
     private static int resultCounter = 0;
     private static double lastResult = 0;
 
@@ -41,8 +44,12 @@ public class CarAlgorithmCNN {
 
         CNN cnn = new CNN(ActivationFunctions.Sigmoid, 28, 3, 3, learningRate);
 
-        cnn.addLayer(new ConvolutionLayer(10, 3, 28, 3));
-        cnn.addLayer(new ConvolutionLayer(10, 3));
+        cnn.addLayer(new ConvolutionLayer(7, 7, 28, 3));
+        //cnn.addLayer(new AveragePoolingLayer(3, 3));
+        cnn.addLayer(new ConvolutionLayer(5, 5));
+        //cnn.addLayer(new AveragePoolingLayer(3, 3));
+        cnn.addLayer(new ConvolutionLayer(3, 3));
+        //cnn.addLayer(new ConvolutionLayer(3, 3));
         cnn.endStructure();
 
         loadData();
@@ -59,7 +66,6 @@ public class CarAlgorithmCNN {
 
     /**
      * Methode qui teste le reseau de convolution
-     *
      * @param cnn reseau de convolution
      * @return taux de reussite
      */
@@ -69,6 +75,8 @@ public class CarAlgorithmCNN {
 
         double result = 0;
         double total = 0;
+
+        Collections.shuffle(testImages);
 
         for (int i = 0; i < testImages.size(); i++) {
 
@@ -80,19 +88,18 @@ public class CarAlgorithmCNN {
 
             //System.out.println("\t TESTING IMAGE : " + j);
             try {
-                double[][] input = ImageManager.convertRGB2D(ImageManager.getSquaredImage((BufferedImage) (d.getData()), 28));
+                double[][][] input = MathTools.mapArray(ImageManager.convertRGB2D(ImageManager.getSquaredImage(image, 28)), 0, 255, 0, 1);
 
-                double[] expected = CarAI.getOutputFromString(type, cnn.getOutputs().getROWS());
+                double[] expected = CarAI.getOutputFromStringBrands(type, cnn.getOutputs().getROWS());
 
-                Matrix[] in = new Matrix[1];
-                in[0] = new Matrix(input);
+                Matrix[] in = new Matrix[3];
+                in[0] = new Matrix(input[0]);
+                in[1] = new Matrix(input[1]);
+                in[2] = new Matrix(input[2]);
                 cnn.setInputs(in);
 
-                //System.out.println("RESULTS : " + number + "\n" + nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1).getOutputsZ());
                 double[] output = cnn.feedForward();
-                //System.out.print(MathTools.getHighestIndex(output) + ", " + number + "\t");
 
-                //for(int k = 0; k < output.length; k++) System.out.print("\t" + output[k]);
                 if (MathTools.getHighestIndex(output) == MathTools.getHighestIndex(expected)) result++;
                 total++;
 
@@ -106,8 +113,10 @@ public class CarAlgorithmCNN {
         return result / total;
     }
 
+    /**
+     * Methode qui charge les images pour l'entrainement et le test
+     */
     public static void loadData() {
-
 
         System.out.println("Loading data");
 
@@ -115,13 +124,14 @@ public class CarAlgorithmCNN {
 
         for (int i = 0; i < folders2.size(); i++) {
 
-
             ArrayList<BufferedImage> images = FileManager.getImagesFromFolder(testingPath + "\\" + folders2.get(i));
 
             for (int j = 0; j < images.size(); j++) {
                 DataElement<String, BufferedImage> e = new DataElement(folders2.get(i), images.get(i));
                 testImages.add(e);
             }
+
+            System.out.println("\t" + folders2.get(i));
 
         }
 
@@ -143,7 +153,6 @@ public class CarAlgorithmCNN {
             }
 
         }
-
 
         System.out.println("Training images loaded (" + batch.getDataset().size() + ")");
     }
@@ -173,49 +182,44 @@ public class CarAlgorithmCNN {
             for (int data = 0; data < epochData.size(); data++) {
 
                 DataElement dataElement = batch.getDataset().get(data);
-
                 try {
-                    //t1 = System.currentTimeMillis();
-                    double[][] input = MathTools.mapArray(ImageManager.convertRGB2D(ImageManager.getSquaredImage((BufferedImage) (dataElement.getData()), 28)), 0, 255, 0, 1);
-                    //t2 = System.currentTimeMillis();
-                    //System.out.println("CONVERT TO RGB : " + (t2 - t1));
+                    double[][][] input = MathTools.mapArray(ImageManager.convertRGB2D(ImageManager.getSquaredImage((BufferedImage) (dataElement.getData()), 28)), 0, 255, 0, 1);
 
-                    Matrix[] in = new Matrix[1];
-                    in[0] = new Matrix(input);
-                    //t1 = System.currentTimeMillis();
+                    Matrix[] in = new Matrix[3];
+                    in[0] = new Matrix(input[0]);
+                    in[1] = new Matrix(input[1]);
+                    in[2] = new Matrix(input[2]);
+
                     cnn.setInputs(in);
-                    //t2 = System.currentTimeMillis();
-                    //System.out.println("SET INPUTS : " + (t2 - t1));
 
-                    double[] output = CarAI.getOutputFromString((String) dataElement.getLabel(), cnn.getOutputs().getROWS());
+                    double[] output = CarAI.getOutputFromStringBrands((String) dataElement.getLabel(), cnn.getOutputs().getROWS());
 
-                    //System.out.println(Arrays.toString(output) + " - " + number);
+                    //System.out.println(Arrays.toString(output) + " - " + dataElement.getLabel());
 
-                    //t1 = System.currentTimeMillis();
                     cnn.feedForward();
-                    //t2 = System.currentTimeMillis();
-                    //System.out.println("FEED FORWARD : " + (t2 - t1));
 
-                    //t1 = System.currentTimeMillis();
                     cnn.backPropagation(output);
-                    //t2 = System.currentTimeMillis();
-                    //System.out.println("TRAIN : " + (t2 - t1));
 
                     //if (data % batch_size == 0) nn.updateWeightsAndBiases(learningRate/batch_size);
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
 
             t2 = System.currentTimeMillis();
             System.out.println(" (" + (t2 - t1) + ")");
 
             System.out.println(testNetwork(cnn));
+            System.out.println(testNetwork(cnn));
+            System.out.println(testNetwork(cnn));
             //System.out.println(cnn);
+
+            cnn.saveNetwork(savingPath + ((int) (100 * testNetwork(cnn))) + "%");
         }
 
-        //nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%.xml");
+
     }
 
 }

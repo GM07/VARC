@@ -82,12 +82,36 @@ public class MathTools implements Serializable {
 		return out;
 	}
 
+	/**
+	 * * Permet de transformer les valeurs d'un tableau contenu dans un certain intervalle a sa valeur dans l'intervalle plus petit
+	 * @param in tableau
+	 * @param c1 borne inferieure intervalle debut
+	 * @param c2 borne superieure intervalle debut
+	 * @param t1 borne inferieure intervalle fin
+	 * @param t2 borne superieure intervale fin
+	 * @return valeur dans l'intervalle de fin
+	 */
 	public static double[][] mapArray(double[][] in, double c1, double c2, double t1, double t2) {
 		double[][] out = new double[in.length][];
 		for(int i = 0 ;i < in.length; i++) {
 			out[i] = new double[in[i].length];
 			for(int j = 0; j < in[i].length; j++) {
 				out[i][j] = t1 + (t2 - t1) * ((in[i][j] - c1) / (c2 - c1));
+			}
+		}
+
+		return out;
+	}
+
+	public static double[][][] mapArray(double[][][] in, double c1, double c2, double t1, double t2) {
+		double[][][] out = new double[in.length][][];
+		for(int i = 0 ;i < in.length; i++) {
+			out[i] = new double[in[i].length][];
+			for(int j = 0; j < in[i].length; j++) {
+				out[i][j] = new double[in[i][j].length];
+				for(int k = 0; k < in[i][j].length; k++) {
+					out[i][j][k] = t1 + (t2 - t1) * ((in[i][j][k] - c1) / (c2 - c1));
+				}
 			}
 		}
 

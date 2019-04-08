@@ -32,7 +32,7 @@ public class ConvolutionLayer extends CNNLayer implements Serializable {
 	 * @param size : la taille des filters (dimensions)
 	 * @param nbFilter : le nombre de filters
 	 */
-
+	// Gaya Mehenni
 	public ConvolutionLayer(int size, int nbFilter, int inputSize, int nbChannels) {
 		inputs = new Matrix[nbChannels];
 
@@ -65,6 +65,12 @@ public class ConvolutionLayer extends CNNLayer implements Serializable {
 		}
 	}
 
+	/**
+	 * Constructeur d'une couche de convolution autre que la premiere couche
+	 * @param size taille du filtre
+	 * @param nbFilter nombre de filtres
+	 */
+	// Gaya Mehenni
 	public ConvolutionLayer(int size, int nbFilter) {
 
 		filterSize = size;
@@ -97,8 +103,8 @@ public class ConvolutionLayer extends CNNLayer implements Serializable {
 	/**
 	 * L'operation qui est effectue sur les inputs de cette couche : la convolution
 	 */
+	// Simon Daze
 	@Override
-
 	public Matrix[] operation() {
 
 		if (inputs != null) {
@@ -139,6 +145,7 @@ public class ConvolutionLayer extends CNNLayer implements Serializable {
 	 * @param target erreur de la couche d'apres
 	 * @return error de cette couche
 	 */
+	// Gaya Mehenni
 	public Matrix[] backpropagation(Matrix[] target) {
 
 		Matrix[] deltaC = new Matrix[filters.length];
@@ -286,7 +293,6 @@ public class ConvolutionLayer extends CNNLayer implements Serializable {
 	public void setFunction(ActivationFunctions function) {
 		this.activationFunction = function;
 	}
-
 
 
 	/**

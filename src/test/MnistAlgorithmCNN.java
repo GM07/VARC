@@ -45,7 +45,7 @@ public class MnistAlgorithmCNN {
 
         CNN cnn = new CNN(ActivationFunctions.Sigmoid, 28, 3, 10, learningRate);
 
-        cnn.addLayer(new ConvolutionLayer(5, 3, 28, 3));
+        cnn.addLayer(new ConvolutionLayer(5, 5, 28, 3));
         cnn.addLayer(new ConvolutionLayer(3, 3));
 
         cnn.endStructure();
@@ -84,11 +84,11 @@ public class MnistAlgorithmCNN {
 
             //System.out.println("\t TESTING IMAGE : " + j);
             try {
-                double[][] input = ImageManager.convertRGB2D(image);
+                double[][][] input = ImageManager.convertRGB2D(image);
                 double[] expected = new double[10];
                 expected[number] = 1;
                 Matrix[] in = new Matrix[1];
-                in[0] = new Matrix(input);
+                in[0] = new Matrix(input[0]);
                 cnn.setInputs(in);
 
                 //System.out.println("RESULTS : " + number + "\n" + nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1).getOutputsZ());
@@ -179,12 +179,12 @@ public class MnistAlgorithmCNN {
 
                 try {
                     //t1 = System.currentTimeMillis();
-                    double[][] input = ImageManager.convertRGB2D((BufferedImage) dataElement.getData());
+                    double[][][] input = ImageManager.convertRGB2D((BufferedImage) dataElement.getData());
                     //t2 = System.currentTimeMillis();
                     //System.out.println("CONVERT TO RGB : " + (t2 - t1));
 
                     Matrix[] in = new Matrix[1];
-                    in[0] = new Matrix(input);
+                    in[0] = new Matrix(input[0]);
                     //t1 = System.currentTimeMillis();
                     cnn.setInputs(in);
                     //t2 = System.currentTimeMillis();

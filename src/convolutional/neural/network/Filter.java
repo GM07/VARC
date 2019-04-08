@@ -47,8 +47,13 @@ public class Filter extends Matrix implements Serializable{
 		return pooledMat;
 
 	}
-	
-	
+
+
+	/**
+	 * Retourne la valeur moyenne dans une sous matrice de la taille du filter
+	 * @return la matrice contenant toutes les valeurs moyennes des sous-matrices nxn
+	 * @param m = La matrice sur laquelle on applique le averagePooling
+	 */
 	public Matrix averagePool(Matrix m) {
 		Matrix pooledMat = new Matrix(m.getROWS() - this.getROWS() + 1, m.getCOLS() - this.getROWS() + 1);
 		for (int ofX = 0 ; ofX < m.getROWS() - this.getROWS() + 1; ofX++) {

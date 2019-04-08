@@ -31,9 +31,9 @@ public class CNN implements Serializable {
 	private ActivationFunctions activationFunction;
 
 	/**
-	 * constructeur du resea
-
+	 * constructeur du reseau
 	 */
+	// Gaya Mehenni
 	public CNN(ActivationFunctions activationFunction, int inputSize, int numberOfChannels, int numberOfOutputs, double learningRate) {
 		layers = new ArrayList<>();
 		this.inputSize = inputSize;
@@ -48,27 +48,22 @@ public class CNN implements Serializable {
 			inputs[i] = new Matrix(inputSize, inputSize);
 		}
 	}
-	/**
-	 * Constructeur sans paramètres pour l'encodage XML
-	 */
-	public CNN() {
-		layers = new ArrayList<>();
-	}
 
 	/**
 	 * Methode qui permet d'ajouter une layer au reseau
 	 * @param layer la layer a ajouter au reseau
 	 */
+	// Simon Daze
 	public void addLayer(CNNLayer layer) {
 		layers.add(layer);
 		if (inputs != null) activation();
 	}
 
-
 	/**
 	 * Methode qui transforme les entrees en sortie
-	 * @return tableau de reels
+	 * @return tableau des sorties sur reseau
 	 */
+	// Gaya Mehenni
 	public double[] feedForward() {
 
 		activation();
@@ -86,8 +81,9 @@ public class CNN implements Serializable {
 	}
 
 	/**
-	 * Activation du reseau
+	 * Activation du reseau qui relie les entrees et les sorites de chaque couche
 	 */
+	// Simon Daze
 	public void activation() {
 
 		for(int i = 0 ; i < layers.size(); i++) {
@@ -121,6 +117,7 @@ public class CNN implements Serializable {
 	 * Methode qui va me donner envie d'exploser mon ordi durant la semaine de relache...
 	 * Sur une note plus serieuse : methode pour calibrer les poids du reseau
 	 */
+	// Gaya Mehenni
 	public void backPropagation(double[] target) {
 
 		Matrix[] layerError = new Matrix[1];
@@ -183,6 +180,7 @@ public class CNN implements Serializable {
 	/**
 	 * Methode qui ajoute une vectorize layer et une fully connected pour pouvoir completer la structure du reseau de convolution
 	 */
+	// Gaya Mehenni
 	public void endStructure() {
 
 		addLayer(new VectorizationLayer(layers.get(layers.size() - 1).getOutputs(), layers.get(layers.size() - 1).getOutputs()[0].getROWS()));
@@ -193,6 +191,11 @@ public class CNN implements Serializable {
 
 	}
 
+	/**
+	 * Methode qui retourne une chaine affichant les details du CNN
+	 * @return
+	 */
+	// Gaya Mehenni
 	public String toString() {
 
 		String s = "CNN \n\n";

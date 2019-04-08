@@ -21,22 +21,26 @@ import java.util.Arrays;
  */
 public class CarAlgorithm {
 
-    private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_3";
-    private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\Testing_dataset_3";
+    private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\training";
+    private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\testing";
     private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\trained_network_";
-    private static double learningRate = 0.1;
-    private static int numberOfEpochs = 300;
+    private static double learningRate = 0.07;
+    private static int numberOfEpochs = 50;
     private static int numberOfImagesPerEpoch = 1000;
     private static int batch_size = 1;
     private static int resultCounter = 0;
     private static double lastResult = 0;
     private static double delta = 0;
 
+    /**
+     * Methode principale qui lance l'application
+     * @param args
+     */
     public static void main(String[] args) {
 
         System.out.print("STARTING PROGRAM...");
 
-        NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 28 * 28 * 3, 40, 16, 3);
+        NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 28 * 28 * 3, 64, 32, 3);
 
         System.out.println("\nWITHOUT TRAINING\n" + testNetwork(nn));
 
@@ -46,6 +50,11 @@ public class CarAlgorithm {
 
     }
 
+    /**
+     * Methode qui teste l'efficacite du reseau de neurone
+     * @param nn reseau de neurone
+     * @return succes du reseau (%)
+     */
     public static double testNetwork(NeuralNetwork nn){
 
         ArrayList<String> folders = FileManager.getFoldersFromFolder(testingPath);
@@ -75,7 +84,7 @@ public class CarAlgorithm {
 
                     double[] outputs = MathTools.getAsOneDimension(nn.getResults().getMat());
 
-                    System.out.println(nn.getResults());
+                    //System.out.println(nn.getResults());
                     //System.out.println(MathTools.getHighestIndex(outputs) + " - " + MathTools.getHighestIndex(expected));
                     if (MathTools.getHighestIndex(outputs) == MathTools.getHighestIndex(expected)) result++;
                     total++;
@@ -89,6 +98,10 @@ public class CarAlgorithm {
         return result/total;
     }
 
+    /**
+     * Methode qui entraine un reseau en fonction du chemin d'entrainement de la classe
+     * @param nn reseau de neurone
+     */
     public static void trainNetwork(NeuralNetwork nn) {
 
         ArrayList<String> folders = FileManager.getFoldersFromFolder(trainingPath);
@@ -137,7 +150,9 @@ public class CarAlgorithm {
 
                     nn.train(input, output);
 
-                    if (data % batch_size == 0) nn.updateWeightsAndBiases(learningRate/batch_size);
+                    if (data % batch_size == 0) {
+                        nn.updateWeightsAndBiases(learningRate/batch_size);
+                    }
 
                 } catch(IOException e) {
                     e.printStackTrace();
@@ -145,13 +160,20 @@ public class CarAlgorithm {
             }
 
             double current = testNetwork(nn);
-            delta = current - lastResult;
-            if (delta > 0) {
-                learningRate /= (1 + (delta));
-            } else learningRate *= (1 + (-delta));
+
+//            delta = current - lastResult;
+//            if (delta > 0) {
+//                learningRate /= (1 + (delta));
+//            } else {
+//                learningRate *= (1 + (-delta));
+//            }
             lastResult = current;
             System.out.println(lastResult + ", " + learningRate);
 
+
+            if (current > 0.70) {
+                nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%");
+            }
             //System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1));
         }
 

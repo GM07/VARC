@@ -46,15 +46,17 @@ public class ImageManager {
 	 * @return tableau a 2 dimensions
 	 * @throws IOException
 	 */
-	public static double[][] convertRGB2D(BufferedImage img) throws IOException {
-		double values[][] = new double[img.getWidth()][img.getHeight()];
+	public static double[][][] convertRGB2D(BufferedImage img) throws IOException {
+		double values[][][] = new double[3][img.getWidth()][img.getHeight()];
 
 		for(int i = 0; i < img.getWidth(); i++) {
 			//System.out.println();
 			for(int j = 0; j < img.getHeight(); j++) {
 
 				double[] rgb = getPixelData(img, i, j);
-				values[i][j] = (rgb[0] + rgb[1] + rgb[2])/3.0;
+				values[0][i][j] = rgb[0];
+				values[1][i][j] = rgb[1];
+				values[2][i][j] = rgb[2];
 
 			}
 		}

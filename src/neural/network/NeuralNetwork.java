@@ -34,11 +34,6 @@ public class NeuralNetwork implements Serializable {
 	private ActivationFunctions activationFunction;
 
 	/**
-	 * Constructeur nul pour permettre la sauvegarde et le chargement en XML
-	 */
-	public NeuralNetwork() {}
-
-	/**
 	 * Constructeur
 	 * @param function fonction d'activation du reseau
 	 * @param configuration configuration du reseau (nombre de neurones par couche)
