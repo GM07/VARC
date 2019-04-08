@@ -26,6 +26,7 @@ import neural.network.NeuralNetwork;
 public class App25CarAiLRIMa extends JFrame {
 
 	// Panels
+	
 	private JPanel contentPane;
 	private JPanel panImage;
 	private JPanel panInputNumerique;
