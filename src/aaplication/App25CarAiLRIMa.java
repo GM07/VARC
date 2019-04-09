@@ -50,6 +50,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JButton btnTest;
 	private JButton btnTrain;
 	private JButton btnMarque;
+	private JButton btnConvolution;
 
 	// Progress bar
 	private JProgressBar progressBarTraining;
@@ -96,6 +97,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private FileWindow datasetWindow;
 	private FileWindow saveNetworkWindow;
 	private FileWindow loadNetworkWindow;
+	private ConvolutionWindow convolutionWindow;
 
 	private String path = "";
 
@@ -137,7 +139,7 @@ public class App25CarAiLRIMa extends JFrame {
 		UIManager.put("MenuItem.font ",new Font("Arial", Font.BOLD,20));
 		UIManager.put("Button.font", new Font("Arial", Font.BOLD, 20));
 
-		path = getClass().getClassLoader().getResource("network_saves/trained_network.dat").getPath();
+		path = getClass().getClassLoader().getResource("network_saves/trained_neural_network.dat").getPath();
 
 		// Creation de la fenetre
 		setTitle("CarAI-LRIMA");
@@ -153,7 +155,6 @@ public class App25CarAiLRIMa extends JFrame {
 
 		// Creation du panel de depart
 		contentPane = new JPanel();
-		//contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -179,6 +180,8 @@ public class App25CarAiLRIMa extends JFrame {
 		panImage.add(carAI);
 
 		cnnAI = new CNNAI(28);
+		convolutionWindow = new ConvolutionWindow(cnnAI);
+
 	}
 
 	/**
@@ -425,26 +428,26 @@ public class App25CarAiLRIMa extends JFrame {
 			int index = MathTools.getHighestIndex(out);
 			if( index ==0 ) {
 				lblOutputFinal.setText("Decision du reseau : voiture");
-
-				double[] output = cnnAI.feedForward(imageVoiture.getImage());
-
-				System.out.println(Arrays.toString(output));
-				int i = MathTools.getHighestIndex(output);
-				if (i == 0) {
-					lblMarque.setText("Marque : BMW");
-				} else if (i == 1) {
-					lblMarque.setText("Marque : Chevrolet");
-				} else {
-					lblMarque.setText("Marque : Toyota");
-				}
-
 			}else if( index == 1) {
 				lblOutputFinal.setText("Decision du reseau : moto");
 			}else {
 				lblOutputFinal.setText("Decision du reseau : camion");
 			}
 
+			double[] output = cnnAI.feedForward(imageVoiture.getImage());
+
+			System.out.println(Arrays.toString(output));
+			int i = MathTools.getHighestIndex(output);
+			if (i == 0) {
+				lblMarque.setText("Marque : BMW");
+			} else if (i == 1) {
+				lblMarque.setText("Marque : Chevrolet");
+			} else {
+				lblMarque.setText("Marque : Toyota");
+			}
+
 			repaint();
+			convolutionWindow.repaint();
 		});
 		panInputNumerique.add(btnTest);
 
@@ -517,6 +520,7 @@ public class App25CarAiLRIMa extends JFrame {
 		lblColorVehicle = new JLabel();
 		lblColorVehicle.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 23 * OFFSET, 12 * OFFSET, 2 * OFFSET);
 		lblColorVehicle.setBackground(color);
+		lblColorVehicle.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		lblColorVehicle.setOpaque(true);
 		panOutput.add(lblColorVehicle);
 
@@ -529,6 +533,14 @@ public class App25CarAiLRIMa extends JFrame {
 		lblMarque = new JLabel("Marque : ", SwingConstants.CENTER);
 		lblMarque.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 25 * OFFSET, 12 * OFFSET, 2 * OFFSET);
 		panOutput.add(lblMarque);
+
+		btnConvolution = new JButton("Voir le reseau");
+		btnConvolution.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 27 * OFFSET, 12 * OFFSET, 2 * OFFSET);
+		btnConvolution.addActionListener(actionPerformed -> {
+		    convolutionWindow.setVisible(true);
+		    convolutionWindow.repaint();
+        });
+		panOutput.add(btnConvolution);
 	}
 
 

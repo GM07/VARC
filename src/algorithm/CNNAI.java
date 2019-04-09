@@ -1,10 +1,13 @@
 package algorithm;
 
 import convolutional.neural.network.CNN;
+import convolutional.neural.network.CNNLayer;
 import image.processing.ImageManager;
 import math.MathTools;
 import math.Matrix;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -13,16 +16,17 @@ import java.io.IOException;
  * On considere que le reseau est deja entraine, les utilisateurs ne peuvent pas l'entrainer (trop de temps)
  * @author Gaya Mehenni
  */
-public class CNNAI {
+public class CNNAI extends JPanel {
 
     private CNN cnn;
-    private final String loadingPath = "network_saves/trained_cnn.dat";
+    public static final String loadingPath = "network_saves/trained_cnn.dat";
     private int imageSize;
 
     public CNNAI(int imageSize) {
 
         this.imageSize = imageSize;
         cnn = CNN.loadNetwork(getClass().getClassLoader().getResource(loadingPath).getPath());
+
     }
 
     /**
@@ -49,11 +53,51 @@ public class CNNAI {
             System.out.println("Erreur lors du chargement de l'image");
         }
 
+        repaint();
+
         return out;
 
     }
 
+    /**
+     * Methode qui dessine le reseau
+     * @param g contexte graphique
+     */
+    public void paintComponent(Graphics g) {
 
+        Graphics2D g2d = (Graphics2D) g;
+        double nbLayers = cnn.getLayers().size() - 1, x = 0, y = 0, offsetX = 20, offsetY = 20;
+        double sizeLayer = (getWidth() - (nbLayers + 1) * offsetX) / nbLayers;
+
+        x = offsetX;
+        y = offsetY;
+
+        for(int layer = 0; layer < cnn.getLayers().size() - 1; layer++) {
+
+            CNNLayer l = cnn.getLayers().get(layer);
+
+            double sizeInput = (getHeight() - 2 * offsetY) / l.getInputs().length;
+
+            y = offsetY;
+            for(int input = 0; input < l.getInputs().length; input++) {
+
+                Matrix m = l.getInputs()[input];
+
+                BufferedImage img = ImageManager.transformMatrixToImage(m);
+
+                System.out.println(x + ", " + y);
+                g2d.drawImage(img, (int) x, (int) y, (int) sizeLayer, (int) sizeInput, null);
+                g2d.drawRect((int) x, (int) y, (int) sizeLayer, (int) sizeInput);
+
+                y += sizeInput;
+
+            }
+
+            x += offsetX;
+            x += sizeLayer;
+
+        }
+    }
 
 
 }

@@ -548,6 +548,23 @@ public class Matrix implements Serializable {
 	}
 
 	/**
+	 * Methode qui retourne la valeur maximale absolue de la matrice
+	 * @return valeur maximale
+	 */
+	public double getMaxAbsoluteValue() {
+		double maxValue = (Double.MAX_VALUE * -1) + 1, currentValue;
+		for(int i = 0 ; i < ROWS ; i++) {
+			for (int j = 0 ; j < COLS ; j++) {
+				currentValue = Math.abs(mat[i][j]);
+				if(currentValue > maxValue) {
+					maxValue = Math.abs(currentValue);
+				}
+			}
+		}
+		return maxValue;
+	}
+
+	/**
 	 * methode qui retourne la valeur moyenne de la matrice
 	 * @return la valeur moyenne de la matrice
 	 */
@@ -567,9 +584,9 @@ public class Matrix implements Serializable {
 	 */
 	public static void main(String[] args) {
 		Matrix m1 = new Matrix(new double[][]{
-			{1, 1, 1},
+			{1, -2, 1},
 			{0, 0, 0},
-			{1, 1, 1}
+			{1, 4, -6}
 		});
 
 		Matrix m2 = new Matrix(new double[][]{
@@ -577,11 +594,7 @@ public class Matrix implements Serializable {
 			{1, 0}
 		});
  
-		
-		System.out.println(m1.convolutionWithPadding(m2, 1));
-		System.out.println(m1.transpose());
-		
-		System.out.println(m1.getAverageValue());
+		System.out.println(m1.getMaxAbsoluteValue());
 
 	}
 

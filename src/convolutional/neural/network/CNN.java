@@ -160,7 +160,6 @@ public class CNN implements Serializable {
 	 */
 	public static CNN loadNetwork(String path){
 		try {
-			System.out.println(path);
 			File f = new File(path);
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream ois = new ObjectInputStream(fis);

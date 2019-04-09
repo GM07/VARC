@@ -62,11 +62,6 @@ public class HelpWindow extends JFrame {
         contentPane.add(panAide);
         panAide.setFichierImage("fenetre aide prog-1.jpg");
 		
-		
-		
-		
-		
-		
 	}
 	
 	

@@ -24,9 +24,9 @@ public class CarAlgorithm {
     private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\training";
     private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\testing";
     private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\trained_network_";
-    private static double learningRate = 0.07;
-    private static int numberOfEpochs = 50;
-    private static int numberOfImagesPerEpoch = 1000;
+    private static double learningRate = 3E-5;
+    private static int numberOfEpochs = 200;
+    private static int numberOfImagesPerEpoch = 20000;
     private static int batch_size = 1;
     private static int resultCounter = 0;
     private static double lastResult = 0;
@@ -177,7 +177,7 @@ public class CarAlgorithm {
             //System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1));
         }
 
-        nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%");
+        //nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%");
     }
 
 }
