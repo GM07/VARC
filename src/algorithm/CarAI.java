@@ -27,9 +27,9 @@ public class CarAI extends JPanel implements Runnable{
 
     //private String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\training";
     //private String testingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\testing";
-    private String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\dataset_vehicules\\training";
+    private String trainingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\training";
     //private String trainingPath = "C:\\Users\\mehga\\Documents\\dataset\\car_train_weak";
-    private String testingPath = "D:\\Cegep\\Session_4\\IA Data\\dataset_vehicules\\testing";
+    private String testingPath = "D:\\Cegep\\cegep prog\\Dataset_Voiture_Moto_Camion\\testing";
     private double learningRate;
     private int numberOfEpochs, batchSize, numberImagesPerFolderMax = 3000;
 
