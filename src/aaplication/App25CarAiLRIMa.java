@@ -39,7 +39,7 @@ import math.MathTools;
 public class App25CarAiLRIMa extends JFrame {
 
 	// Panels
-	
+	 
 	private JPanel contentPane;
 	private JPanel panImage;
 	private JPanel panInputNumerique;
