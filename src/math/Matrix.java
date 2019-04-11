@@ -111,6 +111,43 @@ public class Matrix implements Serializable {
 	}
 
 	/**
+	 * Applique un filtre de convolution sur l'ensemble de la matrice
+	 * @param m la matrice sur laquelle appliquer la convolution
+	 * @return une matrice contenant le resultat de la convolution entre le filtre et la matrice passee en parametre
+	 */
+	// Auteur : Gaya Mehenni
+	public Matrix convolution(Matrix m) {
+
+		int FINALROWS = m.getROWS() - this.getROWS() + 1;
+		int FINALCOLS = m.getCOLS() - this.getCOLS() + 1;
+		Matrix finalMatrix = new Matrix(FINALROWS, FINALCOLS);
+		for(int ofX = 0; ofX < FINALROWS; ofX++) {
+			for(int ofY = 0; ofY < FINALROWS; ofY++) {
+
+				double[][] matInput = new double[this.getROWS()][this.getCOLS()];
+				for(int i = 0; i < this.getROWS(); i++) {
+					for(int j = 0; j < this.getCOLS(); j++) {
+
+						matInput[i][j] = m.getMat()[ofX + i][ofY + j];
+					}
+				}
+
+				Matrix inputMatrix = new Matrix(matInput);
+				finalMatrix.setElement(ofX, ofY, inputMatrix.product(this).sumOfElements());
+
+			}
+		}
+
+		return finalMatrix;
+	}
+
+	public Matrix convolutionWithPadding(Matrix m, int padding) {
+		m = m.padding(padding);
+		Matrix finalM = convolution(m);
+		return finalM;
+	}
+
+	/**
 	 * Addition de matrices
 	 * @param	m	un tableau de doubles a ajouter a la matrice
 	 */
@@ -120,6 +157,20 @@ public class Matrix implements Serializable {
 			for(int j = 0; j < mat[i].length; j++) {
 
 				mat[i][j] += m[i][j];
+			}
+		}
+	}
+
+	/**
+	 * Methode qui ajoute une certaine valeur a toutes les valeurs dans la matrice
+	 * @param value valeur ajoutee
+	 */
+	public void addToElements(double value) {
+		for(int i = 0; i < ROWS; i++) {
+			for(int j = 0; j < COLS; j++) {
+
+				mat[i][j] += value;
+
 			}
 		}
 	}
@@ -379,7 +430,7 @@ public class Matrix implements Serializable {
 	@Override
 	public String toString() {
 
-		String chain="MATRIX ----- \n";
+		String chain="MATRIX\n";
 		for (int i=0; i<this.getROWS();i++) {
 			for(int j=0;j<this.getCOLS();j++) {
 				chain += mat[i][j] + "\t";
@@ -497,6 +548,23 @@ public class Matrix implements Serializable {
 	}
 
 	/**
+	 * Methode qui retourne la valeur maximale absolue de la matrice
+	 * @return valeur maximale
+	 */
+	public double getMaxAbsoluteValue() {
+		double maxValue = (Double.MAX_VALUE * -1) + 1, currentValue;
+		for(int i = 0 ; i < ROWS ; i++) {
+			for (int j = 0 ; j < COLS ; j++) {
+				currentValue = Math.abs(mat[i][j]);
+				if(currentValue > maxValue) {
+					maxValue = Math.abs(currentValue);
+				}
+			}
+		}
+		return maxValue;
+	}
+
+	/**
 	 * methode qui retourne la valeur moyenne de la matrice
 	 * @return la valeur moyenne de la matrice
 	 */
@@ -516,22 +584,17 @@ public class Matrix implements Serializable {
 	 */
 	public static void main(String[] args) {
 		Matrix m1 = new Matrix(new double[][]{
-			{1, 2, 1},
+			{1, -2, 1},
 			{0, 0, 0},
-			{1, 2, 1}
+			{1, 4, -6}
 		});
 
 		Matrix m2 = new Matrix(new double[][]{
-			{1, 0, 1},
-			{2, 0, 2},
-			{1, 0, 1}
+			{1, 0},
+			{1, 0}
 		});
  
-		
-		System.out.println(m1.scalarProduct(3));
-		System.out.println(m1.transpose());
-		
-		System.out.println(m1.getAverageValue());
+		System.out.println(m1.getMaxAbsoluteValue());
 
 	}
 

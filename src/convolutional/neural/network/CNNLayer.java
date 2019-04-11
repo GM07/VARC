@@ -20,81 +20,27 @@ public abstract class CNNLayer implements Serializable {
 	protected Matrix[] inputs ; 
 	protected Matrix[] outputs;
 	protected Filter[] filters;
-	protected ActivationFunctions activationFunction;
-	
+	protected double learningRate;
 
-	public CNNLayer() {}
+	public CNNLayer() {
+
+		filters = new Filter[1];
+		filters[0] = new Filter(0, 0);
+
+	}
 
 	/**
-	 * L'operation specifique a certaines layer
+	 * Methode qui passe les inputs a travers la couche
 	 * @return une matrice des outputs
 	 */
 	public abstract Matrix[] operation();
 
 	/**
-	 * Methode qui passe les inputs a travers la couche
+	 * Methode qui retourne l'erreur de la couche et qui entraine les couches en fonction de l'erreur qui lui est donnee
+	 * @param target erreur de la couche d'apres
+	 * @return erreur de la couche actuelle
 	 */
-	public void feedforward() {
-		operation();
-	}
-
-	/**
-	 * Methode d'entraineement du de la couche
-	 */
-	public void backPropagation() {
-
-	}
-
-	/**
-	 * Linearise les outputs sous forme de vecteurs pour les utiliser comme inputs d'une FullyConnectedLayer
-	 * @return le vecteur contenant les outputs
-	 */
-	public Matrix linearizeV1() {
-		int linearizedMatrixSize = 0;
-		Matrix linearizedOutputs;
-		ArrayList<Double> arrayOutput  = new ArrayList<Double>();
-		for (int f = 0 ; f < outputs.length; f++ ) {
-			for (int i = 0 ; i < outputs[f].getROWS(); i++) {
-				for (int j = 0 ; j < outputs[f].getCOLS(); j++) {
-					arrayOutput.add(outputs[f].getElement(i, j));
-					linearizedMatrixSize += 1;
-				}
-			}
-		}
-		linearizedOutputs = new Matrix(1,linearizedMatrixSize);
-		for(int i = 0; i < linearizedMatrixSize ; i++) {
-			linearizedOutputs.setElement(0, i, arrayOutput.get(i));
-		}
-		System.out.println(linearizedOutputs);
-		return linearizedOutputs;
-
-	}
-
-	/**
-	 * Linearise les outputs sous forme de vecteurs pour les utiliser comme inputs d'une FullyConnectedLayer
-	 * Cette version additionne toutes les matrices des outputs ensemble avant de les lineariser
-	 * @return le vecteur contenant les outputs
-	 */
-	public Matrix linearizeV2() {
-		int linearizedMatrixSize = 0;
-		Matrix linearizedOutputs;
-		Matrix intermediateMatrix = new Matrix();
-		ArrayList<Double> arrayOutput  = new ArrayList<Double>();
-		for (int f = 0 ; f < outputs.length; f++ ) {
-			intermediateMatrix.add(outputs[f]);
-		}
-		for (int i = 0; i < intermediateMatrix.getROWS(); i++) {
-			for (int j = 0; j < intermediateMatrix.getCOLS(); j++) {
-				arrayOutput.add(intermediateMatrix.getElement(i, j));
-			}
-		}
-		linearizedOutputs = new Matrix(0,linearizedMatrixSize);
-		for(int i = 0; i < linearizedMatrixSize; i++) {
-			linearizedOutputs.setElement(0, i, arrayOutput.get(i));
-		}
-		System.out.println(linearizedOutputs);
-		return linearizedOutputs;
-	}
+	public abstract Matrix[] backpropagation(Matrix[] target);
 
 	/**
 	 * permet d'acceder a la matrice des inputs
@@ -139,7 +85,6 @@ public abstract class CNNLayer implements Serializable {
 		return filters;
 	}
 
-
 	/**
 	 * Methode pour definir de nouveaux filtres
 	 * @param filters le tableau contenant les nouveaux filtres a definir
@@ -149,18 +94,42 @@ public abstract class CNNLayer implements Serializable {
 	}
 
 	/**
-	 * Methode qui retourne la fonction d'activation de la couche
-	 * @return fonction d'activation
+	 * Methode qui retourne le taux d'apprentissage du resau
+	 * @return taux d'apprentissage
 	 */
-	public ActivationFunctions getFunction() {
-		return activationFunction;
+	public double getLearningRate() {
+		return learningRate;
 	}
 
 	/**
-	 * Methode qui change la fonction d'activation
-	 * @param function fonction d'activation
+	 * Methode qui change le taux d'apprentissage du reseau
+	 * @param learningRate taux d'apprentissage
 	 */
-	public void setFunction(ActivationFunctions function) {
-		this.activationFunction = function;
+	public void setLearningRate(double learningRate) {
+		this.learningRate = learningRate;
+	}
+
+
+	public String toString() {
+
+		String s = getClass().getName() + "\n\n" ;
+
+		s += "INPUTS : \n";
+		for(int i = 0; i < inputs.length; i++) {
+			s += "\tinput : " + i + "->" + inputs[i].getMatrixSize() + "\n\t" + inputs[i].toString();
+		}
+
+		s += "FILTERS : \n";
+
+		for(int i = 0; i < filters.length; i++) {
+			s += "\tfilter : " + i + "->" + filters[i].getMatrixSize() + "\n\t" + filters[i].toString();
+		}
+
+		s += "OUTPUTS : \n";
+		for(int i = 0; i < outputs.length; i++) {
+			s += "\toutput : " + i + "->" + outputs[i].getMatrixSize() + "\n\t" + outputs[i].toString();
+		}
+
+		return s;
 	}
 }

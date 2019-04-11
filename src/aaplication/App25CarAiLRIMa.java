@@ -1,4 +1,5 @@
 package aaplication;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -6,8 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,7 +27,9 @@ import javax.swing.JProgressBar;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
+import algorithm.CNNAI;
 import algorithm.CarAI;
 import dessin.DessinNeuralNetwork;
 import functions.SoftmaxFunction;
@@ -58,6 +65,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JButton btnTest;
 	private JButton btnTrain;
 	private JButton btnMarque;
+	private JButton btnConvolution;
 
 	// Progress bar
 	private JProgressBar progressBarTraining;
@@ -76,6 +84,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JLabel lblColorText;
 	private JLabel lblBarProgression;
 	private JLabel lblLearningRate;
+	private JLabel lblMarque;
 
 	// Spinner
 	private JSpinner spnEpoch;
@@ -103,6 +112,10 @@ public class App25CarAiLRIMa extends JFrame {
 	private FileWindow datasetWindow;
 	private FileWindow saveNetworkWindow;
 	private FileWindow loadNetworkWindow;
+	private ConvolutionWindow convolutionWindow;
+	private WindowConsole console;
+
+	private String path = "";
 
 	// Arraylist qui contient tous les JComponent
 	private ArrayList<JComponent> elements = new ArrayList<>();
@@ -112,6 +125,8 @@ public class App25CarAiLRIMa extends JFrame {
 
 	//Instance de la classe qui contient tous les algorithmes pour detecter les vehicules
 	private CarAI carAI;
+
+	private CNNAI cnnAI;
 
 	/**
 	 * Methode principale qui lance l'application
@@ -134,12 +149,14 @@ public class App25CarAiLRIMa extends JFrame {
 	 * Constructeur de l'application
 	 */
 	public App25CarAiLRIMa() {
-		/*
+
 		// Permet de changer la taille des caracteres
-		UIManager.put("Label.font",new Font("Courier", Font.BOLD, 20));
-		UIManager.put("MenuItem.font ",new Font("Courier", Font.BOLD,20));
-		UIManager.put("Button.font", new Font("Courier", Font.BOLD, 20));
-		 */
+		UIManager.put("Label.font",new Font("Arial", Font.BOLD, 20));
+		UIManager.put("MenuItem.font ",new Font("Arial", Font.BOLD,20));
+		UIManager.put("Button.font", new Font("Arial", Font.BOLD, 20));
+
+		path = getClass().getClassLoader().getResource("network_saves/trained_neural_network.dat").getPath();
+
 		// Creation de la fenetre
 		setTitle("CarAI-LRIMA");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,7 +171,6 @@ public class App25CarAiLRIMa extends JFrame {
 
 		// Creation du panel de depart
 		contentPane = new JPanel();
-		//contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -178,6 +194,10 @@ public class App25CarAiLRIMa extends JFrame {
 		carAI.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		carAI.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 10 * OFFSET/2, HAUTEUR_PANEL_SECONDAIRE/2 + 4 * OFFSET, 10 * OFFSET, 10 * OFFSET);
 		panImage.add(carAI);
+
+		cnnAI = new CNNAI(28);
+		convolutionWindow = new ConvolutionWindow(cnnAI);
+
 	}
 
 	/**
@@ -235,7 +255,7 @@ public class App25CarAiLRIMa extends JFrame {
 		//Bouton qui charge notre reseau preentrainer
 		menuItemLoadPreTrained = new JMenuItem("Charger notre reseau");
 		menuItemLoadPreTrained.addActionListener(actionPerformed->{
-			//carAi.loadNetwork(notreReseau);
+			carAI.loadNetwork(path);
 		});
 		menuOptions.add(menuItemLoadPreTrained);
 
@@ -308,9 +328,8 @@ public class App25CarAiLRIMa extends JFrame {
 				try {
 					imageVoiture.setImage(fileWindow.getPath());
 
-					double[] rgb = ImageManager.getColorImageCenter (imageVoiture.getImage());
+					double[] rgb = ImageManager.getAverageColor(imageVoiture.getImage());
 					Color c = new Color((int) rgb[0], (int) rgb[1], (int) rgb[2]);
-					System.out.println( "rouge : " + rgb[0] + " vert : " + rgb[1] +" bleu : " +rgb[2]);
 					lblColorVehicle.setBackground(c);
 
 					repaint();
@@ -345,6 +364,10 @@ public class App25CarAiLRIMa extends JFrame {
 		datasetWindow = new FileWindow();
 		datasetWindow.setVisible(false);
 		datasetWindow.setMode("Folder");
+		
+		//Fenetre pour la console
+		console = new WindowConsole();
+		console.setVisible(false);
 
 		// Bouton pour entrainer
 		btnTrain = new JButton();
@@ -352,6 +375,7 @@ public class App25CarAiLRIMa extends JFrame {
 		btnTrain.setText("Entrainer");
 		btnTrain.addActionListener(actionPerformed -> {
 			datasetWindow.setVisible(true);
+			
 		});
 
 		datasetWindow.addWindowListener(new WindowAdapter() {
@@ -361,8 +385,10 @@ public class App25CarAiLRIMa extends JFrame {
 				try {
 					if (!datasetWindow.getPath().equals("")) {
 						carAI.setTrainingPath(datasetWindow.getPath());
+						console.setVisible(true);
 						nnDraw.demarrer();
 						carAI.demarrer();
+						
 					}
 				} catch (NullPointerException n) {
 					System.out.println("Veuillez selectionner un chemin d'acces");
@@ -435,9 +461,24 @@ public class App25CarAiLRIMa extends JFrame {
 			}else {
 				lblOutputFinal.setText("Decision du reseau : camion");
 			}
-			
-			
+
+			double[] output = cnnAI.feedForward(imageVoiture.getImage());
+
+			System.out.println(Arrays.toString(output));
+			int i = MathTools.getHighestIndex(output);
+			if (i == 0) {
+				lblMarque.setText("Marque : BMW");
+				marqueWindow.setMarque("BMW");
+			} else if (i == 1) {
+				lblMarque.setText("Marque : Chevrolet");
+				marqueWindow.setMarque("Chevrolet");
+			} else {
+				lblMarque.setText("Marque : Toyota");
+				marqueWindow.setMarque("Toyota");
+			}
+
 			repaint();
+			convolutionWindow.repaint();
 		});
 		panInputNumerique.add(btnTest);
 
@@ -449,7 +490,7 @@ public class App25CarAiLRIMa extends JFrame {
 		// Barre de progression
 		progressBarTraining = new JProgressBar(0, (int) spnEpoch.getValue());
 		progressBarTraining.setStringPainted(true);
-		progressBarTraining.setBounds(1,  HAUTEUR_PANEL_SECONDAIRE - (int) (OFFSET * 1.5), LARGEUR_PANEL_SECONDAIRE - 2, 1 * OFFSET);
+		progressBarTraining.setBounds(OFFSET,  HAUTEUR_PANEL_SECONDAIRE - (int) (OFFSET * 1.8), LARGEUR_PANEL_SECONDAIRE - 2 * OFFSET, 1 * OFFSET);
 		panInputNumerique.add(progressBarTraining);
 
 	}
@@ -487,11 +528,6 @@ public class App25CarAiLRIMa extends JFrame {
 		lblOutputCamion.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 9 * OFFSET, 12 * OFFSET, 2 * OFFSET);
 		panOutput.add(lblOutputCamion);
 
-		// Label qui affiche la probabilite que ce soit un camion
-		lblOutputFinal = new JLabel("Decision du reseau: ", SwingConstants.CENTER);
-		lblOutputFinal.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 12 * OFFSET , 12 * OFFSET, 2 * OFFSET);
-		panOutput.add(lblOutputFinal);
-
 		// Label qui affiche la marque identifiee
 		lblOutputMarque = new JLabel(" Marque identifiee : ", SwingConstants.CENTER);
 		lblOutputMarque.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 15 * OFFSET , 12 * OFFSET, 2 * OFFSET);
@@ -506,17 +542,36 @@ public class App25CarAiLRIMa extends JFrame {
 
 		panOutput.add(btnMarque);
 
+		// Label qui affiche la probabilite que ce soit un camion
+		lblOutputFinal = new JLabel("Decision du reseau: ", SwingConstants.CENTER);
+		lblOutputFinal.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 12 * OFFSET , 12 * OFFSET, 2 * OFFSET);
+		panOutput.add(lblOutputFinal);
+
 		// Label qui affiche la couleur du vehicule
 		lblColorVehicle = new JLabel();
 		lblColorVehicle.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 23 * OFFSET, 12 * OFFSET, 2 * OFFSET);
 		lblColorVehicle.setBackground(color);
+		lblColorVehicle.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		lblColorVehicle.setOpaque(true);
 		panOutput.add(lblColorVehicle);
 
 		// Label qui affiche le texte sur la couleur du vehicule
 		lblColorText = new JLabel("Couleur du vehicule : ", SwingConstants.CENTER);
-		lblColorText.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 21*OFFSET, 12 * OFFSET, 2 * OFFSET);
+		lblColorText.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 21 * OFFSET, 12 * OFFSET, 2 * OFFSET);
 		panOutput.add(lblColorText);
+
+		// Label qui affiche la marque de la voiture
+		lblMarque = new JLabel("Marque : ", SwingConstants.CENTER);
+		lblMarque.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 25 * OFFSET, 12 * OFFSET, 2 * OFFSET);
+		panOutput.add(lblMarque);
+
+		btnConvolution = new JButton("Voir le reseau");
+		btnConvolution.setBounds(LARGEUR_PANEL_SECONDAIRE/2 - 12 * OFFSET / 2, 27 * OFFSET, 12 * OFFSET, 2 * OFFSET);
+		btnConvolution.addActionListener(actionPerformed -> {
+		    convolutionWindow.setVisible(true);
+		    convolutionWindow.repaint();
+        });
+		panOutput.add(btnConvolution);
 	}
 
 

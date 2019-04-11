@@ -34,11 +34,6 @@ public class NeuralNetwork implements Serializable {
 	private ActivationFunctions activationFunction;
 
 	/**
-	 * Constructeur nul pour permettre la sauvegarde et le chargement en XML
-	 */
-	public NeuralNetwork() {}
-
-	/**
 	 * Constructeur
 	 * @param function fonction d'activation du reseau
 	 * @param configuration configuration du reseau (nombre de neurones par couche)
@@ -129,7 +124,7 @@ public class NeuralNetwork implements Serializable {
 			if(layers[NUMBER_OF_LAYERS - 1].getFunction() == ActivationFunctions.Softmax) {
 				SoftmaxFunction sf = new SoftmaxFunction();
 				
-				layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * sf.lostFunctionDerivative(expected[neuron], layers[NUMBER_OF_LAYERS - 1].getOutputs(), neuron) * layers[NUMBER_OF_LAYERS - 1].getFunction().getDerivative().getValue(layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0])  ;
+				layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS - 1].getOutputs(),new Matrix (MathTools.getAsTwoDimensionalArray(expected))) ;
 				
 				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = sf.getValue(layers[NUMBER_OF_LAYERS - 1].getOutputs(), neuron) - expected[neuron];
 				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = sf.getValue(logits, index) - sf.getValue(layers[NUMBER_OF_LAYERS-1].getOutputs(), neuron);
@@ -139,10 +134,10 @@ public class NeuralNetwork implements Serializable {
 				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = sf.crossEntropyLoss(layers[NUMBER_OF_LAYERS-1].getOutputs(), expected) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS-1].getOutputs(), layers[NUMBER_OF_LAYERS -1].getOutputs());
 				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS-1].getOutputsZ(), layers[NUMBER_OF_LAYERS -1].getOutputs());
 			}else {
-				SoftmaxFunction sf = new SoftmaxFunction();
-				layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * layers[NUMBER_OF_LAYERS - 1].getFunction().getDerivative().getValue(layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0]) ;
-				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = sf.lostFunctionDerivative(expected[neuron], layers[NUMBER_OF_LAYERS - 1].getOutputsZ(), neuron) * sf.getDerivative(neuron, layers[NUMBER_OF_LAYERS - 1].getOutputs(), new Matrix (MathTools.getAsTwoDimensionalArray(expected))) ;
-				//layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = sf.weightRegression(layers[NUMBER_OF_LAYERS - 1].getOutputsS(), expected, neuron) * layers[NUMBER_OF_LAYERS - 1].getFunction().getDerivative().getValue(neuron);
+
+
+				layers[NUMBER_OF_LAYERS - 1].getErrors().getMat()[neuron][0] = (layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0] - expected[neuron]) * layers[NUMBER_OF_LAYERS - 1].getFunction().getDerivative().getValue(layers[NUMBER_OF_LAYERS - 1].getOutputs().getMat()[neuron][0]);
+
 			}
 		}
 

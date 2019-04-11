@@ -18,7 +18,12 @@ public class MarqueWindow extends JFrame{
 	//constants
 	private final int LARGEUR_PRINCIPALE = 900;
 	private final int HAUTEUR_PRINCIPALE = 600;
+	private String marqueTxt;
 	
+	
+	/**
+	 * Constructeur de la fenetre
+	 */
 	public MarqueWindow() {
 		setTitle("Informations sur la marque");
 		setLocationRelativeTo(null);
@@ -31,7 +36,22 @@ public class MarqueWindow extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		ImageAvecDefilement marque = new ImageAvecDefilement();
+		
+		marque.setBounds(50, 50, 800, 500);
+		contentPane.add(marque);
+		
+		marque.setFichierImage("image" + marqueTxt+".jpg");
 		
 		
+	}
+	
+	/**
+	 * Definie la marque dont on doit afficher l'image d'information
+	 * @param marque : la marque a affichee
+	 */
+	public void setMarque(String marque) {
+		this.marqueTxt = marque;
+		repaint();
 	}
 }

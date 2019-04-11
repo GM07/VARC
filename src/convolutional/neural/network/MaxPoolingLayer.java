@@ -44,12 +44,16 @@ public class MaxPoolingLayer extends CNNLayer implements Serializable {
 		}
 		return out;
 	}
-	/**
-	 * methode d'entrainement du reseau
-	 */
-	public void backPropagation() {
 
+	/**
+	 * Methode qui calcul l'erreur de la couche
+	 * @param target erreur de la couche d'apres
+	 * @return
+	 */
+	public Matrix[] backpropagation(Matrix[] target) {
+		return null;
 	}
+
 	/**
 	 * operation de cette layer : le max pooling 
 	 * La fonction d'activation permet de limiter les ecarts entre les valeurs

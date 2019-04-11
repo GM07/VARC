@@ -50,6 +50,7 @@ public class Batch<E> {
         ArrayList<E> shuffled = shuffleDataset();
         ArrayList<E> temp = new ArrayList<E>();
 
+        if (number > shuffled.size()) number = shuffled.size();
         for(int i = 0; i < number; i++) {
             temp.add(shuffled.get(i));
         }

@@ -1,5 +1,15 @@
 package algorithm;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
 import dataset.Batch;
 import dataset.DataElement;
 import functions.ActivationFunctions;
@@ -7,12 +17,7 @@ import image.processing.FileManager;
 import image.processing.ImageManager;
 import math.MathTools;
 import neural.network.NeuralNetwork;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
+import test.CarAlgorithm;
 
 /**
  * Classe qui contient le reseau de neurone et qui s'occupe de l'entrainer, de la tester, de la sauvegarder et de la charger
@@ -25,11 +30,15 @@ import java.util.ArrayList;
  */
 public class CarAI extends JPanel implements Runnable{
 
-    //private String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\training";
-    //private String testingPath = "D:\\Cegep\\Session_4\\IA Data\\mnist_png\\mnist_png\\testing";
+  
     private String trainingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\training";
-    //private String trainingPath = "C:\\Users\\mehga\\Documents\\dataset\\car_train_weak";
-    private String testingPath = "D:\\Cegep\\cegep prog\\Dataset_Voiture_Moto_Camion\\testing";
+    
+
+    private String testingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\testing";
+
+    
+    private String savingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\saves";
+
     private double learningRate;
     private int numberOfEpochs, batchSize, numberImagesPerFolderMax = 3000;
 
@@ -45,7 +54,7 @@ public class CarAI extends JPanel implements Runnable{
     /*
         La taille des images en entree du reseau de neurone est fixee a 28x28
      */
-    private final int IMAGE_SIZE = 64;
+    private final int IMAGE_SIZE = 28;
 
     /*
         Le reseau de neurone identifie 3 types de vehicules
@@ -113,7 +122,8 @@ public class CarAI extends JPanel implements Runnable{
             }
 
             // Si le nombre d'epoch est termine, on arrete tout
-            if (counter >= numberOfEpochs) {
+            if (counter > numberOfEpochs) {
+                neuralNetwork.saveNetwork(savingPath);
                 System.out.println(counter + ", " + numberOfEpochs);
                 counter = 0;
                 enCours = false;
@@ -231,7 +241,7 @@ public class CarAI extends JPanel implements Runnable{
 
             try {
                 double[] input = MathTools.mapArray(ImageManager.convertRGB(ImageManager.getSquaredImage((BufferedImage) dataElement.getData(), IMAGE_SIZE)), 0, 255, 0, 1);
-                double[] output = getOutputFromString((String) dataElement.getLabel());
+                double[] output = getOutputFromString((String) dataElement.getLabel(), neuralNetwork.getOUTPUT_LAYER_SIZE());
 
                 neuralNetwork.train(input, output);
 
@@ -243,11 +253,11 @@ public class CarAI extends JPanel implements Runnable{
             } catch (IOException e){
                 System.out.println("Erreur lors du chargement de l'image : " + data);
             }
-
-            // A continuer
-            //System.out.println(dataElement);
+            
 
         }
+        System.out.println(CarAlgorithm.testNetwork(neuralNetwork));
+
 
     }
 
@@ -268,13 +278,14 @@ public class CarAI extends JPanel implements Runnable{
     }
 
     /**
-     * Methode qui convertit une chaine de caractere en tableau de sortie pour le reseau de neurone
+     * Methode qui convertit une chaine de caractere representant le type de vehicule en tableau de sortie pour les reseaux de neurones
      * @param s nom du label
-     * @return tableau de sortie du neurone
+     * @param numberOfOutputs nombre de sorties du reseau
+     * @return tableau de sortie attendu du neurone
      */
-    private double[] getOutputFromString(String s) {
+    public static double[] getOutputFromString(String s, int numberOfOutputs) {
 
-        double[] a = new double[NUMBER_OF_OUTPUTS];
+        double[] a = new double[numberOfOutputs];
 
         switch (s) {
             case "Voiture":
@@ -284,6 +295,34 @@ public class CarAI extends JPanel implements Runnable{
                 a[1] = 1;
                 break;
             case "Camion":
+                a[2] = 1;
+                break;
+            default:
+                System.out.println("L'algorithme n'a pas reconnue le label");
+                break;
+        }
+
+        return a;
+    }
+
+    /**
+     * Methode qui convertit une chaine de caractere representant la marque d'un vehicule en tableau de sortie pour les reseaux de neurones
+     * @param s nom du label
+     * @param numberOfOutputs nombre de sorties pour les reseaux
+     * @return tableau de sortie attendu du reseau
+     */
+    public static double[] getOutputFromStringBrands(String s, int numberOfOutputs) {
+
+        double[] a = new double[numberOfOutputs];
+
+        switch (s) {
+            case "BMW":
+                a[0] = 1;
+                break;
+            case "Chevrolet":
+                a[1] = 1;
+                break;
+            case "Toyota":
                 a[2] = 1;
                 break;
             default:

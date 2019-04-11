@@ -57,17 +57,10 @@ public class HelpWindow extends JFrame {
         contentPane.setLayout(null);
          
         ImageAvecDefilement panAide = new ImageAvecDefilement();
-       
-    
-         
+
         panAide.setBounds(35, 11, 800, 541);
         contentPane.add(panAide);
         panAide.setFichierImage("fenetre aide prog-1.jpg");
-		
-		
-		
-		
-		
 		
 	}
 	

@@ -1,5 +1,6 @@
 package image.processing;
-import java.awt.Graphics2D;
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 import math.MathTools;
+import math.Matrix;
 
 /**
  * Classe qui permet de manipuler des images pour les adapter au reseau de neurones
@@ -38,6 +40,30 @@ public class ImageManager {
 		}
 
 		return MathTools.getAsOneDimension(values);
+	}
+
+	/**
+	 * Methode qui convertit une image en tableau a 2 dimensions contenant les valeurs rgb de chaque pixel de l'image
+	 * @param img image
+	 * @return tableau a 2 dimensions
+	 * @throws IOException
+	 */
+	public static double[][][] convertRGB2D(BufferedImage img) throws IOException {
+		double values[][][] = new double[3][img.getWidth()][img.getHeight()];
+
+		for(int i = 0; i < img.getWidth(); i++) {
+			//System.out.println();
+			for(int j = 0; j < img.getHeight(); j++) {
+
+				double[] rgb = getPixelData(img, i, j);
+				values[0][i][j] = rgb[0];
+				values[1][i][j] = rgb[1];
+				values[2][i][j] = rgb[2];
+
+			}
+		}
+
+		return values;
 	}
 
 	/**
@@ -112,7 +138,6 @@ public class ImageManager {
 
 		double[] rgbValues = new double[3];
 
-		//System.out.println(img.getWidth() + ", " + img.getHeight());
 		for(int i = 0; i < img.getWidth(); i++) {
 			for(int j = 0; j < img.getHeight(); j++) {
 
@@ -213,6 +238,30 @@ public class ImageManager {
 		
 		return rgbValues;
 		
+	}
+
+	/**
+	 * Methode qui transforme une matrice en image de la meme dimension que l'image
+	 * @param m matrice qui doit etre transformee
+	 * @return image de la matrice
+	 */
+	public static BufferedImage transformMatrixToImage(Matrix m) {
+
+		BufferedImage img = new BufferedImage(m.getROWS(), m.getCOLS(), BufferedImage.TYPE_INT_ARGB);
+
+		for(int i = 0; i < m.getROWS(); i++) {
+			for(int j = 0; j < m.getCOLS(); j++) {
+
+				try {
+					int rgb = new Color((int) Math.abs(m.getElement(i, j) / m.getMaxAbsoluteValue() * 255), (int) Math.abs(m.getElement(i, j) / m.getMaxAbsoluteValue() * 255), (int) Math.abs(m.getElement(i, j) / m.getMaxAbsoluteValue() * 255)).getRGB();
+					img.setRGB(i, j, rgb);
+				} catch (IllegalArgumentException e) {
+					System.out.println("ELEMENT : " + m.getElement(i, j));
+					System.out.println("VALUE : " + (int) (m.getElement(i, j) / m.getMaxAbsoluteValue() * 255));
+				}
+			}
+		}
+		return img;
 	}
 
 	/**
