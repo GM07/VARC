@@ -125,7 +125,7 @@ public class MnistAlgorithm {
 
 		batch.shuffleDataset();
 
-		System.out.println("Training neural network...");
+		System.out.println("TrainingEvents neural network...");
 
 		for(int epoch = 0; epoch < numberOfEpochs; epoch++) {
 

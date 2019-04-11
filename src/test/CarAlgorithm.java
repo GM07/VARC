@@ -20,22 +20,17 @@ import java.util.Arrays;
  * @author Gaya Mehenni
  */
 public class CarAlgorithm {
-	/*
+
     private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\training";
     private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\testing";
     private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\trained_network_";
-	 */
-	private static String trainingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\training";
-	private static String testingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\testing";
-	private static String savingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\saves";
-	
-	private static double learningRate = 3E-5;
-	private static int numberOfEpochs = 200;
-	private static int numberOfImagesPerEpoch = 20000;
-	private static int batch_size = 1;
-	private static int resultCounter = 0;
-	private static double lastResult = 0;
-	private static double delta = 0;
+    private static double learningRate = 3E-5;
+    private static int numberOfEpochs = 200;
+    private static int numberOfImagesPerEpoch = 20000;
+    private static int batch_size = 1;
+    private static int resultCounter = 0;
+    private static double lastResult = 0;
+    private static double delta = 0;
 
 	/**
 	 * Methode principale qui lance l'application
@@ -134,44 +129,38 @@ public class CarAlgorithm {
 
 		batch.shuffleDataset();
 
-		System.out.println("Training neural network...");
+        System.out.println("Training neural network...");
 
-		for(int epoch = 0; epoch < numberOfEpochs; epoch++) {
+        for(int epoch = 0; epoch < numberOfEpochs; epoch++) {
 
-			System.out.println("Epoch : " + epoch + " (" + numberOfImagesPerEpoch + ")");
+            System.out.println("Epoch : " + epoch + " (" + numberOfImagesPerEpoch + ")");
 
-			ArrayList<DataElement> epochData = batch.getPartOfDataset(numberOfImagesPerEpoch);
+            ArrayList<DataElement> epochData = batch.getPartOfDataset(numberOfImagesPerEpoch);
 
-			for(int data = 0; data < epochData.size(); data++) {
+            for(int data = 0; data < epochData.size(); data++) {
 
-				DataElement dataElement = batch.getDataset().get(data);
+                DataElement dataElement = batch.getDataset().get(data);
 
-				try {
-					//double[] input = MathTools.mapArray(ImageManager.convertGreyValues(ImageManager.getSquaredImage((BufferedImage) dataElement.getData(), 28)), 0, 255, 0, 1);
-					double[] input = MathTools.mapArray(ImageManager.convertRGB(ImageManager.getSquaredImage((BufferedImage) dataElement.getData(), 28)), 0, 255, 0, 255);
-					double[] output = CarAI.getOutputFromString((String) dataElement.getLabel(), nn.getOUTPUT_LAYER_SIZE());
+                try {
+                    //double[] input = MathTools.mapArray(ImageManager.convertGreyValues(ImageManager.getSquaredImage((BufferedImage) dataElement.getData(), 28)), 0, 255, 0, 1);
+                    double[] input = MathTools.mapArray(ImageManager.convertRGB(ImageManager.getSquaredImage((BufferedImage) dataElement.getData(), 28)), 0, 255, 0, 255);
+                    double[] output = CarAI.getOutputFromString((String) dataElement.getLabel(), nn.getOUTPUT_LAYER_SIZE());
 
-					//System.out.println(Arrays.toString(output) + " - " + (String) (dataElement.getLabel()));
+                    //System.out.println(Arrays.toString(output) + " - " + (String) (dataElement.getLabel()));
 
-					nn.train(input, output);
+                    nn.train(input, output);
 
-					if (data % batch_size == 0) {
-						nn.updateWeightsAndBiases(learningRate/batch_size);
-					}
+                    if (data % batch_size == 0) {
+                        nn.updateWeightsAndBiases(learningRate/batch_size);
+                    }
 
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
-			double current = testNetwork(nn);
+            double current = testNetwork(nn);
 
-			//            delta = current - lastResult;
-			//            if (delta > 0) {
-			//                learningRate /= (1 + (delta));
-			//            } else {
-			//                learningRate *= (1 + (-delta));
-			//            }
 			lastResult = current;
 			System.out.println(lastResult + ", " + learningRate);
 
@@ -182,7 +171,7 @@ public class CarAlgorithm {
 			//System.out.println(nn.getLayer(nn.getNUMBER_OF_LAYERS() - 1));
 		}
 
-		//nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%");
-	}
+        //nn.saveNetwork(savingPath + ((int) (100 * testNetwork(nn))) + "%");
+    }
 
 }

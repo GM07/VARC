@@ -15,8 +15,16 @@ import dataset.DataElement;
 import functions.ActivationFunctions;
 import image.processing.FileManager;
 import image.processing.ImageManager;
+import listeners.TrainingEvents;
 import math.MathTools;
 import neural.network.NeuralNetwork;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import test.CarAlgorithm;
 
 /**
@@ -25,29 +33,27 @@ import test.CarAlgorithm;
  * @author Gaya Mehenni
  *
  * A faire :
- * Ajout d'un evenement CarAI qui est lancee lorsque l'animation est terminee
+ * Ajout d'un evenement CarAI qui est lance lorsque l'animation est terminee
  *
  */
 public class CarAI extends JPanel implements Runnable{
 
-  
-    private String trainingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\training";
-    
-
-    private String testingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\testing";
-
-    
-    private String savingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\saves";
-
+    private String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\dataset_vehicules\\training";
+    private String testingPath = "D:\\Cegep\\Session_4\\IA Data\\dataset_vehicules\\testing";
+    //private String savingPath = "D:\\Cegep\\Session_4\\IA Data\\neuralTrained";
     private double learningRate;
     private int numberOfEpochs, batchSize, numberImagesPerFolderMax = 3000;
+    private int numberTotalOfImages = 0;
+    private ArrayList<TrainingEvents> events = new ArrayList<>();
 
     // ArrayList qui contient toutes les images;
     private Batch<DataElement> batch = new Batch<DataElement>();
     private BufferedImage img;
 
     private boolean enCours = false;
+    private boolean dataLoaded = false;
     private int counter = 0;
+    private int data = 0;
 
     private JProgressBar bar;
 
@@ -94,7 +100,13 @@ public class CarAI extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+        if (dataLoaded) g2d.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+        else {
+            String s = "Chargement des images";
+            String s2 = "(" + batch.getDataset().size() + "/" + numberTotalOfImages + ")";
+            g2d.drawString(s, getWidth()/2 - 60, getHeight()/2);
+            g2d.drawString(s2, getWidth()/2 - 10, getHeight()/2 + 30);
+        }
     }
 
     /**
@@ -105,34 +117,36 @@ public class CarAI extends JPanel implements Runnable{
 
         while(enCours) {
 
-            System.out.println("Epoch : " + counter);
+            if (dataLoaded) {
+                System.out.println("Epoch : " + counter);
 
-            // On entraine le reseau
-            trainNetwork();
+                // On entraine le reseau
+                trainNetwork();
 
-            // On affiche l'image avec laquelle il apprend
-            //repaint();
+                // On change la valeur de la barre de progression
+                try {
+                    bar.setMaximum(numberOfEpochs);
+                    bar.setValue(counter);
+                } catch (NullPointerException e) {
+                    System.out.println("Ne peut pas changer la valeur de la barre de progression, car l'algorithme ne possede pas de reference a celle-ci");
+                }
 
-            // On change la valeur de la barre de progression
-            try {
-                bar.setMaximum(numberOfEpochs);
-                bar.setValue(counter);
-            } catch (NullPointerException e) {
-                System.out.println("Ne peut pas changer la valeur de la barre de progression, car l'algorithme ne possede pas de reference a celle-ci");
+                // Si le nombre d'epoch est termine, on arrete tout
+                if (counter > numberOfEpochs) {
+                    trainingEnded();
+                    //neuralNetwork.saveNetwork(savingPath);
+                    System.out.println(counter + ", " + numberOfEpochs);
+                    counter = 0;
+                    enCours = false;
+                }
+
+                counter++;
+            } else {
+                loadData();
             }
-
-            // Si le nombre d'epoch est termine, on arrete tout
-            if (counter > numberOfEpochs) {
-                neuralNetwork.saveNetwork(savingPath);
-                System.out.println(counter + ", " + numberOfEpochs);
-                counter = 0;
-                enCours = false;
-            }
-
-            counter++;
 
             try{
-                Thread.sleep(10);
+                Thread.sleep(75);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -143,8 +157,6 @@ public class CarAI extends JPanel implements Runnable{
      * Methode qui demarre l'application
      */
     public void demarrer() {
-
-        loadData();
 
         System.out.println("Training neural network...");
 
@@ -161,7 +173,13 @@ public class CarAI extends JPanel implements Runnable{
 
         ArrayList<String> folders = FileManager.getFoldersFromFolder(trainingPath);
 
-        System.out.println("Loading data");
+        for(int i = 0; i < folders.size(); i++) {
+            File f = new File(trainingPath + "\\" + folders.get(i));
+            if (f.listFiles().length > numberImagesPerFolderMax) numberTotalOfImages += numberImagesPerFolderMax;
+            else numberTotalOfImages += f.listFiles().length;
+        }
+
+        System.out.println("Loading data  : " + numberTotalOfImages);
         for(int folder = 0; folder < folders.size(); folder++) {
             // On parcoure chaque dossier
 
@@ -172,41 +190,19 @@ public class CarAI extends JPanel implements Runnable{
             for(BufferedImage i : images) {
                 DataElement<String, BufferedImage> data = new DataElement<>(folders.get(folder), i);
                 batch.addElementToDataset(data);
+                repaint();
             }
 
             System.out.println("\t" + folders.get(folder) + " : " + batch.getDataset().size());
+
         }
 
         System.out.println();
 
         System.out.println("Data loaded (Size : " + batch.getDataset().size() + ")");
 
-    }
+        dataLoaded = true;
 
-    /**
-     * Methode qui teste l'efficacite du reseau de neurone en utilisant le dataset du chemin d'acces que la classe possede dans ses proprietes
-     * @return le ratio de reussite du reseau de neurone
-     */
-    public double testNetworkOnDataset() {
-
-        ArrayList<String> folders = FileManager.getFoldersFromFolder(testingPath);
-
-        double result = 0;
-        double total = 1;
-
-        for(int i = 0; i < folders.size(); i++) {
-
-            ArrayList<BufferedImage> images = FileManager.getImagesFromFolder(testingPath + "\\" + folders.get(i));
-
-            for(int j = 0; j < images.size(); j++) {
-
-                BufferedImage image = images.get(j);
-
-                // A continuer
-            }
-        }
-
-        return result/total;
     }
 
     /**
@@ -235,7 +231,7 @@ public class CarAI extends JPanel implements Runnable{
 
         System.out.println("\t" + epochData.size());
 
-        for (int data = 0; data < epochData.size(); data++) {
+        for (data = 0; data < epochData.size(); data++) {
 
             DataElement dataElement = batch.getDataset().get(data);
 
@@ -253,12 +249,19 @@ public class CarAI extends JPanel implements Runnable{
             } catch (IOException e){
                 System.out.println("Erreur lors du chargement de l'image : " + data);
             }
-            
+
 
         }
         System.out.println(CarAlgorithm.testNetwork(neuralNetwork));
 
 
+    }
+
+    /**
+     * Methode qui met l'entrainement en pause
+     */
+    public void pauseTraining() {
+        enCours = false;
     }
 
     /**
@@ -275,6 +278,23 @@ public class CarAI extends JPanel implements Runnable{
      */
     public void loadNetwork(String path) {
         neuralNetwork = NeuralNetwork.loadNetwork(path);
+    }
+
+    /**
+     * Methode qui leve les evenements
+     */
+    public void trainingEnded() {
+        for(int i = 0; i < events.size(); i++) {
+            events.get(i).trainingEnded();
+        }
+    }
+
+    /**
+     * Methode qui ajoute les evenements
+     * @param t evenement
+     */
+    public void addTrainingEvent(TrainingEvents t) {
+        events.add(t);
     }
 
     /**

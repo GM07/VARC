@@ -78,4 +78,11 @@ public class DessinNeuralNetwork extends JPanel implements Runnable{
 		enCours = true;
 	}
 
+	/**
+	 * Methode qui arrete l'animation
+	 */
+	public void stop() {
+		enCours = false;
+	}
+
 }

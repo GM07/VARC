@@ -66,17 +66,17 @@ public class CNNAI extends JPanel {
     public void paintComponent(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(3));
         double nbLayers = cnn.getLayers().size() - 1, x = 0, y = 0, offsetX = 20, offsetY = 20;
         double sizeLayer = (getWidth() - (nbLayers + 1) * offsetX) / nbLayers;
 
         x = offsetX;
-        y = offsetY;
 
         for(int layer = 0; layer < cnn.getLayers().size() - 1; layer++) {
 
             CNNLayer l = cnn.getLayers().get(layer);
 
-            double sizeInput = (getHeight() - 2 * offsetY) / l.getInputs().length;
+            double sizeInput = (getHeight() - ((l.getInputs().length + 1) * offsetY)) / l.getInputs().length;
 
             y = offsetY;
             for(int input = 0; input < l.getInputs().length; input++) {
@@ -87,8 +87,10 @@ public class CNNAI extends JPanel {
 
                 System.out.println(x + ", " + y);
                 g2d.drawImage(img, (int) x, (int) y, (int) sizeLayer, (int) sizeInput, null);
+                g2d.setColor(new Color(0, 0, 0));
                 g2d.drawRect((int) x, (int) y, (int) sizeLayer, (int) sizeInput);
 
+                y += offsetX;
                 y += sizeInput;
 
             }

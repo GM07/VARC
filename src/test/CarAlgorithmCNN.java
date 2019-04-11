@@ -159,7 +159,7 @@ public class CarAlgorithmCNN {
 
         }
 
-        System.out.println("Training images loaded (" + batch.getDataset().size() + ")");
+        System.out.println("TrainingEvents images loaded (" + batch.getDataset().size() + ")");
     }
 
     /**
@@ -175,7 +175,7 @@ public class CarAlgorithmCNN {
 
         batch.shuffleDataset();
 
-        System.out.println("Training neural network...");
+        System.out.println("TrainingEvents neural network...");
 
         for (int epoch = 0; epoch < numberOfEpochs; epoch++) {
 
