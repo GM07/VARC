@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JScrollPane;
 
 public class WindowConsole extends JFrame{
 
@@ -49,11 +50,13 @@ public class WindowConsole extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(25, 25, 825, 525);
+		contentPane.add(scrollPane);
 
 		console = new JTextArea();
-		console.setBounds(OFFSET, OFFSET,LARGEUR_PRINCIPALE - 3 * OFFSET,HAUTEUR_PRINCIPALE - 3 * OFFSET);
-		
-		contentPane.add(console);
+		scrollPane.setViewportView(console);
 
 		OutputStream out = new OutputStream() {
 			@
