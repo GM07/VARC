@@ -23,7 +23,8 @@ public class ScientificExplanationWindow extends JFrame{
 		private final int HAUTEUR_PRINCIPALE = 600;
 		private final int COUNTER_MAX= 5 ;
 		private int counter = 1;
-		// boutons
+		
+		//boutons
 		private JButton btnSuivant;
 		private JButton btnPrecedant;
 		
