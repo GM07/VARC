@@ -38,10 +38,10 @@ import test.CarAlgorithm;
  */
 public class CarAI extends JPanel implements Runnable{
 
-    private String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\dataset_vehicules\\training";
-    private String testingPath = "D:\\Cegep\\Session_4\\IA Data\\dataset_vehicules\\testing";
+    private String trainingPath = "D:\\cegep prog\\\\Dataset_Voiture_Moto_Camion\\training";
+    private String testingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\testing";
     //private String savingPath = "D:\\Cegep\\Session_4\\IA Data\\neuralTrained";
-    private double learningRate;
+    private double learningRate = 0.3;
     private int numberOfEpochs, batchSize, numberImagesPerFolderMax = 3000;
     private int numberTotalOfImages = 0;
     private ArrayList<TrainingEvents> events = new ArrayList<>();
