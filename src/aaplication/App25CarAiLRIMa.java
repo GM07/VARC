@@ -207,6 +207,7 @@ public class App25CarAiLRIMa extends JFrame {
                 nnDraw.stop();
                 numberOfTraining = 0;
                 btnTrain.setText("Entrainer");
+
             }
         });
 
