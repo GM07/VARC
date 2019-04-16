@@ -118,7 +118,7 @@ public class App25CarAiLRIMa extends JFrame {
 
     private String path = "";
     private boolean training = true;
-    private boolean premierTraining = true;
+    private int numberOfTraining = 0;
 
 
     // Arraylist qui contient tous les JComponent
@@ -203,6 +203,10 @@ public class App25CarAiLRIMa extends JFrame {
             public void trainingEnded() {
                 btnTest.setEnabled(true);
                 btnChoixImage.setEnabled(true);
+                training = true;
+                nnDraw.stop();
+                numberOfTraining = 0;
+                btnTrain.setText("Entrainer");
             }
         });
 
@@ -394,13 +398,14 @@ public class App25CarAiLRIMa extends JFrame {
                 btnTest.setEnabled(false);
 
                 // Si c'est la premiere fois qu'on l'entraine, on veut afficher la fenetre qui permet d'indiquer le chemin d'acces de la banque d'image
-                if (premierTraining) {
+                if (numberOfTraining == 0) {
                     datasetWindow.setVisible(true);
-                    premierTraining = false;
                 } else {
                     nnDraw.demarrer();
                     carAI.demarrer();
                 }
+                numberOfTraining++;
+
 
             } else {
                 btnChoixImage.setEnabled(true);

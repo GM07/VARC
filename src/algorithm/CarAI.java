@@ -42,7 +42,7 @@ public class CarAI extends JPanel implements Runnable{
     private String testingPath = "D:\\Cegep\\Session_4\\IA Data\\dataset_vehicules\\testing";
     //private String savingPath = "D:\\Cegep\\Session_4\\IA Data\\neuralTrained";
     private double learningRate;
-    private int numberOfEpochs, batchSize, numberImagesPerFolderMax = 3000;
+    private int numberOfEpochs, batchSize, numberImagesPerFolderMax = 1000;
     private int numberTotalOfImages = 0;
     private ArrayList<TrainingEvents> events = new ArrayList<>();
 
@@ -132,7 +132,7 @@ public class CarAI extends JPanel implements Runnable{
                 }
 
                 // Si le nombre d'epoch est termine, on arrete tout
-                if (counter > numberOfEpochs) {
+                if (counter >= numberOfEpochs) {
                     trainingEnded();
                     //neuralNetwork.saveNetwork(savingPath);
                     System.out.println(counter + ", " + numberOfEpochs);
@@ -316,6 +316,30 @@ public class CarAI extends JPanel implements Runnable{
                 break;
             case "Camion":
                 a[2] = 1;
+                break;
+            default:
+                System.out.println("L'algorithme n'a pas reconnue le label");
+                break;
+        }
+
+        return a;
+    }
+
+    /**
+     * Methode qui convertit une chaine de caractere representant le type de vehicule en tableau de sortie pour les reseaux de neurones avec seulement 2 sorties
+     * @param s nom de label
+     * @param numberOfOutputs nombres de sorties du reseau
+     * @return tableau de sortie attendu du neurone
+     */
+    public static double[] getOutputFromString2Vehicles(String s, int numberOfOutputs) {
+        double[] a = new double[numberOfOutputs];
+
+        switch (s) {
+            case "Voiture":
+                a[0] = 1;
+                break;
+            case "Camion":
+                a[1] = 1;
                 break;
             default:
                 System.out.println("L'algorithme n'a pas reconnue le label");
