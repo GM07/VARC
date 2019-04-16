@@ -1,6 +1,7 @@
 package aaplication;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -18,7 +19,9 @@ public class MarqueWindow extends JFrame{
 	//constants
 	private final int LARGEUR_PRINCIPALE = 900;
 	private final int HAUTEUR_PRINCIPALE = 600;
-	private String marqueTxt;
+	private String marqueTxt = "Marque- BMW-1";
+
+	private ImageAvecDefilement marque;
 	
 	
 	/**
@@ -36,12 +39,12 @@ public class MarqueWindow extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		ImageAvecDefilement marque = new ImageAvecDefilement();
+		 marque = new ImageAvecDefilement();
 		
 		marque.setBounds(50, 50, 800, 500);
 		contentPane.add(marque);
 		
-		marque.setFichierImage("image" + marqueTxt+".jpg");
+		marque.setFichierImage( marqueTxt+".jpg");
 		
 		
 	}
@@ -50,8 +53,8 @@ public class MarqueWindow extends JFrame{
 	 * Definie la marque dont on doit afficher l'image d'information
 	 * @param marque : la marque a affichee
 	 */
-	public void setMarque(String marque) {
-		this.marqueTxt = marque;
-		repaint();
+	public void setMarque(String marqueT) {
+		this.marqueTxt = marqueT;
+		marque.repaint();
 	}
 }
