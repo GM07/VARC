@@ -252,7 +252,7 @@ public class CarAI extends JPanel implements Runnable{
 
 
         }
-        System.out.println(CarAlgorithm.testNetwork(neuralNetwork));
+        //System.out.println(CarAlgorithm.testNetwork(neuralNetwork));
 
 
     }

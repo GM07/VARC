@@ -31,7 +31,7 @@ public class CNN implements Serializable {
 	private ActivationFunctions activationFunction;
 
 	/**
-	 * constructeur du reseau
+	 * Constructeur du reseau
 	 */
 	// Gaya Mehenni
 	public CNN(ActivationFunctions activationFunction, int inputSize, int numberOfChannels, int numberOfOutputs, double learningRate) {
@@ -138,7 +138,7 @@ public class CNN implements Serializable {
 	 * Methode qui sauvegarde un reseau de convolution
 	 * @param path
 	 */
-	
+	// Simon Daze
 	public void saveNetwork(String path) {
 		try {
 			FileOutputStream fos = new FileOutputStream(path + ".dat");
@@ -158,6 +158,7 @@ public class CNN implements Serializable {
 	 * @param path chemin d'acces du reseau
 	 * @return reseau de convolution
 	 */
+	// Simon Daze
 	public static CNN loadNetwork(String path){
 		try {
 			File f = new File(path);
@@ -301,6 +302,7 @@ public class CNN implements Serializable {
 	 * A chaque ajout de layer, les operations se repettent et elles contiennent le print : il ya donc plusieurs iterations de print
 	 * @param args
 	 */
+	// Gaya Mehenni
 	public static void main(String[] args) {
 		CNN cnnTest = new CNN(ActivationFunctions.Sigmoid, 5, 3, 2, 0.03);
 

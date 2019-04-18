@@ -8,29 +8,22 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 import algorithm.CNNAI;
 import algorithm.CarAI;
 import dessin.DessinNeuralNetwork;
 import functions.SoftmaxFunction;
+import image.processing.FileManager;
 import image.processing.ImageManager;
 import listeners.TrainingEvents;
 import math.MathTools;
@@ -177,6 +170,13 @@ public class App25CarAiLRIMa extends JFrame {
         contentPane = new JPanel();
         setContentPane(contentPane);
         contentPane.setLayout(null);
+        contentPane.setBackground(new Color(210, 240, 255));
+
+        URL urlLRIMa = getClass().getClassLoader().getResource("LRIMA.png");
+        ImageIcon icon = new ImageIcon(urlLRIMa);
+        JLabel btnL = new JLabel(icon);
+        btnL.setBounds(OFFSET, 0, OFFSET * 6, OFFSET * 4);
+        contentPane.add(btnL);
 
 		lblTitle = new JLabel();
 		lblTitle.setBounds(LARGEUR_PRINCIPALE/2 - OFFSET/2, OFFSET,4 * OFFSET, 2 * OFFSET);
@@ -207,7 +207,6 @@ public class App25CarAiLRIMa extends JFrame {
                 nnDraw.stop();
                 numberOfTraining = 0;
                 btnTrain.setText("Entrainer");
-
             }
         });
 
@@ -315,7 +314,7 @@ public class App25CarAiLRIMa extends JFrame {
         // Panel de gauche avec image a tester
         panImage = new JPanel();
         panImage.setBounds(0, 4 * OFFSET, LARGEUR_PANEL_SECONDAIRE, HAUTEUR_PANEL_SECONDAIRE);
-        panImage.setBackground(Color.WHITE);
+        panImage.setBackground(new Color(220, 240, 255));
         panImage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panImage.setLayout(null);
         contentPane.add(panImage);
@@ -367,7 +366,7 @@ public class App25CarAiLRIMa extends JFrame {
         // Panel du milieu avec les donnees d'entree
         panInputNumerique = new JPanel();
         panInputNumerique.setBounds(LARGEUR_PANEL_SECONDAIRE, 4 * OFFSET, LARGEUR_PANEL_SECONDAIRE, HAUTEUR_PANEL_SECONDAIRE);
-        panInputNumerique.setBackground(Color.WHITE);
+        panInputNumerique.setBackground(new Color(220, 240, 255));
         panInputNumerique.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panInputNumerique.setLayout(null);
         contentPane.add(panInputNumerique);
@@ -425,14 +424,28 @@ public class App25CarAiLRIMa extends JFrame {
 			@Override
 			public void windowDeactivated(WindowEvent e) {
 				try {
+
+                    FileManager.getFoldersFromFolder(datasetWindow.getPath());
+
 					if (!datasetWindow.getPath().equals("")) {
 						carAI.setTrainingPath(datasetWindow.getPath());
 						console.setVisible(true);
 						nnDraw.demarrer();
 						carAI.demarrer();
 
-					}
+					} else {
+					    training = true;
+					    numberOfTraining = 0;
+                        btnChoixImage.setEnabled(true);
+                        btnTest.setEnabled(true);
+                        btnTrain.setText("Entrainer");
+                    }
 				} catch (NullPointerException n) {
+				    training = true;
+                    btnChoixImage.setEnabled(true);
+                    btnTest.setEnabled(true);
+                    btnTrain.setText("Entrainer");
+				    numberOfTraining = 0;
 					System.out.println("Veuillez selectionner un chemin d'acces");
 				}
 			}
@@ -545,7 +558,7 @@ public class App25CarAiLRIMa extends JFrame {
         panOutput = new JPanel();
         panOutput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panOutput.setBounds(2 * LARGEUR_PANEL_SECONDAIRE, 4 * OFFSET, LARGEUR_PANEL_SECONDAIRE - 1, HAUTEUR_PANEL_SECONDAIRE);
-        panOutput.setBackground(Color.WHITE);
+        panOutput.setBackground(new Color(220, 240, 255));
         panOutput.setLayout(null);
         contentPane.add(panOutput);
 
