@@ -3,7 +3,9 @@ package aaplication;
 import java.awt.Color;
 import java.awt.EventQueue;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -19,6 +21,14 @@ public class ScientificExplanationWindow extends JFrame{
 		//constants
 		private final int LARGEUR_PRINCIPALE = 900;
 		private final int HAUTEUR_PRINCIPALE = 600;
+		private final int COUNTER_MAX= 5 ;
+		private int counter = 1;
+		
+		//boutons
+		private JButton btnSuivant;
+		private JButton btnPrecedant;
+		
+		
 		
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
@@ -45,12 +55,72 @@ public class ScientificExplanationWindow extends JFrame{
 			contentPane.setLayout(null);
 			
 			ImageAvecDefilement panScience = new ImageAvecDefilement();
-			panScience.setBounds(20, 20, 860, 560);
+			panScience.setBounds(20, 20, 860, 450);
 			contentPane.add(panScience);
 			panScience.setFichierImage("Concepts scientifiques-1.jpg");
 			
+			btnSuivant = new JButton();
+			btnSuivant.setBounds(450, 500, 100, 50);
+			btnSuivant.setText("Suivant");
+			btnSuivant.addActionListener(actionPerformed -> {
+	           if(counter < COUNTER_MAX) {
+	        	   counter += 1;
+	           }else {
+	        	   JOptionPane.showMessageDialog(null,"Pas d'autres fenetres d'explications");
+	           }
+				
+	           switch( counter){
+	           case 1 :
+	        	   panScience.setFichierImage("Concepts scientifiques-1.jpg");
+	           break;
+	           case 2:
+	        	   panScience.setFichierImage("Concepts scientifiques-2.jpg");
+	        	   break;
+	           case 3: 
+	        	   panScience.setFichierImage("Concepts scientifiques-3.jpg");
+	        	   break;
+	           case 4: 
+	        	   panScience.setFichierImage("Concepts scientifiques-4.jpg");
+	        	   break;
+	           case 5: 
+	        	   panScience.setFichierImage("Concepts scientifiques-5.jpg");
+	        	   break;
+	           }
+	           panScience.repaint();
+	        });
+			contentPane.add(btnSuivant);
 			
+			btnPrecedant =  new JButton();
+			btnPrecedant.setBounds(350, 500, 100, 50);
+			btnPrecedant.setText("Precedant");
+			btnPrecedant.addActionListener(actionPerformed -> {
+	           if(counter > 1) {
+	        	   counter -= 1;
+	           }else {
+	        	   JOptionPane.showMessageDialog(null,"Pas d'autres fenetres d'explications");
+	           }
+				
+	           switch( counter){
+	           case 1 :
+	        	   panScience.setFichierImage("Concepts scientifiques-1.jpg");
+	           break;
+	           case 2:
+	        	   panScience.setFichierImage("Concepts scientifiques-2.jpg");
+	           case 3: 
+	        	   panScience.setFichierImage("Concepts scientifiques-3.jpg");
+	        	   break;
+	           case 4: 
+	        	   panScience.setFichierImage("Concepts scientifiques-4.jpg");
+	        	   break;
+	           case 5: 
+	        	   panScience.setFichierImage("Concepts scientifiques-5.jpg");
+	        	   break;
+	           }
+	           
+	           panScience.repaint();
+	        });
 			
+			contentPane.add(btnPrecedant);
 		}
 		
 

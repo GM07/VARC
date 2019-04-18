@@ -21,12 +21,12 @@ import java.util.Arrays;
  */
 public class CarAlgorithm {
 
-    private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\training";
-    private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\testing";
-    private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\Network Saves\\trained_network_";
-    private static double learningRate = 3E-5;
-    private static int numberOfEpochs = 200;
-    private static int numberOfImagesPerEpoch = 20000;
+    private static String trainingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\training";
+    private static String testingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\testing";
+    private static String savingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\saves";
+    private static double learningRate = 0.275;
+    private static int numberOfEpochs = 500;
+    private static int numberOfImagesPerEpoch = 1000;  
     private static int batch_size = 1;
     private static int resultCounter = 0;
     private static double lastResult = 0;

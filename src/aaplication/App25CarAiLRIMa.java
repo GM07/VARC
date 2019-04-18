@@ -522,17 +522,18 @@ public class App25CarAiLRIMa extends JFrame {
 			int i = MathTools.getHighestIndex(output);
 			if (i == 0) {
 				lblMarque.setText("Marque : BMW");
-				marqueWindow.setMarque("BMW");
+				marqueWindow.setMarque("Marque- BMW-1");
 			} else if (i == 1) {
 				lblMarque.setText("Marque : Chevrolet");
-				marqueWindow.setMarque("Chevrolet");
+				marqueWindow.setMarque("Marque-chevrolet-1");
 			} else {
 				lblMarque.setText("Marque : Toyota");
-				marqueWindow.setMarque("Toyota");
+				marqueWindow.setMarque("Marque- toyota-1");
 			}
 
             repaint();
             convolutionWindow.repaint();
+            marqueWindow.repaint();
         });
         panInputNumerique.add(btnTest);
 

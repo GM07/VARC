@@ -3,8 +3,10 @@ package aaplication;
 import java.awt.Color;
 import java.awt.EventQueue;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 /**
@@ -22,14 +24,12 @@ public class HelpWindow extends JFrame {
 	private final int LARGEUR_PRINCIPALE = 900;
 	private final int HAUTEUR_PRINCIPALE = 600;
 	private final int OFFSET = 25;
+	private int counterMax = 2;
+	private int counter = 1;
 	
-	//Etiquettes
-	JLabel lblEtapes;
-	JLabel lblChargerReseau;
-	JLabel lblChoixCharger;
-	JLabel lblChoixImage;
-	JLabel lblChoixEntrainer;
-	JLabel lblTester;
+	//buttons
+	private JButton btnSuivant;
+	private JButton btnPrecedant;
 
 	
 	public static void main(String[] args) {
@@ -58,10 +58,53 @@ public class HelpWindow extends JFrame {
          
         ImageAvecDefilement panAide = new ImageAvecDefilement();
 
-        panAide.setBounds(35, 11, 800, 541);
+        panAide.setBounds(35, 11, 800, 500);
         contentPane.add(panAide);
         panAide.setFichierImage("fenetre aide prog-1.jpg");
 		
+        
+        btnSuivant = new JButton();
+		btnSuivant.setBounds(450, 500, 100, 50);
+		btnSuivant.setText("Suivant");
+		btnSuivant.addActionListener(actionPerformed -> {
+           if(counter < counterMax) {
+        	   counter += 1;
+           }else {
+        	   JOptionPane.showMessageDialog(null,"Pas d'autres fenetres d'explications");
+           }
+			
+           switch( counter){
+           case 1 :
+        	   panAide.setFichierImage("fenetre aide prog-1.jpg");
+           break;
+           case 2:
+        	   panAide.setFichierImage("fenetre aide prog-2.jpg");
+           }
+           panAide.repaint();
+        });
+		contentPane.add(btnSuivant);
+		
+		btnPrecedant =  new JButton();
+		btnPrecedant.setBounds(350, 500, 100, 50);
+		btnPrecedant.setText("Precedant");
+		btnPrecedant.addActionListener(actionPerformed -> {
+           if(counter > 1) {
+        	   counter -= 1;
+           }else {
+        	   JOptionPane.showMessageDialog(null,"Pas d'autres fenetres d'explications");
+           }
+			
+           switch( counter){
+           case 1 :
+        	   panAide.setFichierImage("fenetre aide prog-1.jpg");
+           break;
+           case 2:
+        	   panAide.setFichierImage("fenetre aide prog-2.jpg");
+           }
+           panAide.repaint();
+        });
+		
+		contentPane.add(btnPrecedant);
 	}
 	
 	
