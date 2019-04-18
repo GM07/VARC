@@ -59,6 +59,7 @@ public class ScientificExplanationWindow extends JFrame{
 			contentPane.add(panScience);
 			panScience.setFichierImage("Concepts scientifiques-1.jpg");
 			
+			//Boutons pour changer de pages
 			btnSuivant = new JButton();
 			btnSuivant.setBounds(450, 500, 100, 50);
 			btnSuivant.setText("Suivant");

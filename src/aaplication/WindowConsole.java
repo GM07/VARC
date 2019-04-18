@@ -10,7 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
-
+/**
+ * Fenêtre qui montre la console : (elle est redirige dans cette fenetre)
+ * @author Simon Daze
+ *
+ */
 public class WindowConsole extends JFrame{
 
 
@@ -39,7 +43,9 @@ public class WindowConsole extends JFrame{
 			}
 		});
 	}
-
+	/**
+	 * Constructeur de la fenêtre
+	 */
 	public WindowConsole() {
 		setTitle("Training Infos");
 		setLocationRelativeTo(null);
@@ -50,7 +56,7 @@ public class WindowConsole extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(25, 25, 825, 525);
 		contentPane.add(scrollPane);
@@ -58,11 +64,12 @@ public class WindowConsole extends JFrame{
 		console = new JTextArea();
 		scrollPane.setViewportView(console);
 
+		
 		OutputStream out = new OutputStream() {
 			@
 			Override
 			public void write(int b) throws	IOException{
-				
+
 				console.append(String.valueOf((char) b));
 			}
 			@
@@ -77,13 +84,13 @@ public class WindowConsole extends JFrame{
 				write(b, 0,b.length);
 			}
 		};
-		
+
 		System.setOut( new PrintStream(out,true) );
 		System.setErr( new PrintStream(out, true) );
-		
+
 
 	}
 
 
-	
+
 }

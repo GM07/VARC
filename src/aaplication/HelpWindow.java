@@ -44,6 +44,9 @@ public class HelpWindow extends JFrame {
 			}
 		});
 	}
+	/**
+	 * Constructeur de la fenêtre
+	 */
 	
 	public HelpWindow() {
 		setTitle("Aide");
@@ -66,6 +69,8 @@ public class HelpWindow extends JFrame {
         btnSuivant = new JButton();
 		btnSuivant.setBounds(450, 500, 100, 50);
 		btnSuivant.setText("Suivant");
+		
+		//Boutons pour changer de pages
 		btnSuivant.addActionListener(actionPerformed -> {
            if(counter < counterMax) {
         	   counter += 1;
