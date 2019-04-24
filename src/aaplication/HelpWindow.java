@@ -74,8 +74,6 @@ public class HelpWindow extends JFrame {
 		btnSuivant.addActionListener(actionPerformed -> {
            if(counter < counterMax) {
         	   counter += 1;
-           }else {
-        	   JOptionPane.showMessageDialog(null,"Pas d'autres fenetres d'explications");
            }
 			
            switch( counter){
@@ -84,6 +82,8 @@ public class HelpWindow extends JFrame {
            break;
            case 2:
         	   panAide.setFichierImage("fenetre aide prog-2.jpg");
+        	   btnPrecedant.setEnabled(true);
+        	   btnSuivant.setEnabled(false);
            }
            panAide.repaint();
         });
@@ -92,19 +92,24 @@ public class HelpWindow extends JFrame {
 		btnPrecedant =  new JButton();
 		btnPrecedant.setBounds(350, 500, 100, 50);
 		btnPrecedant.setText("Precedant");
+		btnPrecedant.setEnabled(false);
 		btnPrecedant.addActionListener(actionPerformed -> {
            if(counter > 1) {
         	   counter -= 1;
-           }else {
-        	   JOptionPane.showMessageDialog(null,"Pas d'autres fenetres d'explications");
+          
            }
 			
            switch( counter){
            case 1 :
         	   panAide.setFichierImage("fenetre aide prog-1.jpg");
+        	   btnPrecedant.setEnabled(false);
+        	   btnSuivant.setEnabled(true);
            break;
            case 2:
         	   panAide.setFichierImage("fenetre aide prog-2.jpg");
+        	   btnPrecedant.setEnabled(true);
+        	   btnSuivant.setEnabled(false);
+        	   break;
            }
            panAide.repaint();
         });
