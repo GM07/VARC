@@ -90,6 +90,7 @@ public class ImageManager {
 		return values;
 	}
 
+
 	/**
 	 * Convertit une image en image carre
 	 * @param img image

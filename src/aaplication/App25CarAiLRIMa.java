@@ -1,8 +1,6 @@
 package aaplication;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -97,6 +95,13 @@ public class App25CarAiLRIMa extends JFrame {
 	private JMenuItem menuItemQuit;
 	private JMenuItem menuItemLoadPreTrained;
 
+    private ImageIcon iconLRIMA;
+    private ImageIcon iconMaisonneuve;
+    private Image imgLRIMA;
+    private Image imgMaisonneuve;
+    private JLabel lblM;
+    private JLabel lblL;
+
 	// Fenetre secondaire
 	private HelpWindow helpWindow;
 	private ScientificExplanationWindow scientificExplanationWindow;
@@ -112,7 +117,6 @@ public class App25CarAiLRIMa extends JFrame {
     private String path = "";
     private boolean training = true;
     private int numberOfTraining = 0;
-
 
     // Arraylist qui contient tous les JComponent
     private ArrayList<JComponent> elements = new ArrayList<>();
@@ -172,11 +176,33 @@ public class App25CarAiLRIMa extends JFrame {
         contentPane.setLayout(null);
         contentPane.setBackground(new Color(210, 240, 255));
 
+        // Affichage du logo de LRIMA
         URL urlLRIMa = getClass().getClassLoader().getResource("LRIMA.png");
-        ImageIcon icon = new ImageIcon(urlLRIMa);
-        JLabel btnL = new JLabel(icon);
-        btnL.setBounds(OFFSET, 0, OFFSET * 6, OFFSET * 4);
-        contentPane.add(btnL);
+        try {
+            imgLRIMA = ImageIO.read(urlLRIMa).getScaledInstance(OFFSET * 4, OFFSET * 3, Image.SCALE_DEFAULT);
+        } catch (IOException e){
+            System.out.println("L'image du logo du LRIMa n'a pas pu etre chargee");
+        }
+        iconLRIMA = new ImageIcon(imgLRIMA);
+        lblL = new JLabel(iconLRIMA);
+        lblL.setBounds(OFFSET, OFFSET/2, OFFSET * 4, OFFSET * 3);
+        contentPane.add(lblL);
+
+        // Ajout de l'icone de l'application
+        imgLRIMA = imgLRIMA.getScaledInstance(400, 300, Image.SCALE_DEFAULT);
+        setIconImage(imgLRIMA);
+
+        // Affichage du logo de Maisonneuve
+        URL urlMaisonneuve = getClass().getClassLoader().getResource("maisonneuve.png");
+        try {
+            imgMaisonneuve = ImageIO.read(urlMaisonneuve).getScaledInstance(OFFSET * 5, OFFSET * 2, Image.SCALE_DEFAULT);
+        } catch (IOException e){
+            System.out.println("L'image du logo de maisonneuve n'a pas pu etre chargee");
+        }
+        iconMaisonneuve = new ImageIcon(imgMaisonneuve);
+        lblM = new JLabel(iconMaisonneuve);
+        lblM.setBounds(LARGEUR_PRINCIPALE - 2 * OFFSET - (5 * OFFSET), OFFSET/2, OFFSET * 5, OFFSET * 3);
+        contentPane.add(lblM);
 
 		lblTitle = new JLabel();
 		lblTitle.setBounds(LARGEUR_PRINCIPALE/2 - OFFSET/2, OFFSET,4 * OFFSET, 2 * OFFSET);
@@ -191,8 +217,7 @@ public class App25CarAiLRIMa extends JFrame {
 
 		setUpPanelDroite();
 
-		setFontOfElements();
-
+		// Creation de l'objet CarAI qui contient le reseau de neurone
         carAI = new CarAI((double) spnLearningRate.getValue(), (int) spnEpoch.getValue(), (int) spnBatch.getValue());
         carAI.setBar(progressBarTraining);
         carAI.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -516,7 +541,7 @@ public class App25CarAiLRIMa extends JFrame {
                 lblOutputFinal.setText("Decision du reseau : Camion");
             }
 
-            double[] output = cnnAI.feedForward(imageVoiture.getImage()); 
+            double[] output = cnnAI.feedForward(imageVoiture.getImage());
 
 			System.out.println(Arrays.toString(output));
 			int i = MathTools.getHighestIndex(output);
@@ -629,15 +654,4 @@ public class App25CarAiLRIMa extends JFrame {
         panOutput.add(btnConvolution);
     }
 
-
-    /**
-     * Methode qui change le font de tous les composants presents dans le array list de la classe
-     */
-    private void setFontOfElements() {
-
-        for (JComponent j : elements) {
-            j.setFont(new Font("Dialog", Font.BOLD, 20));
-
-        }
-    }
 }

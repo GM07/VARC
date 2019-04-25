@@ -23,16 +23,12 @@ import java.util.Collections;
  * @author Gaya Mehenni
  */
 public class CarAlgorithmCNN {
-/*
-    private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Marques\\training";
-    private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Marques\\testing";
-    private static String savingPath = "D:\\Cegep\\Session_4\\IA Data\\CNN_Saves\\trained_cnn_";
-    */
+
+    private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\training";
+    private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\testing";
+    private static String savingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\saves";
     private static double learningRate = 0.001;
-    
-	private static String trainingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\training";
-	private static String testingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\testing";
-	private static String savingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\saves";
+
     private static int numberOfEpochs = 10;
     private static int numberOfImagesPerEpoch = 200;
     private static int numberOfImagesToTest = 1000;
@@ -95,7 +91,7 @@ public class CarAlgorithmCNN {
             try {
                 double[][][] input = MathTools.mapArray(ImageManager.convertRGB2D(ImageManager.getSquaredImage(image, 28)), 0, 255, 0, 1);
 
-                double[] expected = CarAI.getOutputFromStringBrands(type, cnn.getOutputs().getROWS());
+                double[] expected = CarAI.getOutputFromString(type, cnn.getOutputs().getROWS());
 
                 Matrix[] in = new Matrix[3];
                 in[0] = new Matrix(input[0]);
@@ -159,7 +155,7 @@ public class CarAlgorithmCNN {
 
         }
 
-        System.out.println("TrainingEvents images loaded (" + batch.getDataset().size() + ")");
+        System.out.println("Training images loaded (" + batch.getDataset().size() + ")");
     }
 
     /**
@@ -175,7 +171,7 @@ public class CarAlgorithmCNN {
 
         batch.shuffleDataset();
 
-        System.out.println("TrainingEvents neural network...");
+        System.out.println("Training neural network...");
 
         for (int epoch = 0; epoch < numberOfEpochs; epoch++) {
 
@@ -197,7 +193,7 @@ public class CarAlgorithmCNN {
 
                     cnn.setInputs(in);
 
-                    double[] output = CarAI.getOutputFromStringBrands((String) dataElement.getLabel(), cnn.getOutputs().getROWS());
+                    double[] output = CarAI.getOutputFromString((String) dataElement.getLabel(), cnn.getOutputs().getROWS());
 
                     //System.out.println(Arrays.toString(output) + " - " + dataElement.getLabel());
 

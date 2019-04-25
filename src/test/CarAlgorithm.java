@@ -21,12 +21,12 @@ import java.util.Arrays;
  */
 public class CarAlgorithm {
 
-    private static String trainingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\training";
-    private static String testingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\testing";
+    private static String trainingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\training";
+    private static String testingPath = "D:\\Cegep\\Session_4\\IA Data\\Dataset_Voiture_Moto_Camion\\testing";
     private static String savingPath = "D:\\cegep prog\\Dataset_Voiture_Moto_Camion\\saves";
-    private static double learningRate = 0.275;
-    private static int numberOfEpochs = 500;
-    private static int numberOfImagesPerEpoch = 1000;  
+    private static double learningRate = 0.125;
+    private static int numberOfEpochs = 100;
+    private static int numberOfImagesPerEpoch = 2000;
     private static int batch_size = 1;
     private static int resultCounter = 0;
     private static double lastResult = 0;
@@ -40,7 +40,7 @@ public class CarAlgorithm {
 
 		System.out.print("STARTING PROGRAM...");
 
-		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 28 * 28 * 3, 64, 32, 3);
+		NeuralNetwork nn = new NeuralNetwork(ActivationFunctions.Sigmoid, 28 * 28 * 3, 28, 28, 3);
 
 		System.out.println("\nWITHOUT TRAINING\n" + testNetwork(nn));
 
