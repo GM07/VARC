@@ -9,7 +9,6 @@ import neural.network.LayerType;
 
 /**
  * Objet dessinable pour représenter une neurone
- * @author Simon Daze
  * @author Gaya Mehenni
  */
 public class DrawableNeuron implements Dessinable {

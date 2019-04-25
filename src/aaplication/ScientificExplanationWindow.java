@@ -43,6 +43,9 @@ public class ScientificExplanationWindow extends JFrame{
 			});
 		}
 		
+		/**
+		 * Constructeur de la fenetre
+		 */
 		public ScientificExplanationWindow() {
 			setTitle("Scientific Explanation Window");
 			setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);

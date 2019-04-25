@@ -57,6 +57,7 @@ public class MaxPoolingLayer extends CNNLayer implements Serializable {
 	/**
 	 * operation de cette layer : le max pooling 
 	 * La fonction d'activation permet de limiter les ecarts entre les valeurs
+	 * @return out : le tableau de matrices des sorties de la couche
 	 */
 	@Override
 	public Matrix[] operation() {

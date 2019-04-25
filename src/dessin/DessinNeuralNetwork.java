@@ -13,7 +13,6 @@ import image.processing.ImageManager;
 /**
  * Classe de la scene de dessin du reseau de neurones
  * @author Gaya Mehenni
- * @author Simon Daze
  */
 public class DessinNeuralNetwork extends JPanel implements Runnable{
 

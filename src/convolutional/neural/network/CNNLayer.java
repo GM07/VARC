@@ -10,18 +10,20 @@ import neural.network.LayerType;
 /**
  * Classe contenant les methodes communes a toutes les layers en plus de leurs caracteristiques
  * @author simon Daze
- *
+ *@author Gaya Mehenni
  */
 public abstract class CNNLayer implements Serializable {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -4404518561044873277L;
 	protected Matrix[] inputs ; 
 	protected Matrix[] outputs;
 	protected Filter[] filters;
 	protected double learningRate;
 
+	/**
+	 * constructeur du reseau
+	 */
+	//Simon Daze
 	public CNNLayer() {
 
 		filters = new Filter[1];
@@ -33,6 +35,7 @@ public abstract class CNNLayer implements Serializable {
 	 * Methode qui passe les inputs a travers la couche
 	 * @return une matrice des outputs
 	 */
+	//Simon Daze
 	public abstract Matrix[] operation();
 
 	/**
@@ -40,12 +43,14 @@ public abstract class CNNLayer implements Serializable {
 	 * @param target erreur de la couche d'apres
 	 * @return erreur de la couche actuelle
 	 */
+	//Gaya Mehenni
 	public abstract Matrix[] backpropagation(Matrix[] target);
 
 	/**
 	 * permet d'acceder a la matrice des inputs
 	 * @return le tableau de matrices des inputs
 	 */
+	//Simon Daze
 	public Matrix[] getInputs() {
 		return inputs;
 	}
@@ -55,6 +60,7 @@ public abstract class CNNLayer implements Serializable {
 	 * permet de modifier le tableau de matrices de inputs
 	 * @param inputs : le tableau de matrices a mettre comme input
 	 */
+	//Simon Daze
 	public void setInputs(Matrix[] inputs) {
 		this.inputs = inputs;
 	}
@@ -64,6 +70,7 @@ public abstract class CNNLayer implements Serializable {
 	 * permet d'obtenir le tableau de matrices des outputs
 	 * @return le tableau de matrices des outputs
 	 */
+	//Simon Daze
 	public Matrix[] getOutputs() {
 		return outputs;
 	}
@@ -72,6 +79,7 @@ public abstract class CNNLayer implements Serializable {
 	 * methode qui permet de definir de definir un nouveau tableau de matrices comme inputs
 	 * @param outputs le tableau de matrices a definir comme output
 	 */
+	//Simon Daze
 
 	public void setOutputs(Matrix[] outputs) {
 		this.outputs = outputs;
@@ -81,6 +89,7 @@ public abstract class CNNLayer implements Serializable {
 	 * Methode qui retourne le tableau des filtres d'une layer
 	 * @return le tableau des filtres
 	 */
+	//Simon Daze
 	public Filter[] getFilters() {
 		return filters;
 	}
@@ -89,6 +98,7 @@ public abstract class CNNLayer implements Serializable {
 	 * Methode pour definir de nouveaux filtres
 	 * @param filters le tableau contenant les nouveaux filtres a definir
 	 */
+	//Simon Daze
 	public void setFilters(Filter[] filters) {
 		this.filters = filters;
 	}
@@ -97,6 +107,7 @@ public abstract class CNNLayer implements Serializable {
 	 * Methode qui retourne le taux d'apprentissage du resau
 	 * @return taux d'apprentissage
 	 */
+	//Simon Daze
 	public double getLearningRate() {
 		return learningRate;
 	}
@@ -105,11 +116,17 @@ public abstract class CNNLayer implements Serializable {
 	 * Methode qui change le taux d'apprentissage du reseau
 	 * @param learningRate taux d'apprentissage
 	 */
+	//Simon Daze
 	public void setLearningRate(double learningRate) {
 		this.learningRate = learningRate;
 	}
 
 
+	/**
+	 * Mehode qui ecrit le reseau sous forme de texte
+	 *@return s : le reseau sous forme de texte
+	 */
+	//Gaya Mehenni
 	public String toString() {
 
 		String s = getClass().getName() + "\n\n" ;
