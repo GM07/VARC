@@ -55,13 +55,13 @@ public class ScientificExplanationWindow extends JFrame{
 			contentPane.setLayout(null);
 			
 			ImageAvecDefilement panScience = new ImageAvecDefilement();
-			panScience.setBounds(20, 20, 860, 450);
+			panScience.setBounds(50, 10, 800, 450);
 			contentPane.add(panScience);
 			panScience.setFichierImage("Concepts scientifiques-1.jpg");
 			
 			//Boutons pour changer de pages
 			btnSuivant = new JButton();
-			btnSuivant.setBounds(450, 500, 100, 50);
+			btnSuivant.setBounds(450, 500, 150, 50);
 			btnSuivant.setText("Suivant");
 			btnSuivant.addActionListener(actionPerformed -> {
 	           if(counter < COUNTER_MAX) {
@@ -92,7 +92,7 @@ public class ScientificExplanationWindow extends JFrame{
 			contentPane.add(btnSuivant);
 			
 			btnPrecedant =  new JButton();
-			btnPrecedant.setBounds(350, 500, 100, 50);
+			btnPrecedant.setBounds(300, 500, 150, 50);
 			btnPrecedant.setText("Precedant");
 			btnPrecedant.setEnabled(false);
 			btnPrecedant.addActionListener(actionPerformed -> {
