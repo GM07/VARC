@@ -20,6 +20,7 @@ public class Matrix implements Serializable {
 	/**
 	 * Constructeur sans parametre pour la sauvegarde du fichier
 	 */
+	//Gaya Mehenni
 	public Matrix() {}
 
 	/**
@@ -27,6 +28,7 @@ public class Matrix implements Serializable {
 	 * @param rows le nombre de lignes
 	 * @param cols le nombre de colonnes
 	 */
+	//Gaya Mehenni
 	public Matrix(int rows, int cols) {
 		mat = new double[rows][cols];
 		this.ROWS = rows;
@@ -38,6 +40,7 @@ public class Matrix implements Serializable {
 	 * Constructeur a l'aide du matrice
 	 * @param mat la matrice a copiee
 	 */
+	//Gaya Mehenni
 	public Matrix(double[][] mat) {
 		this.mat = mat;
 		this.ROWS = mat.length;
@@ -50,6 +53,7 @@ public class Matrix implements Serializable {
 	 * @param cols le nombre de colonnes
 	 * @param value la valeur a laquelle la matrice est initialisee
 	 */ 
+	//Gaya Mehenni
 	public Matrix(int rows, int cols, double value) {
 		mat = new double[rows][cols];
 		this.ROWS = rows;
@@ -66,6 +70,7 @@ public class Matrix implements Serializable {
 	 * modifie la matrice a une certaines valeurs
 	 * @param value la valeur a laquelle on initie la matrice
 	 */
+	//Gaya Mehenni
 	public void setValue(double value) {
 		for(int i = 0; i < ROWS; i++) {
 			for(int j = 0; j < COLS; j++) {
@@ -77,6 +82,7 @@ public class Matrix implements Serializable {
 	/**
 	 * Intialise la matrice a des valeurs par defauts ( de base entre -1 et 1)
 	 */
+	//Gaya Mehenni
 	public void initWithRandomValues() {
 		this.initWithRandomValues(-1, 1);
 	}
@@ -86,6 +92,7 @@ public class Matrix implements Serializable {
 	 * @param	lowerBound la borne inferieure
 	 * @param	upperBound la borne superieure
 	 */
+	//Gaya Mehenni
 	public void initWithRandomValues(double lowerBound, double upperBound) {
 		for(int i = 0; i < ROWS; i++) {
 
@@ -100,6 +107,7 @@ public class Matrix implements Serializable {
 	 * Addition de matrices
 	 * @param	m	la matrice a additioner
 	 */
+	//Gaya Mehenni
 	public void add(Matrix m) {
 		for(int i = 0; i < mat.length; i++) {
 
@@ -141,6 +149,13 @@ public class Matrix implements Serializable {
 		return finalMatrix;
 	}
 
+	/**
+	 * Applique un filtre de convolution avec un padding
+	 * @param m : la matrice sur laquelle la convolution et le padding est appliquee
+	 * @param padding : l'epaisseur de la couche de 0 qui entoure la matrice
+	 * @return : la matrice resultante de la convolution 
+	 */
+	//Gaya Mehenni
 	public Matrix convolutionWithPadding(Matrix m, int padding) {
 		m = m.padding(padding);
 		Matrix finalM = convolution(m);
@@ -151,6 +166,7 @@ public class Matrix implements Serializable {
 	 * Addition de matrices
 	 * @param	m	un tableau de doubles a ajouter a la matrice
 	 */
+	//Gaya Mehenni
 	public void add(double[][] m) {
 		for(int i = 0; i < mat.length; i++) {
 
@@ -165,6 +181,7 @@ public class Matrix implements Serializable {
 	 * Methode qui ajoute une certaine valeur a toutes les valeurs dans la matrice
 	 * @param value valeur ajoutee
 	 */
+	//Gaya Mehenni
 	public void addToElements(double value) {
 		for(int i = 0; i < ROWS; i++) {
 			for(int j = 0; j < COLS; j++) {
@@ -181,6 +198,7 @@ public class Matrix implements Serializable {
 	 * @param	m2	la deuxieme matrice
 	 * @return		la somme des 2 matrices
 	 */
+	//Gaya Mehenni
 	public static Matrix sum(Matrix m, Matrix m2) {
 
 		Matrix tempM = new Matrix(m.getROWS(), m.getCOLS());
@@ -205,6 +223,7 @@ public class Matrix implements Serializable {
 	 * @param	m2	la deuxieme matrice
 	 * @return		la difference entre les 2 matrices
 	 */
+	//Gaya Mehenni
 	public static Matrix subtract(Matrix m, Matrix m2) {
 
 		Matrix tempM = new Matrix(m.getROWS(), m.getCOLS());
@@ -228,6 +247,7 @@ public class Matrix implements Serializable {
 	 * Soustraction de matrices
 	 * @param	m	la matrice a soustraire
 	 */
+	//Gaya Mehenni
 	public void subtract(Matrix m) {
 		for(int i = 0; i < mat.length; i++) {
 
@@ -242,6 +262,7 @@ public class Matrix implements Serializable {
 	 * Soustraction de matrices
 	 * @param	m	un tableau de doubles a soustraire a la matrice
 	 */
+	//Gaya Mehenni
 	public void subtract(double[][] m) {
 		for(int i = 0; i < mat.length; i++) {
 
@@ -258,6 +279,7 @@ public class Matrix implements Serializable {
 	 * @return 		Le produit matriciel 
 	 * 
 	 */
+	//Gaya Mehenni
 	public Matrix multiply(Matrix m) {
 
 		double[][] matr = new double[this.getROWS()][m.getCOLS()];
@@ -290,6 +312,7 @@ public class Matrix implements Serializable {
 	 * @param m la matrice a multiplie
 	 * @return 
 	 */
+	//Gaya Mehenni
 	public Matrix product(Matrix m) {
 
 		if (m.ROWS == ROWS && m.COLS == COLS) {
@@ -316,6 +339,7 @@ public class Matrix implements Serializable {
 	 * produit matriciel d'une matrice avec elle meme
 	 * @return la matrice au carre
 	 */
+	//Gaya Mehenni
 	public Matrix getSquaredMatrix(){
 		return this.product(this);
 	}
@@ -323,6 +347,7 @@ public class Matrix implements Serializable {
 	/**
 	 * Multiplie tous les elements de la matrice par un scalaire
 	 */
+	//Gaya Mehenni
 	public Matrix scalarProduct(double k) {
 		Matrix m = new Matrix(ROWS, COLS);
 		for(int i = 0; i < ROWS; i++) {
@@ -337,6 +362,7 @@ public class Matrix implements Serializable {
 	 * Fais la somme des elements de la matrice
 	 * @return la somme de tous les elements de la matrice
 	 */
+	//Gaya Mehenni
 	public double sumOfElements() {
 
 		double sum = 0;
@@ -355,6 +381,7 @@ public class Matrix implements Serializable {
 	 * @param j la colonne 
 	 * @param value la valeur a laquelle on modifie la valeur
 	 */
+	//Gaya Mehenni
 	public void setElement(int i, int j, double value) {
 		mat[i][j] = value;
 	}
@@ -365,6 +392,7 @@ public class Matrix implements Serializable {
 	 * @param j la colonne de l'element
 	 * @return l'element en (i,j)
 	 */
+	//Gaya Mehenni
 	public double getElement(int i, int j) {
 		return mat[i][j];
 	}
@@ -374,6 +402,7 @@ public class Matrix implements Serializable {
 	 * @param function la fonction a appliquer
 	 * @return une nouvelle matrice activee par la fonction 
 	 */
+	//Gaya Mehenni
 	public Matrix applyFunction(ActivationFunctions function) {
 
 		double[][] a = new double[ROWS][COLS];
@@ -394,6 +423,7 @@ public class Matrix implements Serializable {
 	 * @param function la fonction 
 	 * @return une nouvelle matrice affectee par la derive de la fonction
 	 */
+	//Gaya Mehenni
 	public Matrix applyFunctionDerivative(ActivationFunctions function) {
 
 		double[][] a = new double[ROWS][COLS];
@@ -413,6 +443,7 @@ public class Matrix implements Serializable {
 	 * Transpose la matrice
 	 * @return la matrice transposee
 	 */ 
+	//Gaya Mehenni
 	public Matrix transpose() {
 		Matrix matTranspose = new Matrix(getCOLS(), getROWS());
 
@@ -427,6 +458,7 @@ public class Matrix implements Serializable {
 	/**
 	 * Println d'une matrice
 	 */
+	//Gaya Mehenni
 	@Override
 	public String toString() {
 
@@ -446,6 +478,7 @@ public class Matrix implements Serializable {
 	 * @param paddingSize le nombre de rangee + colonne de 0 qui entoure la matrice
 	 * @return une nouvelle matrice entouree de couches de 0 
 	 */
+	//Gaya Mehenni
 	public Matrix padding(int paddingSize) {
 		double[][] m = new double[ROWS + paddingSize * 2][COLS + paddingSize * 2];
 
@@ -469,6 +502,7 @@ public class Matrix implements Serializable {
 	 * Retourne la taille de la matrice
 	 * @return la taille de la matrice
 	 */
+	//Gaya Mehenni
 	public String getMatrixSize() {
 		return "" + ROWS + "x" + COLS;
 	}
@@ -477,6 +511,7 @@ public class Matrix implements Serializable {
 	 * Retourne la matrice sous forme de tableau a 2 dimensions
 	 * @return		la matrice a sous forme de tableaux a 2 dimensions
 	 */
+	//Gaya Mehenni
 	public double[][] getMat() {
 		return mat;
 	}
@@ -485,6 +520,7 @@ public class Matrix implements Serializable {
 	 * Modifie la matrice
 	 * @param mat un tableau a 2 dimensions
 	 */
+	//Gaya Mehenni
 	public void setMat(double[][] mat) {
 		this.mat = mat;
 	}
@@ -493,6 +529,7 @@ public class Matrix implements Serializable {
 	 * Modifie la matrice 
 	 * @param m		une autre matrice
 	 */
+	//Gaya Mehenni
 	public void setMat(Matrix m) {
 		this.mat = m.getMat();
 	}
@@ -501,6 +538,7 @@ public class Matrix implements Serializable {
 	 * Change le nombre de rangee de la matrice
 	 * @param ROWS 
 	 */
+	//Gaya Mehenni
 	public void setROWS(int ROWS) {
 		this.ROWS = ROWS;
 	}
@@ -509,6 +547,7 @@ public class Matrix implements Serializable {
 	 * Retourne le nombre de lignes de la matrice
 	 * @return		le nombre de lignes de la matrice
 	 */
+	//Gaya Mehenni
 	public int getROWS() {
 		return ROWS;
 	}
@@ -517,6 +556,7 @@ public class Matrix implements Serializable {
 	 * Change le nombre de colonnes de la matrice
 	 * @param COLS
 	 */
+	//Gaya Mehenni
 	public void setCOLS(int COLS) {
 		this.COLS = COLS;
 	}
@@ -525,6 +565,7 @@ public class Matrix implements Serializable {
 	 * Retourne le nombre de colonnes de la matrice
 	 * @return		Nombre de colonnes de la matrice
 	 */
+	//Gaya Mehenni
 	public int getCOLS() {
 		return COLS;
 	}
@@ -551,6 +592,7 @@ public class Matrix implements Serializable {
 	 * Methode qui retourne la valeur maximale absolue de la matrice
 	 * @return valeur maximale
 	 */
+	//Simon Daze
 	public double getMaxAbsoluteValue() {
 		double maxValue = (Double.MAX_VALUE * -1) + 1, currentValue;
 		for(int i = 0 ; i < ROWS ; i++) {
@@ -568,6 +610,7 @@ public class Matrix implements Serializable {
 	 * methode qui retourne la valeur moyenne de la matrice
 	 * @return la valeur moyenne de la matrice
 	 */
+	//Simon Daze
 	public double getAverageValue() {
 		double sum = 0;
 		double size = getROWS() * getCOLS();

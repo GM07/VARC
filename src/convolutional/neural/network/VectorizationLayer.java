@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Classe qui permet de prendre des valeurs en 3D (
+ * Classe qui permet de prendre des valeurs en 3D et les converti en vecteur colonne
+ * @author Simon Daze
+ * @author Gaya Mehenni
  */
 public class VectorizationLayer extends CNNLayer {
 
@@ -16,6 +18,11 @@ public class VectorizationLayer extends CNNLayer {
     // Variable qui retient le nombre de matrices avant la vectorisation
     private int numberOfMatrices;
 
+    /**
+     * Constructeur de la couche de convolution 
+     * @param inputs : les entrees de la couche
+     * @param inputSize  : la dimension des matrices d'entrees
+     */
     public VectorizationLayer(Matrix[] inputs, int inputSize) {
         this.inputs = inputs;
         this.numberOfMatrices = inputs.length;
@@ -30,6 +37,7 @@ public class VectorizationLayer extends CNNLayer {
      * Methode qui linearise les sorties
      * @return le vecteur contenant les outputs
      */
+    //Simon Daze
     public Matrix[] operation() {
 
         outputs[0] = new Matrix(inputs.length * inputSize * inputSize, 1);
@@ -45,34 +53,7 @@ public class VectorizationLayer extends CNNLayer {
                 }
             }
         }
-
-        //System.out.println("AHH " + outputs[0].getMatrixSize());
-
         return outputs;
-
-
-        /*
-        int linearizedMatrixSize = 0;
-        Matrix linearizedOutputs;
-        ArrayList<Double> arrayOutput  = new ArrayList<Double>();
-        for (int f = 0 ; f < outputs.length; f++ ) {
-            for (int i = 0 ; i < outputs[f].getROWS(); i++) {
-                for (int j = 0 ; j < outputs[f].getCOLS(); j++) {
-                    arrayOutput.add(outputs[f].getElement(i, j));
-                    linearizedMatrixSize += 1;
-                }
-            }
-        }
-        linearizedOutputs = new Matrix(1,linearizedMatrixSize);
-        for(int i = 0; i < linearizedMatrixSize ; i++) {
-            linearizedOutputs.setElement(0, i, arrayOutput.get(i));
-        }
-
-        Matrix[] mat = new Matrix[1];
-        mat[0] = linearizedOutputs;
-        outputs = mat;
-        return mat;
-        */
     }
 
     /**
@@ -80,6 +61,7 @@ public class VectorizationLayer extends CNNLayer {
      * Voir explications scientifiques pour plus de details
      * @return tableau de matrice contenant l'erreur de la couche
      */
+    //Gaya Mehenni
     public Matrix[] backpropagation(Matrix[] target) {
 
         Matrix[] error = new Matrix[numberOfMatrices];

@@ -6,7 +6,6 @@ import math.Matrix;
 /**
  * Les differents filtres qui seront apposes sur les images lors de leur passage dans le reseau
  * @author Simon Daze
- * @author Gaya Mehenni
  */
 public class Filter extends Matrix implements Serializable{
 
@@ -17,6 +16,7 @@ public class Filter extends Matrix implements Serializable{
 	 * @param rows : le nombre de ligne de la matrice
 	 * @param cols : le nombre de colonnes de la matrice
 	 */
+	//Simon Daze
 	public Filter(int rows, int cols) {
 		super(rows, cols);
 		this.initWithRandomValues(-1, 1);
@@ -28,7 +28,7 @@ public class Filter extends Matrix implements Serializable{
 	 * @return la matrice contenant toutes les valeurs maximales des sous-matrices nxn
 	 * @param m = La matrice sur laquelle on applique le maxPooling
 	 */
-	//auteur : Simon Daze
+	
 	public Matrix maxPool(Matrix m) {
 		Matrix pooledMat = new Matrix(m.getROWS() - this.getROWS() + 1, m.getCOLS() - this.getROWS() + 1);
 		for (int ofX = 0 ; ofX < m.getROWS() - this.getROWS() + 1; ofX++) {
@@ -54,6 +54,7 @@ public class Filter extends Matrix implements Serializable{
 	 * @return la matrice contenant toutes les valeurs moyennes des sous-matrices nxn
 	 * @param m = La matrice sur laquelle on applique le averagePooling
 	 */
+	
 	public Matrix averagePool(Matrix m) {
 		Matrix pooledMat = new Matrix(m.getROWS() - this.getROWS() + 1, m.getCOLS() - this.getROWS() + 1);
 		for (int ofX = 0 ; ofX < m.getROWS() - this.getROWS() + 1; ofX++) {
@@ -76,7 +77,7 @@ public class Filter extends Matrix implements Serializable{
 	 * Test du pooling sur une layer 
 	 * @param args
 	 */
-	//Auteur : Simon Daze
+
 	public static void main(String[] args) {
 		Filter f = new Filter(2,2);
 		HorizontalFilter f2 = new HorizontalFilter();

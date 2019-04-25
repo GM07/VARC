@@ -282,6 +282,7 @@ public class ConvolutionLayer extends CNNLayer implements Serializable {
 	 * Methode qui retourne la fonction d'activation de la couche
 	 * @return fonction d'activation
 	 */
+	//Simon Daze
 	public ActivationFunctions getFunction() {
 		return activationFunction;
 	}
@@ -290,6 +291,7 @@ public class ConvolutionLayer extends CNNLayer implements Serializable {
 	 * Methode qui change la fonction d'activation
 	 * @param function fonction d'activation
 	 */
+	//Simon Daze
 	public void setFunction(ActivationFunctions function) {
 		this.activationFunction = function;
 	}
@@ -299,6 +301,7 @@ public class ConvolutionLayer extends CNNLayer implements Serializable {
 	 * test de la convolution sur une layer
 	 * @param args
 	 */
+	//Simon Daze
 	public static void main(String[] args) {
 
 		Matrix[] inputs = new Matrix[1];

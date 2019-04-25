@@ -21,7 +21,6 @@ import math.Matrix;
 /**
  * Classe qui represente la structure d'un reseau de neurones
  * @author Gaya Mehenni
- * @author Simon Daze
  */
 public class NeuralNetwork implements Serializable {
 

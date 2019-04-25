@@ -11,8 +11,7 @@ import math.Matrix;
 public class SoftmaxFunction {
 
 
-	//public double getValue(double x){return x;}
-	//public DerivativeFunctions getDerivative() {return null;}
+	
 
 	/**
 	 * Applique la fonction softmax a un vecteur pour en ressortir des probabilites
@@ -92,7 +91,7 @@ public class SoftmaxFunction {
 	 * @param expected valeur attendue
 	 * @param logits matrice des outputs
 	 * @param index l'index de la valeur evaluee par rapport a la valeur attendue
-	 * @return
+	 * @return : la derivee de cross entropy evaluee a l'index
 	 */
 	public double lostFunctionDerivative(double expected, Matrix logits, int index) {
 		return (getValue(logits,index) - expected);

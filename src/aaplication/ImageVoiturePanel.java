@@ -27,12 +27,18 @@ public class ImageVoiturePanel extends JPanel{
 	private BufferedImage imageCarre;
 	private BufferedImage defaultImage;
 	 
+	/**
+	 * Constructeur
+	 */
     public ImageVoiturePanel() {
 
         defaultImage = readImg("defaultImage.png");
 
-    }// fin constructeur
+    }
  
+    /**
+     * Methode qui dessine l'image
+     */
     @Override
     public void paintComponent(Graphics g) {
 
