@@ -61,13 +61,13 @@ public class HelpWindow extends JFrame {
          
         ImageAvecDefilement panAide = new ImageAvecDefilement();
 
-        panAide.setBounds(35, 11, 800, 500);
+        panAide.setBounds(50, 0, 800, 500);
         contentPane.add(panAide);
         panAide.setFichierImage("fenetre aide prog-1.jpg");
 		
         
         btnSuivant = new JButton();
-		btnSuivant.setBounds(450, 500, 100, 50);
+		btnSuivant.setBounds(450, 500, 150, 50);
 		btnSuivant.setText("Suivant");
 		
 		//Boutons pour changer de pages
@@ -90,7 +90,7 @@ public class HelpWindow extends JFrame {
 		contentPane.add(btnSuivant);
 		
 		btnPrecedant =  new JButton();
-		btnPrecedant.setBounds(350, 500, 100, 50);
+		btnPrecedant.setBounds(300, 500, 150, 50);
 		btnPrecedant.setText("Precedant");
 		btnPrecedant.setEnabled(false);
 		btnPrecedant.addActionListener(actionPerformed -> {
