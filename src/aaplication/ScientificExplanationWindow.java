@@ -43,6 +43,9 @@ public class ScientificExplanationWindow extends JFrame{
 			});
 		}
 		
+		/**
+		 * Constructeur de la fenetre
+		 */
 		public ScientificExplanationWindow() {
 			setTitle("Scientific Explanation Window");
 			setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -63,6 +66,7 @@ public class ScientificExplanationWindow extends JFrame{
 			btnSuivant = new JButton();
 			btnSuivant.setBounds(450, 500, 150, 50);
 			btnSuivant.setText("Suivant");
+			
 			btnSuivant.addActionListener(actionPerformed -> {
 	           if(counter < COUNTER_MAX) {
 	        	   counter += 1;
@@ -89,6 +93,9 @@ public class ScientificExplanationWindow extends JFrame{
 	           }
 	           panScience.repaint();
 	        });
+			
+			
+			
 			contentPane.add(btnSuivant);
 			
 			btnPrecedant =  new JButton();
