@@ -379,6 +379,21 @@ public class CarAI extends JPanel implements Runnable{
         return a;
     }
 
+
+    public boolean isPathValid(String trainingPath) {
+
+        String back = this.trainingPath;
+        this.trainingPath = trainingPath;
+
+        try{
+            loadData();
+            return true;
+        } catch (NullPointerException e) {
+            return false;
+        }
+
+    }
+
     /**
      * Retourne le taux d'apprentissage du reseau
      * @return

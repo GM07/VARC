@@ -32,68 +32,67 @@ import math.MathTools;
  *
  * @author Simon Daze
  * @author Gaya Mehenni
- *
  */
 public class App25CarAiLRIMa extends JFrame {
 
-	// Panels
-	
-	private JPanel contentPane;
-	private JPanel panImage;
-	private JPanel panInputNumerique;
-	private JPanel panOutput;
-	private ImageVoiturePanel imageVoiture;
+    // Panels
 
-	// Constantes
-	public static final int OFFSET = 25;
-	public static final int LARGEUR_PRINCIPALE = 1200;
-	public static final int HAUTEUR_PRINCIPALE = 1000;
-	public static final int LARGEUR_PANEL_SECONDAIRE = (LARGEUR_PRINCIPALE - 15)/3;
-	public static final int HAUTEUR_PANEL_SECONDAIRE = HAUTEUR_PRINCIPALE - 8*OFFSET;
+    private JPanel contentPane;
+    private JPanel panImage;
+    private JPanel panInputNumerique;
+    private JPanel panOutput;
+    private ImageVoiturePanel imageVoiture;
 
-	// Boutons
-	private JButton btnChoixImage;
-	private JButton btnTest;
-	private JButton btnTrain;
-	private JButton btnMarque;
-	private JButton btnConvolution;
+    // Constantes
+    public static final int OFFSET = 25;
+    public static final int LARGEUR_PRINCIPALE = 1200;
+    public static final int HAUTEUR_PRINCIPALE = 1000;
+    public static final int LARGEUR_PANEL_SECONDAIRE = (LARGEUR_PRINCIPALE - 15) / 3;
+    public static final int HAUTEUR_PANEL_SECONDAIRE = HAUTEUR_PRINCIPALE - 8 * OFFSET;
 
-	// Progress bar
-	private JProgressBar progressBarTraining;
+    // Boutons
+    private JButton btnChoixImage;
+    private JButton btnTest;
+    private JButton btnTrain;
+    private JButton btnMarque;
+    private JButton btnConvolution;
 
-	// Etiquettes
-	private JLabel lblTitle;
-	private JLabel lblEpoch;
-	private JLabel lblBatch;
-	private JLabel lblOutputTitle;
-	private JLabel lblOutputVoiture;
-	private JLabel lblOutputMoto;
-	private JLabel lblOutputCamion;
-	private JLabel lblOutputFinal;
-	private JLabel lblOutputMarque;
-	private JLabel lblColorVehicle;
-	private JLabel lblColorText;
-	private JLabel lblBarProgression;
-	private JLabel lblLearningRate;
-	private JLabel lblMarque;
+    // Progress bar
+    private JProgressBar progressBarTraining;
 
-	// Spinner
-	private JSpinner spnEpoch;
-	private JSpinner spnBatch;
-	private JSpinner spnLearningRate;
+    // Etiquettes
+    private JLabel lblTitle;
+    private JLabel lblEpoch;
+    private JLabel lblBatch;
+    private JLabel lblOutputTitle;
+    private JLabel lblOutputVoiture;
+    private JLabel lblOutputMoto;
+    private JLabel lblOutputCamion;
+    private JLabel lblOutputFinal;
+    private JLabel lblOutputMarque;
+    private JLabel lblColorVehicle;
+    private JLabel lblColorText;
+    private JLabel lblBarProgression;
+    private JLabel lblLearningRate;
+    private JLabel lblMarque;
 
-	// Elements du menu
-	private JMenuBar menuBar;
+    // Spinner
+    private JSpinner spnEpoch;
+    private JSpinner spnBatch;
+    private JSpinner spnLearningRate;
 
-	private JMenu menuAide;
-	private JMenuItem menuItemHelp;
-	private JMenuItem menuItemScientificExplanations;
+    // Elements du menu
+    private JMenuBar menuBar;
 
-	private JMenu menuOptions;
-	private JMenuItem menuItemSave;
-	private JMenuItem menuItemLoad;
-	private JMenuItem menuItemQuit;
-	private JMenuItem menuItemLoadPreTrained;
+    private JMenu menuAide;
+    private JMenuItem menuItemHelp;
+    private JMenuItem menuItemScientificExplanations;
+
+    private JMenu menuOptions;
+    private JMenuItem menuItemSave;
+    private JMenuItem menuItemLoad;
+    private JMenuItem menuItemQuit;
+    private JMenuItem menuItemLoadPreTrained;
 
     private ImageIcon iconLRIMA;
     private ImageIcon iconMaisonneuve;
@@ -102,15 +101,15 @@ public class App25CarAiLRIMa extends JFrame {
     private JLabel lblM;
     private JLabel lblL;
 
-	// Fenetre secondaire
-	private HelpWindow helpWindow;
-	private ScientificExplanationWindow scientificExplanationWindow;
-	private FileWindow fileWindow;
-	private MarqueWindow marqueWindow;
-	private FileWindow datasetWindow;
-	private FileWindow saveNetworkWindow;
-	private FileWindow loadNetworkWindow;
-	private ConvolutionWindow convolutionWindow;
+    // Fenetre secondaire
+    private HelpWindow helpWindow;
+    private ScientificExplanationWindow scientificExplanationWindow;
+    private FileWindow fileWindow;
+    private MarqueWindow marqueWindow;
+    private FileWindow datasetWindow;
+    private FileWindow saveNetworkWindow;
+    private FileWindow loadNetworkWindow;
+    private ConvolutionWindow convolutionWindow;
     private WindowConsole console;
     private DessinNeuralNetwork nnDraw;
 
@@ -131,6 +130,7 @@ public class App25CarAiLRIMa extends JFrame {
 
     /**
      * Methode principale qui lance l'application
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -146,10 +146,10 @@ public class App25CarAiLRIMa extends JFrame {
         });
     }
 
-	/**
-	 * Constructeur de l'application
-	 */
-	public App25CarAiLRIMa() {
+    /**
+     * Constructeur de l'application
+     */
+    public App25CarAiLRIMa() {
 
         // Permet de changer la taille des caracteres
         UIManager.put("Label.font", new Font("Arial", Font.BOLD, 20));
@@ -180,12 +180,12 @@ public class App25CarAiLRIMa extends JFrame {
         URL urlLRIMa = getClass().getClassLoader().getResource("LRIMA.png");
         try {
             imgLRIMA = ImageIO.read(urlLRIMa).getScaledInstance(OFFSET * 4, OFFSET * 3, Image.SCALE_DEFAULT);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("L'image du logo du LRIMa n'a pas pu etre chargee");
         }
         iconLRIMA = new ImageIcon(imgLRIMA);
         lblL = new JLabel(iconLRIMA);
-        lblL.setBounds(OFFSET, OFFSET/2, OFFSET * 4, OFFSET * 3);
+        lblL.setBounds(OFFSET, OFFSET / 2, OFFSET * 4, OFFSET * 3);
         contentPane.add(lblL);
 
         // Ajout de l'icone de l'application
@@ -196,28 +196,28 @@ public class App25CarAiLRIMa extends JFrame {
         URL urlMaisonneuve = getClass().getClassLoader().getResource("maisonneuve.png");
         try {
             imgMaisonneuve = ImageIO.read(urlMaisonneuve).getScaledInstance(OFFSET * 5, OFFSET * 2, Image.SCALE_DEFAULT);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("L'image du logo de maisonneuve n'a pas pu etre chargee");
         }
         iconMaisonneuve = new ImageIcon(imgMaisonneuve);
         lblM = new JLabel(iconMaisonneuve);
-        lblM.setBounds(LARGEUR_PRINCIPALE - 2 * OFFSET - (5 * OFFSET), OFFSET/2, OFFSET * 5, OFFSET * 3);
+        lblM.setBounds(LARGEUR_PRINCIPALE - 2 * OFFSET - (5 * OFFSET), OFFSET / 2, OFFSET * 5, OFFSET * 3);
         contentPane.add(lblM);
 
-		lblTitle = new JLabel();
-		lblTitle.setBounds(LARGEUR_PRINCIPALE/2 - OFFSET/2, OFFSET,4 * OFFSET, 2 * OFFSET);
-		lblTitle.setText("VARC");
-		contentPane.add(lblTitle);
+        lblTitle = new JLabel();
+        lblTitle.setBounds(LARGEUR_PRINCIPALE / 2 - OFFSET / 2, OFFSET, 4 * OFFSET, 2 * OFFSET);
+        lblTitle.setText("VARC");
+        contentPane.add(lblTitle);
 
-		setUpMenu();
+        setUpMenu();
 
-		setUpPanelGauche();
+        setUpPanelGauche();
 
-		setUpPanelMilieu();
+        setUpPanelMilieu();
 
-		setUpPanelDroite();
+        setUpPanelDroite();
 
-		// Creation de l'objet CarAI qui contient le reseau de neurone
+        // Creation de l'objet CarAI qui contient le reseau de neurone
         carAI = new CarAI((double) spnLearningRate.getValue(), (int) spnEpoch.getValue(), (int) spnBatch.getValue());
         carAI.setBar(progressBarTraining);
         carAI.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -237,10 +237,10 @@ public class App25CarAiLRIMa extends JFrame {
 
         panImage.add(carAI);
 
-		cnnAI = new CNNAI(28);
-		convolutionWindow = new ConvolutionWindow(cnnAI);
+        cnnAI = new CNNAI(28);
+        convolutionWindow = new ConvolutionWindow(cnnAI);
 
-	}
+    }
 
     /**
      * Methode qui initialise tous les composants lies au menu
@@ -402,79 +402,59 @@ public class App25CarAiLRIMa extends JFrame {
         nnDraw.setBackground(panInputNumerique.getBackground());
         panInputNumerique.add(nnDraw);
 
-		// Fenetre qui choisit le dataset
-		datasetWindow = new FileWindow();
-		datasetWindow.setVisible(false);
-		datasetWindow.setMode("Folder");
+        // Fenetre qui choisit le dataset
+        datasetWindow = new FileWindow();
+        datasetWindow.setVisible(false);
+        datasetWindow.setMode("Folder");
 
-		//Fenetre pour la console
-		console = new WindowConsole();
-		console.setVisible(false);
+        //Fenetre pour la console
+        console = new WindowConsole();
+        console.setVisible(false);
 
         // Bouton pour entrainer
         btnTrain = new JButton();
         btnTrain.setBounds(LARGEUR_PANEL_SECONDAIRE / 2 - 8 * OFFSET / 2, 14 * OFFSET, 8 * OFFSET, 2 * OFFSET);
         btnTrain.setText("Entrainer");
         btnTrain.addActionListener(actionPerformed -> {
-
-            if (training) {
-                btnTrain.setText("Pause");
-                btnChoixImage.setEnabled(false);
-                btnTest.setEnabled(false);
-
-                // Si c'est la premiere fois qu'on l'entraine, on veut afficher la fenetre qui permet d'indiquer le chemin d'acces de la banque d'image
-                if (numberOfTraining == 0) {
-                    datasetWindow.setVisible(true);
-                } else {
-                    nnDraw.demarrer();
-                    carAI.demarrer();
-                }
-                numberOfTraining++;
-
-
-            } else {
-                btnChoixImage.setEnabled(true);
-                btnTest.setEnabled(true);
-                btnTrain.setText("Entrainer");
-                carAI.pauseTraining();
-                nnDraw.stop();
+            if (numberOfTraining == 0 && training) {
+                datasetWindow.setVisible(true);
+                training = false;
             }
 
-            training = !training;
-
+            updateTraining();
         });
 
         datasetWindow.addWindowListener(new WindowAdapter() {
 
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				try {
-
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+                try {
                     FileManager.getFoldersFromFolder(datasetWindow.getPath());
 
-					if (!datasetWindow.getPath().equals("")) {
-						carAI.setTrainingPath(datasetWindow.getPath());
-						console.setVisible(true);
-						nnDraw.demarrer();
-						carAI.demarrer();
-
-					} else {
-					    training = true;
-					    numberOfTraining = 0;
+                    if (!datasetWindow.getPath().equals("") && carAI.isPathValid(datasetWindow.getPath())) {
+                        carAI.setTrainingPath(datasetWindow.getPath());
+                        console.setVisible(true);
+                        nnDraw.demarrer();
+                        carAI.demarrer();
+                        updateTraining();
+                    } else {
+                        training = true;
+                        numberOfTraining = 0;
                         btnChoixImage.setEnabled(true);
                         btnTest.setEnabled(true);
                         btnTrain.setText("Entrainer");
                     }
-				} catch (NullPointerException n) {
-				    training = true;
+
+                } catch (NullPointerException n) {
+                    training = true;
                     btnChoixImage.setEnabled(true);
                     btnTest.setEnabled(true);
                     btnTrain.setText("Entrainer");
-				    numberOfTraining = 0;
-					System.out.println("Veuillez selectionner un chemin d'acces");
-				}
-			}
-		});
+                    numberOfTraining = 0;
+                    System.out.println("Veuillez selectionner un chemin d'acces");
+                }
+            }
+        });
 
         panInputNumerique.add(btnTrain);
 
@@ -522,15 +502,15 @@ public class App25CarAiLRIMa extends JFrame {
         btnTest.setText("Tester le reseau");
         btnTest.addActionListener(actionPerformed -> {
 
-			DecimalFormat df = new DecimalFormat("#.###");
-			double[] out = carAI.testNetwork(imageVoiture.getImage());
-			SoftmaxFunction sf = new SoftmaxFunction();
-			out[0] = sf.getValue(out, 0);
-			out[1] = sf.getValue(out, 1);
-			out[2] = sf.getValue(out, 2);
-			lblOutputVoiture.setText("Possibilite voiture : " + df.format(out[0] * 100) + "%");
-			lblOutputMoto.setText("Possibilite moto : " + df.format(out[1] * 100) + "%");
-			lblOutputCamion.setText("Possibilite camion : " + df.format(out[2] * 100) + "%");
+            DecimalFormat df = new DecimalFormat("#.###");
+            double[] out = carAI.testNetwork(imageVoiture.getImage());
+            SoftmaxFunction sf = new SoftmaxFunction();
+            out[0] = sf.getValue(out, 0);
+            out[1] = sf.getValue(out, 1);
+            out[2] = sf.getValue(out, 2);
+            lblOutputVoiture.setText("Possibilite voiture : " + df.format(out[0] * 100) + "%");
+            lblOutputMoto.setText("Possibilite moto : " + df.format(out[1] * 100) + "%");
+            lblOutputCamion.setText("Possibilite camion : " + df.format(out[2] * 100) + "%");
 
             int index = MathTools.getHighestIndex(out);
             if (index == 0) {
@@ -543,18 +523,18 @@ public class App25CarAiLRIMa extends JFrame {
 
             double[] output = cnnAI.feedForward(imageVoiture.getImage());
 
-			System.out.println(Arrays.toString(output));
-			int i = MathTools.getHighestIndex(output);
-			if (i == 0) {
-				lblMarque.setText("Marque : BMW");
-				marqueWindow.getMarque().setFichierImage("Marque- BMW-1.jpg");
-			} else if (i == 1) {
-				lblMarque.setText("Marque : Chevrolet");
-				marqueWindow.getMarque().setFichierImage("Marque-chevrolet-1.jpg");
-			} else {
-				lblMarque.setText("Marque : Toyota");
-				marqueWindow.getMarque().setFichierImage("Marque- toyota-1.jpg");
-			}
+            System.out.println(Arrays.toString(output));
+            int i = MathTools.getHighestIndex(output);
+            if (i == 0) {
+                lblMarque.setText("Marque : BMW");
+                marqueWindow.getMarque().setFichierImage("Marque- BMW-1.jpg");
+            } else if (i == 1) {
+                lblMarque.setText("Marque : Chevrolet");
+                marqueWindow.getMarque().setFichierImage("Marque-chevrolet-1.jpg");
+            } else {
+                lblMarque.setText("Marque : Toyota");
+                marqueWindow.getMarque().setFichierImage("Marque- toyota-1.jpg");
+            }
 
             repaint();
             convolutionWindow.repaint();
@@ -652,6 +632,36 @@ public class App25CarAiLRIMa extends JFrame {
             convolutionWindow.repaint();
         });
         panOutput.add(btnConvolution);
+    }
+
+    /**
+     * Methode qui s'occupe de faire les changements pour l'entrainement
+     */
+    public void updateTraining() {
+        if (training) {
+            btnTrain.setText("Pause");
+            btnChoixImage.setEnabled(false);
+            btnTest.setEnabled(false);
+
+            // Si c'est la premiere fois qu'on l'entraine, on veut afficher la fenetre qui permet d'indiquer le chemin d'acces de la banque d'image
+            if (numberOfTraining == 0) {
+                //datasetWindow.setVisible(true);
+            } else {
+                nnDraw.demarrer();
+                carAI.demarrer();
+            }
+            numberOfTraining++;
+
+
+        } else {
+            btnChoixImage.setEnabled(true);
+            btnTest.setEnabled(true);
+            btnTrain.setText("Entrainer");
+            carAI.pauseTraining();
+            nnDraw.stop();
+        }
+
+        training = !training;
     }
 
 }

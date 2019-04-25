@@ -1,15 +1,13 @@
 package aaplication;
 
-import java.awt.EventQueue;
+import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
+
 /**
  * Fenêtre qui montre la console : (elle est redirige dans cette fenetre)
  * @author Simon Daze
@@ -17,14 +15,11 @@ import javax.swing.JScrollPane;
  */
 public class WindowConsole extends JFrame{
 
-
-
 	//panels
-	JPanel contentPane;
+	private JPanel contentPane;
 
-	//
+	private JTextArea console;
 
-	JTextArea console;
 	//constantes
 	private final int LARGEUR_PRINCIPALE = 900;
 	private final int HAUTEUR_PRINCIPALE = 600;
@@ -53,7 +48,7 @@ public class WindowConsole extends JFrame{
 		setBounds(300,300,LARGEUR_PRINCIPALE,HAUTEUR_PRINCIPALE);
 
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -62,9 +57,9 @@ public class WindowConsole extends JFrame{
 		contentPane.add(scrollPane);
 
 		console = new JTextArea();
+		console.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		scrollPane.setViewportView(console);
 
-		
 		OutputStream out = new OutputStream() {
 			@
 			Override
