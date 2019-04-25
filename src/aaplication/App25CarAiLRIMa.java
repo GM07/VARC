@@ -155,7 +155,7 @@ public class App25CarAiLRIMa extends JFrame {
         path = getClass().getClassLoader().getResource("network_saves/trained_neural_network.dat").getPath();
 
         // Creation de la fenetre
-        setTitle("CarAI-LRIMA");
+        setTitle("VARC");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(LARGEUR_PRINCIPALE, HAUTEUR_PRINCIPALE);
         setLocationRelativeTo(null);
@@ -180,7 +180,7 @@ public class App25CarAiLRIMa extends JFrame {
 
 		lblTitle = new JLabel();
 		lblTitle.setBounds(LARGEUR_PRINCIPALE/2 - OFFSET/2, OFFSET,4 * OFFSET, 2 * OFFSET);
-		lblTitle.setText("CarAI");
+		lblTitle.setText("VARC");
 		contentPane.add(lblTitle);
 
 		setUpMenu();
@@ -516,19 +516,19 @@ public class App25CarAiLRIMa extends JFrame {
                 lblOutputFinal.setText("Decision du reseau : Camion");
             }
 
-            double[] output = cnnAI.feedForward(imageVoiture.getImage());
+            double[] output = cnnAI.feedForward(imageVoiture.getImage()); 
 
 			System.out.println(Arrays.toString(output));
 			int i = MathTools.getHighestIndex(output);
 			if (i == 0) {
 				lblMarque.setText("Marque : BMW");
-				marqueWindow.setMarque("Marque- BMW-1");
+				marqueWindow.getMarque().setFichierImage("Marque- BMW-1.jpg");
 			} else if (i == 1) {
 				lblMarque.setText("Marque : Chevrolet");
-				marqueWindow.setMarque("Marque-chevrolet-1");
+				marqueWindow.getMarque().setFichierImage("Marque-chevrolet-1.jpg");
 			} else {
 				lblMarque.setText("Marque : Toyota");
-				marqueWindow.setMarque("Marque- toyota-1");
+				marqueWindow.getMarque().setFichierImage("Marque- toyota-1.jpg");
 			}
 
             repaint();

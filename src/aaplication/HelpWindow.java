@@ -44,6 +44,9 @@ public class HelpWindow extends JFrame {
 			}
 		});
 	}
+	/**
+	 * Constructeur de la fenêtre
+	 */
 	
 	public HelpWindow() {
 		setTitle("Aide");
@@ -66,11 +69,11 @@ public class HelpWindow extends JFrame {
         btnSuivant = new JButton();
 		btnSuivant.setBounds(450, 500, 100, 50);
 		btnSuivant.setText("Suivant");
+		
+		//Boutons pour changer de pages
 		btnSuivant.addActionListener(actionPerformed -> {
            if(counter < counterMax) {
         	   counter += 1;
-           }else {
-        	   JOptionPane.showMessageDialog(null,"Pas d'autres fenetres d'explications");
            }
 			
            switch( counter){
@@ -79,6 +82,8 @@ public class HelpWindow extends JFrame {
            break;
            case 2:
         	   panAide.setFichierImage("fenetre aide prog-2.jpg");
+        	   btnPrecedant.setEnabled(true);
+        	   btnSuivant.setEnabled(false);
            }
            panAide.repaint();
         });
@@ -87,19 +92,24 @@ public class HelpWindow extends JFrame {
 		btnPrecedant =  new JButton();
 		btnPrecedant.setBounds(350, 500, 100, 50);
 		btnPrecedant.setText("Precedant");
+		btnPrecedant.setEnabled(false);
 		btnPrecedant.addActionListener(actionPerformed -> {
            if(counter > 1) {
         	   counter -= 1;
-           }else {
-        	   JOptionPane.showMessageDialog(null,"Pas d'autres fenetres d'explications");
+          
            }
 			
            switch( counter){
            case 1 :
         	   panAide.setFichierImage("fenetre aide prog-1.jpg");
+        	   btnPrecedant.setEnabled(false);
+        	   btnSuivant.setEnabled(true);
            break;
            case 2:
         	   panAide.setFichierImage("fenetre aide prog-2.jpg");
+        	   btnPrecedant.setEnabled(true);
+        	   btnSuivant.setEnabled(false);
+        	   break;
            }
            panAide.repaint();
         });

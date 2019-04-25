@@ -59,14 +59,13 @@ public class ScientificExplanationWindow extends JFrame{
 			contentPane.add(panScience);
 			panScience.setFichierImage("Concepts scientifiques-1.jpg");
 			
+			//Boutons pour changer de pages
 			btnSuivant = new JButton();
 			btnSuivant.setBounds(450, 500, 100, 50);
 			btnSuivant.setText("Suivant");
 			btnSuivant.addActionListener(actionPerformed -> {
 	           if(counter < COUNTER_MAX) {
 	        	   counter += 1;
-	           }else {
-	        	   JOptionPane.showMessageDialog(null,"Pas d'autres fenetres d'explications");
 	           }
 				
 	           switch( counter){
@@ -75,6 +74,7 @@ public class ScientificExplanationWindow extends JFrame{
 	           break;
 	           case 2:
 	        	   panScience.setFichierImage("Concepts scientifiques-2.jpg");
+	        	   btnPrecedant.setEnabled(true);
 	        	   break;
 	           case 3: 
 	        	   panScience.setFichierImage("Concepts scientifiques-3.jpg");
@@ -84,6 +84,7 @@ public class ScientificExplanationWindow extends JFrame{
 	        	   break;
 	           case 5: 
 	        	   panScience.setFichierImage("Concepts scientifiques-5.jpg");
+	        	   btnSuivant.setEnabled(false);
 	        	   break;
 	           }
 	           panScience.repaint();
@@ -93,24 +94,27 @@ public class ScientificExplanationWindow extends JFrame{
 			btnPrecedant =  new JButton();
 			btnPrecedant.setBounds(350, 500, 100, 50);
 			btnPrecedant.setText("Precedant");
+			btnPrecedant.setEnabled(false);
 			btnPrecedant.addActionListener(actionPerformed -> {
 	           if(counter > 1) {
 	        	   counter -= 1;
-	           }else {
-	        	   JOptionPane.showMessageDialog(null,"Pas d'autres fenetres d'explications");
+	           
 	           }
 				
 	           switch( counter){
 	           case 1 :
 	        	   panScience.setFichierImage("Concepts scientifiques-1.jpg");
+	        	   btnPrecedant.setEnabled(false);
 	           break;
 	           case 2:
 	        	   panScience.setFichierImage("Concepts scientifiques-2.jpg");
+	        	   break;
 	           case 3: 
 	        	   panScience.setFichierImage("Concepts scientifiques-3.jpg");
 	        	   break;
 	           case 4: 
 	        	   panScience.setFichierImage("Concepts scientifiques-4.jpg");
+	        	   btnSuivant.setEnabled(true);
 	        	   break;
 	           case 5: 
 	        	   panScience.setFichierImage("Concepts scientifiques-5.jpg");

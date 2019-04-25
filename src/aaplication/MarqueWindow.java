@@ -42,9 +42,10 @@ public class MarqueWindow extends JFrame{
 		 marque = new ImageAvecDefilement();
 		
 		marque.setBounds(50, 50, 800, 500);
+		marque.setFichierImage( marqueTxt+".jpg");
 		contentPane.add(marque);
 		
-		marque.setFichierImage( marqueTxt+".jpg");
+		
 		
 		
 	}
@@ -56,5 +57,13 @@ public class MarqueWindow extends JFrame{
 	public void setMarque(String marqueT) {
 		this.marqueTxt = marqueT;
 		marque.repaint();
+	}
+	
+	/**
+	 * retourne l'objet qui contient l'image des informarions sur les marques
+	 * @return marque : l'objet sur les infos des marques
+	 */
+	public ImageAvecDefilement getMarque() {
+		return this.marque;
 	}
 }
