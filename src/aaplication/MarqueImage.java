@@ -22,6 +22,9 @@ public class MarqueImage extends JPanel {
 
 		private BufferedImage img = null;
 		 
+		/**
+		 * Constructeur de la fenetre
+		 */
 	    public MarqueImage() {
 	    	setBounds(100, 100, 300, 300);
 	        setBackground(Color.BLACK);

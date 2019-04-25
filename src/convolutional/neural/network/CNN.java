@@ -136,7 +136,7 @@ public class CNN implements Serializable {
 	}
 	/**
 	 * Methode qui sauvegarde un reseau de convolution
-	 * @param path
+	 * @param path le nom du fichier de sauvegarde du reseau
 	 */
 	// Simon Daze
 	public void saveNetwork(String path) {
@@ -209,6 +209,7 @@ public class CNN implements Serializable {
 	 * Retourne le nombre de couches du reseau
 	 * @return le nombre de layers
 	 */
+	//Simon Daze
 	public int getNbLayers() {
 		return nbLayers;
 	}
@@ -216,6 +217,7 @@ public class CNN implements Serializable {
 	 * Modifie le nombre de layers
 	 * @param nbLayers : le nouveau nombre de layers
 	 */ 
+	//Simon Daze
 	public void setNbLayers(int nbLayers) {
 		this.nbLayers = nbLayers;
 	}
@@ -223,6 +225,7 @@ public class CNN implements Serializable {
 	 * return le arraylisyt contenant toutes les layers
 	 * @return le arraylisyt contenant toutes les layers
 	 */
+	//Simon Daze
 	public ArrayList<CNNLayer> getLayers() {
 		return layers;
 	}
@@ -230,6 +233,7 @@ public class CNN implements Serializable {
 	 * Permet de modifier le arraylisyt contenant toutes les layers
 	 * @param layers : le nouveau arraylisyt contenant toutes les layers
 	 */
+	//Simon Daze
 	public void setLayers(ArrayList<CNNLayer> layers) {
 		this.layers = layers;
 	}
@@ -237,6 +241,7 @@ public class CNN implements Serializable {
 	 * Retourne les inputs du reseau
 	 * @return le tableau de matrices des inputs
 	 */
+	//Simon Daze
 	public Matrix[] getInputs() {
 		return inputs;
 	}
@@ -244,6 +249,7 @@ public class CNN implements Serializable {
 	 * initialise les inputs du reseau
 	 * @param inputs : le tableau de matrices a mettre en inputs du reseau
 	 */
+	//Simon Daze
 	public void setInputs(Matrix[] inputs) {
 		this.inputs = inputs;
 	}
@@ -252,6 +258,7 @@ public class CNN implements Serializable {
 	 * Methode qui retourne la fonction d'activation du reseau
 	 * @return fonction d'activation
 	 */
+	//Simon Daze
 	public ActivationFunctions getActivationFunction() {
 		return activationFunction;
 	}
@@ -260,6 +267,7 @@ public class CNN implements Serializable {
 	 * Methode qui change la fonction d'activation du reseau
 	 * @param activationFunction fonction d'activation reseau
 	 */
+	//Simon Daze
 	public void setActivationFunction(ActivationFunctions activationFunction) {
 		this.activationFunction = activationFunction;
 	}
@@ -268,6 +276,7 @@ public class CNN implements Serializable {
 	 * Methode qui retourne le taux d'apprentissage
 	 * @return taux d'apprentissage
 	 */
+	//Simon Daze
 	public double getLearningRate() {
 		return learningRate;
 	}
@@ -276,6 +285,7 @@ public class CNN implements Serializable {
 	 * Methode qui change le taux d'apprentissage
 	 * @param learningRate taux d'apprentissage
 	 */
+	//Simon Daze
 	public void setLearningRate(double learningRate) {
 		this.learningRate = learningRate;
 	}
@@ -284,6 +294,7 @@ public class CNN implements Serializable {
 	 * Methode qui retourne les sorties sur reseau
 	 * @return sorties
 	 */
+	//Simon Daze
 	public Matrix getOutputs() {
 		return outputs;
 	}
@@ -292,6 +303,7 @@ public class CNN implements Serializable {
 	 * Methode qui change les sorties sur reseau
 	 * @param outputs sorties
 	 */
+	//Simon Daze
 	public void setOutputs(Matrix outputs) {
 		this.outputs = outputs;
 	}

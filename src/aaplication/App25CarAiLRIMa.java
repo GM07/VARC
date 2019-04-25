@@ -32,6 +32,7 @@ import math.MathTools;
  *
  * @author Simon Daze
  * @author Gaya Mehenni
+ *
  */
 public class App25CarAiLRIMa extends JFrame {
 
@@ -130,7 +131,6 @@ public class App25CarAiLRIMa extends JFrame {
 
     /**
      * Methode principale qui lance l'application
-     *
      * @param args
      */
     public static void main(String[] args) {
@@ -146,10 +146,11 @@ public class App25CarAiLRIMa extends JFrame {
         });
     }
 
-    /**
-     * Constructeur de l'application
-     */
-    public App25CarAiLRIMa() {
+	/**
+	 * Constructeur de l'application
+	 */
+    //Gaya Mehenni
+	public App25CarAiLRIMa() {
 
         // Permet de changer la taille des caracteres
         UIManager.put("Label.font", new Font("Arial", Font.BOLD, 20));
@@ -185,7 +186,7 @@ public class App25CarAiLRIMa extends JFrame {
         }
         iconLRIMA = new ImageIcon(imgLRIMA);
         lblL = new JLabel(iconLRIMA);
-        lblL.setBounds(OFFSET, OFFSET / 2, OFFSET * 4, OFFSET * 3);
+        lblL.setBounds(OFFSET, OFFSET/2, OFFSET * 4, OFFSET * 3);
         contentPane.add(lblL);
 
         // Ajout de l'icone de l'application
@@ -245,6 +246,7 @@ public class App25CarAiLRIMa extends JFrame {
     /**
      * Methode qui initialise tous les composants lies au menu
      */
+	//Simon Daze
     private void setUpMenu() {
 
         // Barre de menu
@@ -334,6 +336,7 @@ public class App25CarAiLRIMa extends JFrame {
     /**
      * Methode qui initialise tous les composants du panel de gauche
      */
+    //Gaya Mehenni
     private void setUpPanelGauche() {
 
         // Panel de gauche avec image a tester
@@ -386,6 +389,7 @@ public class App25CarAiLRIMa extends JFrame {
     /**
      * Methode qui initialise tous les composants du panel du milieu
      */
+    //Simon Daze
     private void setUpPanelMilieu() {
 
         // Panel du milieu avec les donnees d'entree
@@ -558,6 +562,7 @@ public class App25CarAiLRIMa extends JFrame {
     /**
      * Methode qui initialise tous les composants du panel de droite
      */
+    //Simon Daze
     private void setUpPanelDroite() {
 
         // Panel de droite avec les donnees de sortie

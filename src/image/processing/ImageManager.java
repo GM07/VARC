@@ -16,6 +16,7 @@ import math.Matrix;
 /**
  * Classe qui permet de manipuler des images pour les adapter au reseau de neurones
  * @author Gaya Mehenni
+ * @author Simon Daze
  */
 public class ImageManager {
 
@@ -25,6 +26,7 @@ public class ImageManager {
 	 * @return tableau des valeurs rgb
 	 * @throws IOException
 	 */
+	//Gaya Mehenni
 	public static double[] convertRGB(BufferedImage img) throws IOException {
 		BufferedImage bi = img;
 
@@ -48,6 +50,7 @@ public class ImageManager {
 	 * @return tableau a 2 dimensions
 	 * @throws IOException
 	 */
+	//Gaya Mehenni
 	public static double[][][] convertRGB2D(BufferedImage img) throws IOException {
 		double values[][][] = new double[3][img.getWidth()][img.getHeight()];
 
@@ -72,6 +75,7 @@ public class ImageManager {
 	 * @return tableau des valeurs
 	 * @throws IOException
 	 */
+	//Gaya Mehenni
 	public static double[] convertGreyValues(BufferedImage img) throws IOException {
 		
 		BufferedImage bi = img;
@@ -97,6 +101,7 @@ public class ImageManager {
 	 * @param imageSize taille
 	 * @return image carre
 	 */
+	//Gaya Mehenni
 	public static BufferedImage getSquaredImage(BufferedImage img, int imageSize) {
 
 		BufferedImage bimage = new BufferedImage(imageSize, imageSize, BufferedImage.TYPE_INT_ARGB_PRE);
@@ -116,6 +121,7 @@ public class ImageManager {
 	 * @param y position en y
 	 * @return valeurs rgb
 	 */
+	//Gaya Mehenni
 	public static double[] getPixelData(BufferedImage img, int x, int y) {
 		int argb = img.getRGB(x, y);
 
@@ -135,6 +141,7 @@ public class ImageManager {
 	 * @param img image a analyser
 	 * @return tableau rgb de la couleur moyenne
 	 */
+	//Gaya Mehenni
 	public static double[] getAverageColor(BufferedImage img) {
 
 		double[] rgbValues = new double[3];
@@ -166,6 +173,7 @@ public class ImageManager {
 	 * @param img image
 	 * @return tableau des valeurs rgb moyennes
 	 */
+	//Gaya Mehenni
 	public static double[] getAverageColorFromMiddle(BufferedImage img) {
 
 		double[] rgbValues = new double[3];
@@ -206,7 +214,7 @@ public class ImageManager {
 	 * @param img l'image
 	 * @return la couleur moyenne u centre de l'image
 	 */
-	
+	//Simon Daze
 	public static double[] getColorImageCenter(BufferedImage img) {
 		double rgbValues[] = new double[3];
 		double dx;
@@ -246,6 +254,7 @@ public class ImageManager {
 	 * @param m matrice qui doit etre transformee
 	 * @return image de la matrice
 	 */
+	//Gaya Mehenni
 	public static BufferedImage transformMatrixToImage(Matrix m) {
 
 		BufferedImage img = new BufferedImage(m.getROWS(), m.getCOLS(), BufferedImage.TYPE_INT_ARGB);
@@ -270,6 +279,7 @@ public class ImageManager {
 	 * @param path chemin de l'image
 	 * @return l'image du chemin
 	 */
+	//Gaya Mehenni
 	public static BufferedImage getImageFromPath(String path) {
 		BufferedImage img = null;
 		try {
