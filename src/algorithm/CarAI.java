@@ -380,6 +380,11 @@ public class CarAI extends JPanel implements Runnable{
     }
 
 
+    /**
+     * Methode qui verifie si un chemin d'acces est valide pour l'entrainement
+     * @param trainingPath chemin d'acces
+     * @return valeur booleenne qui dit si le chemin d'acces est valide ou pas
+     */
     public boolean isPathValid(String trainingPath) {
 
         String back = this.trainingPath;

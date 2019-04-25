@@ -458,7 +458,7 @@ public class App25CarAiLRIMa extends JFrame {
 
         panInputNumerique.add(btnTrain);
 
-        // Label qui affiche le texte sur le nombre d'Epoch
+        // Label qui affiche le texte sur le nombre d'epoch
         lblEpoch = new JLabel("Nombre d'epoch : ", SwingConstants.CENTER);
         lblEpoch.setBounds(LARGEUR_PANEL_SECONDAIRE / 2 - 8 * OFFSET / 2, 16 * OFFSET, 8 * OFFSET, 2 * OFFSET);
         panInputNumerique.add(lblEpoch);
