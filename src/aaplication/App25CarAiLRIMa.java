@@ -88,6 +88,7 @@ public class App25CarAiLRIMa extends JFrame {
 	private JMenu menuAide;
 	private JMenuItem menuItemHelp;
 	private JMenuItem menuItemScientificExplanations;
+	private JMenuItem menuItemAPropos;
 
 	private JMenu menuOptions;
 	private JMenuItem menuItemSave;
@@ -331,6 +332,11 @@ public class App25CarAiLRIMa extends JFrame {
         });
         menuAide.add(menuItemScientificExplanations);
 
+        menuItemAPropos = new JMenuItem("A Propos");
+        menuItemAPropos.addActionListener(actionPerformed -> {
+            JOptionPane.showMessageDialog(null,"Auteurs : Simon Daze et Gaya Mehenni." + "\n" +"Projet realise dans le cadre du cours SCD et remis le 29 avril 2019" );
+        });
+        menuAide.add(menuItemAPropos);
     }
 
     /**
