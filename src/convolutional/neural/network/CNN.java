@@ -2,13 +2,18 @@ package convolutional.neural.network;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.swing.JOptionPane;
 
 import functions.ActivationFunctions;
 import math.MathTools;
@@ -160,7 +165,7 @@ public class CNN implements Serializable {
 	 */
 	// Simon Daze
 	public static CNN loadNetwork(String path){
-		try {
+		/*try {
 			File f = new File(path);
 			FileInputStream fis = new FileInputStream(f);
 			ObjectInputStream ois = new ObjectInputStream(fis);
@@ -174,7 +179,55 @@ public class CNN implements Serializable {
 		} catch (ClassNotFoundException e) {
 			System.out.println("La classe n'a pas ete trouvee");
 			return null;
+		}*/
+		ObjectInputStream ois=null;
+		InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(path);
+		
+		if (is == null) {
+			JOptionPane.showMessageDialog(null, "Incapable de trouver ce fichier dans le BuildPath (ou dans le jar exécutable) " + path );
+			return null;
 		}
+
+
+		 //ce fichier a été conçu d'avance et placé dans un dossier qui fait partie du Build Path
+		try {
+			 ois = new ObjectInputStream(is);
+			 //on lit d'un coup un objet stocké dans le fichier
+			CNN cnn = (CNN) ois.readObject(); 
+			 JOptionPane.showMessageDialog(null, "Lecture du fichier " + path + " avec succès. ");
+	
+			 return cnn;
+			
+		}catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null,"L'objet lu est d'une classe inconnue");
+			e.printStackTrace();
+			return null;
+		}
+		catch (InvalidClassException e) {
+			JOptionPane.showMessageDialog(null,"Les classes utilisées pour l'écriture et la lecture diffèrent!");
+			e.printStackTrace();
+			return null;
+		}
+		catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "Fichier " + path + "  introuvable!");
+			return null;
+		}
+		
+		catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Erreur rencontree lors de la lecture " + path);
+			e.printStackTrace();
+			return null;
+		}
+		
+		finally {
+			//on exécutera toujours ceci, erreur ou pas
+		  	try { 
+		  		ois.close();
+		  	}
+		    catch (IOException e) { 
+		    	System.out.println("Erreur rencontrée lors de la fermeture!"); 
+		    }
+		}//fin finally
 	}
 
 	/**

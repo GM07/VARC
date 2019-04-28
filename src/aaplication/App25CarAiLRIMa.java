@@ -158,7 +158,7 @@ public class App25CarAiLRIMa extends JFrame {
         UIManager.put("MenuItem.font ", new Font("Arial", Font.BOLD, 20));
         UIManager.put("Button.font", new Font("Arial", Font.BOLD, 20));
 
-        path = getClass().getClassLoader().getResource("network_saves/trained_neural_network.dat").getPath();
+        path = "network_saves/trained_neural_network.dat";
 
         // Creation de la fenetre
         setTitle("VARC");
