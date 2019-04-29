@@ -30,7 +30,7 @@ public class AveragePoolingLayer extends CNNLayer implements Serializable{
 
 
     /**
-     * Operation de cete couche : le average pooling
+     * Operation de cette couche : le average pooling
      */
     @Override
     public Matrix[] operation() {

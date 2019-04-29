@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 /**
- * Fenetre d'aide et d'explocation du fonctionnement de l'application
+ * Fenetre d'aide et d'explication du fonctionnement de l'application
  * @author Simon Daze
  *
  */

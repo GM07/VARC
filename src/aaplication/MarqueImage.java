@@ -31,6 +31,10 @@ public class MarqueImage extends JPanel {
 	        readImg("marque1.jpg");
 	 
 	    }// fin constructeur
+	    
+	    /**
+	     * Redefinition du paint component
+	     */
 	 
 	    @Override
 	    public void paintComponent(Graphics g) {

@@ -7,6 +7,11 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+/**
+ * Dessin d'un reseau de neurone
+ * @author Gaya Mehenni
+ *
+ */
 public class DrawableNeuralNetwork implements Dessinable {
 
     private DrawableNeuron[][] neurons;
@@ -14,6 +19,9 @@ public class DrawableNeuralNetwork implements Dessinable {
     private int[] layers;
     private int tailleX, tailleY, posX, posY;
 
+    /**
+     * constructeur du dessin
+     */
     public DrawableNeuralNetwork(int posX, int posY, int tailleX, int tailleY, int... layers) {
 
         this.posX = posX;
@@ -79,6 +87,9 @@ public class DrawableNeuralNetwork implements Dessinable {
         }
     }
 
+    /**
+     * dessin du reseau
+     */
     public void dessiner(Graphics2D g2d) {
 
         AffineTransform backup = new AffineTransform(g2d.getTransform());

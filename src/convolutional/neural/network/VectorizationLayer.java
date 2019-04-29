@@ -23,6 +23,7 @@ public class VectorizationLayer extends CNNLayer {
      * @param inputs : les entrees de la couche
      * @param inputSize  : la dimension des matrices d'entrees
      */
+    //Simon Daze
     public VectorizationLayer(Matrix[] inputs, int inputSize) {
         this.inputs = inputs;
         this.numberOfMatrices = inputs.length;
