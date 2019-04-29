@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Classe de test pour trouver l'efficacite du reseau de neurone
+ * Classe de test pour trouver l'efficacite du reseau de neurones
  * @author Gaya Mehenni
  */
 public class CarAlgorithm {
