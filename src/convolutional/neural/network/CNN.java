@@ -194,7 +194,7 @@ public class CNN implements Serializable {
 			 ois = new ObjectInputStream(is);
 			 //on lit d'un coup un objet stocké dans le fichier
 			CNN cnn = (CNN) ois.readObject(); 
-			 JOptionPane.showMessageDialog(null, "Lecture du fichier " + path + " avec succès. ");
+			 //JOptionPane.showMessageDialog(null, "Lecture du fichier " + path + " avec succès. ");
 	
 			 return cnn;
 			

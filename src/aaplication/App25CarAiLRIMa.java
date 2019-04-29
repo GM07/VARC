@@ -525,26 +525,30 @@ public class App25CarAiLRIMa extends JFrame {
             int index = MathTools.getHighestIndex(out);
             if (index == 0) {
                 lblOutputFinal.setText("Decision du reseau : Voiture");
+                
+                double[] output = cnnAI.feedForward(imageVoiture.getImage());
+
+                //System.out.println(Arrays.toString(output));
+                int i = MathTools.getHighestIndex(output);
+                if (i == 0) {
+                    lblMarque.setText("Marque : BMW");
+                    marqueWindow.getMarque().setFichierImage("Marque- BMW-1.jpg");
+                } else if (i == 1) {
+                    lblMarque.setText("Marque : Chevrolet");
+                    marqueWindow.getMarque().setFichierImage("Marque-chevrolet-1.jpg");
+                } else {
+                    lblMarque.setText("Marque : Toyota");
+                    marqueWindow.getMarque().setFichierImage("Marque- toyota-1.jpg");
+                }
             } else if (index == 1) {
                 lblOutputFinal.setText("Decision du reseau : Moto");
+                lblMarque.setText("Marque : aucune marque");
             } else {
                 lblOutputFinal.setText("Decision du reseau : Camion");
+                lblMarque.setText("Marque : aucune marque");
             }
 
-            double[] output = cnnAI.feedForward(imageVoiture.getImage());
 
-            System.out.println(Arrays.toString(output));
-            int i = MathTools.getHighestIndex(output);
-            if (i == 0) {
-                lblMarque.setText("Marque : BMW");
-                marqueWindow.getMarque().setFichierImage("Marque- BMW-1.jpg");
-            } else if (i == 1) {
-                lblMarque.setText("Marque : Chevrolet");
-                marqueWindow.getMarque().setFichierImage("Marque-chevrolet-1.jpg");
-            } else {
-                lblMarque.setText("Marque : Toyota");
-                marqueWindow.getMarque().setFichierImage("Marque- toyota-1.jpg");
-            }
 
             repaint();
             convolutionWindow.repaint();
