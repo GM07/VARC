@@ -25,7 +25,7 @@ public class CNNAI extends JPanel {
     public CNNAI(int imageSize) {
 
         this.imageSize = imageSize;
-        cnn = CNN.loadNetwork(getClass().getClassLoader().getResource(loadingPath).getPath());
+        cnn = CNN.loadNetwork(loadingPath);
 
     }
 

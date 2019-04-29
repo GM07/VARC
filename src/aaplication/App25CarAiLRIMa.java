@@ -85,9 +85,10 @@ public class App25CarAiLRIMa extends JFrame {
     // Elements du menu
     private JMenuBar menuBar;
 
-    private JMenu menuAide;
-    private JMenuItem menuItemHelp;
-    private JMenuItem menuItemScientificExplanations;
+	private JMenu menuAide;
+	private JMenuItem menuItemHelp;
+	private JMenuItem menuItemScientificExplanations;
+	private JMenuItem menuItemAPropos;
 
     private JMenu menuOptions;
     private JMenuItem menuItemSave;
@@ -157,7 +158,7 @@ public class App25CarAiLRIMa extends JFrame {
         UIManager.put("MenuItem.font ", new Font("Arial", Font.BOLD, 20));
         UIManager.put("Button.font", new Font("Arial", Font.BOLD, 20));
 
-        path = getClass().getClassLoader().getResource("network_saves/trained_neural_network.dat").getPath();
+        path = "network_saves/trained_neural_network.dat";
 
         // Creation de la fenetre
         setTitle("VARC");
@@ -197,28 +198,28 @@ public class App25CarAiLRIMa extends JFrame {
         URL urlMaisonneuve = getClass().getClassLoader().getResource("maisonneuve.png");
         try {
             imgMaisonneuve = ImageIO.read(urlMaisonneuve).getScaledInstance(OFFSET * 5, OFFSET * 2, Image.SCALE_DEFAULT);
-        } catch (IOException e) {
+        } catch (IOException e){
             System.out.println("L'image du logo de maisonneuve n'a pas pu etre chargee");
         }
         iconMaisonneuve = new ImageIcon(imgMaisonneuve);
         lblM = new JLabel(iconMaisonneuve);
-        lblM.setBounds(LARGEUR_PRINCIPALE - 2 * OFFSET - (5 * OFFSET), OFFSET / 2, OFFSET * 5, OFFSET * 3);
+        lblM.setBounds(LARGEUR_PRINCIPALE - 2 * OFFSET - (5 * OFFSET), OFFSET/2, OFFSET * 5, OFFSET * 3);
         contentPane.add(lblM);
 
-        lblTitle = new JLabel();
-        lblTitle.setBounds(LARGEUR_PRINCIPALE / 2 - OFFSET / 2, OFFSET, 4 * OFFSET, 2 * OFFSET);
-        lblTitle.setText("VARC");
-        contentPane.add(lblTitle);
+		lblTitle = new JLabel();
+		lblTitle.setBounds(LARGEUR_PRINCIPALE/2 - OFFSET/2, OFFSET,4 * OFFSET, 2 * OFFSET);
+		lblTitle.setText("VARC");
+		contentPane.add(lblTitle);
 
-        setUpMenu();
+		setUpMenu();
 
-        setUpPanelGauche();
+		setUpPanelGauche();
 
-        setUpPanelMilieu();
+		setUpPanelMilieu();
 
-        setUpPanelDroite();
+		setUpPanelDroite();
 
-        // Creation de l'objet CarAI qui contient le reseau de neurone
+		// Creation de l'objet CarAI qui contient le reseau de neurone
         carAI = new CarAI((double) spnLearningRate.getValue(), (int) spnEpoch.getValue(), (int) spnBatch.getValue());
         carAI.setBar(progressBarTraining);
         carAI.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -238,10 +239,10 @@ public class App25CarAiLRIMa extends JFrame {
 
         panImage.add(carAI);
 
-        cnnAI = new CNNAI(28);
-        convolutionWindow = new ConvolutionWindow(cnnAI);
+		cnnAI = new CNNAI(28);
+		convolutionWindow = new ConvolutionWindow(cnnAI);
 
-    }
+	}
 
     /**
      * Methode qui initialise tous les composants lies au menu
@@ -331,6 +332,11 @@ public class App25CarAiLRIMa extends JFrame {
         });
         menuAide.add(menuItemScientificExplanations);
 
+        menuItemAPropos = new JMenuItem("A Propos");
+        menuItemAPropos.addActionListener(actionPerformed -> {
+            JOptionPane.showMessageDialog(null,"Auteurs : Simon Daze et Gaya Mehenni." + "\n" +"Projet realise dans le cadre du cours SCD et remis le 29 avril 2019" );
+        });
+        menuAide.add(menuItemAPropos);
     }
 
     /**

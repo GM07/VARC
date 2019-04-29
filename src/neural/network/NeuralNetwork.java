@@ -4,14 +4,17 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import javax.swing.JOptionPane;
 
 import functions.ActivationFunctions;
 import functions.SoftmaxFunction;
@@ -316,8 +319,9 @@ public class NeuralNetwork implements Serializable {
 	 * @param path chemin d'acces du reseau
 	 * @return reseau de neurone
 	 */
+	//Caroline Houle
 	public static NeuralNetwork loadNetwork(String path){
-		try {
+		/*try {
 			System.out.println(path);
 			File f = new File(path);
 			FileInputStream fis = new FileInputStream(f);
@@ -332,7 +336,66 @@ public class NeuralNetwork implements Serializable {
 		} catch (ClassNotFoundException e) {
 			System.out.println("La classe n'a pas ete trouvee");
 			return null;
-		}
+		}*/
+		
+			/*
+			 * Cette approche permet de lire dès le démarrage un fichier existant, s'il est
+			 * dans le BuildPath. Approche suggérée: dans Eclipse mettre le fichier dans un dossier 
+			 * projet, ajouter ce dossier au BuildPath. Quand le .jar exécutable sera
+			 * généré, ce fichier sera "dans" le .jar, et l'application peut le trouver en utilisant le code ci-dessous.
+			 * Alternative : placer le fichier dans le même dossier que le .jar (car ce
+			 * dossier fera aussi partie du BuildPath).
+			 */
+			ObjectInputStream ois=null;
+			InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(path);
+			
+			if (is == null) {
+				JOptionPane.showMessageDialog(null, "Incapable de trouver ce fichier dans le BuildPath (ou dans le jar exécutable) " + path );
+				return null;
+			}
+
+
+			 //ce fichier a été conçu d'avance et placé dans un dossier qui fait partie du Build Path
+			try {
+				 ois = new ObjectInputStream(is);
+				 //on lit d'un coup un objet stocké dans le fichier
+				 NeuralNetwork nn = (NeuralNetwork) ois.readObject(); 
+				 JOptionPane.showMessageDialog(null, "Lecture du fichier " + path + " avec succès. ");
+		
+				 return nn;
+				
+			}catch (ClassNotFoundException e) {
+				JOptionPane.showMessageDialog(null,"L'objet lu est d'une classe inconnue");
+				e.printStackTrace();
+				return null;
+			}
+			catch (InvalidClassException e) {
+				JOptionPane.showMessageDialog(null,"Les classes utilisées pour l'écriture et la lecture diffèrent!");
+				e.printStackTrace();
+				return null;
+			}
+			catch (FileNotFoundException e) {
+				JOptionPane.showMessageDialog(null, "Fichier " + path + "  introuvable!");
+				return null;
+			}
+			
+			catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "Erreur rencontree lors de la lecture " + path);
+				e.printStackTrace();
+				return null;
+			}
+			
+			finally {
+				//on exécutera toujours ceci, erreur ou pas
+			  	try { 
+			  		ois.close();
+			  	}
+			    catch (IOException e) { 
+			    	System.out.println("Erreur rencontrée lors de la fermeture!"); 
+			    }
+			}//fin finally
+
+	
 	}
 
 
