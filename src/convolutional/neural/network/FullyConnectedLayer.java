@@ -26,6 +26,13 @@ public class FullyConnectedLayer extends CNNLayer implements Serializable{
 	private Matrix variationWeights;
 	private Matrix variationBiases;
 
+	/**
+	 * Constructeur de la fenetre
+	 * @param function la fonction d'activation
+	 * @param numberInputs lenombre d'entree
+	 * @param numberOutputs le nombre de sortie
+	 * @param learningRate le taux d'apprentissage
+	 */
 	public FullyConnectedLayer(ActivationFunctions function, int numberInputs, int numberOutputs, double learningRate) {
 
 		this.function = function;

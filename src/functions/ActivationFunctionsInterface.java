@@ -2,6 +2,7 @@ package functions;
 
 /**
  * Interface que les fonctions d'activation doivent implementees
+ * @author Simon Daze
  */
 public interface ActivationFunctionsInterface {
 
